@@ -881,9 +881,9 @@ footer {
    HERO AVATAR
    ============================================= */
 .hero-avatar {
-  width: 104px;
-  height: 104px;
-  margin: 0 auto 26px;
+  width: 148px;
+  height: 148px;
+  margin: 0 auto 28px;
   border-radius: 50%;
   overflow: hidden;
   border: 3px solid #fff;
