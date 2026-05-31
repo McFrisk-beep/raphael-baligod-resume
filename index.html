@@ -14,6 +14,12 @@
   <canvas id="trail-canvas"></canvas>
   <div class="cursor-dot" id="cursor-dot"></div>
 
+  <!-- Ambient: soft sunbeams through a window + floating dust (subtle) -->
+  <div id="ambient" aria-hidden="true">
+    <div class="ambient-rays"></div>
+    <canvas id="dust-canvas"></canvas>
+  </div>
+
   <!-- FLOATING PILL NAV -->
   <header id="header">
     <nav class="nav-pill">
@@ -59,6 +65,24 @@
       <svg class="hs-hills" viewBox="0 0 1440 240" preserveAspectRatio="none">
         <path class="hill-back" d="M0 96 C 240 44 480 128 720 96 C 960 64 1200 44 1440 96 L1440 240 L0 240 Z"/>
         <path class="hill-front" d="M0 156 C 300 116 600 176 900 146 C 1140 122 1320 132 1440 152 L1440 240 L0 240 Z"/>
+      </svg>
+      <svg class="hs-birds" viewBox="0 0 130 40">
+        <path class="bird b1" d="M2 20 Q11 8 20 20 Q29 8 38 20"/>
+        <path class="bird b2" d="M50 13 Q57 4 64 13 Q71 4 78 13"/>
+        <path class="bird b3" d="M90 24 Q99 13 108 24 Q117 13 126 24"/>
+      </svg>
+      <svg class="hs-dog" viewBox="0 0 92 56">
+        <g fill="#6a5a48">
+          <rect class="leg lg1" x="22" y="34" width="6" height="18" rx="3"/>
+          <rect class="leg lg2" x="33" y="34" width="6" height="18" rx="3"/>
+          <rect class="leg lg3" x="56" y="34" width="6" height="18" rx="3"/>
+          <rect class="leg lg4" x="67" y="34" width="6" height="18" rx="3"/>
+          <ellipse cx="46" cy="28" rx="29" ry="15"/>
+          <circle cx="74" cy="23" r="12"/>
+          <rect x="80" y="22" width="11" height="8" rx="4"/>
+          <path d="M65 13 Q71 4 76 15 Z"/>
+        </g>
+        <path d="M19 22 Q7 15 14 27 Q19 32 24 26" fill="none" stroke="#6a5a48" stroke-width="5" stroke-linecap="round"/>
       </svg>
       <svg class="hs-plant hs-plant--l" viewBox="0 0 80 112">
         <path d="M40 70 C 22 60 16 34 28 16 C 42 30 46 52 40 70 Z" fill="#a9c6a0"/>

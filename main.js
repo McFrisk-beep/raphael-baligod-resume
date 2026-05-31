@@ -193,14 +193,57 @@ document.querySelectorAll('#lang-toggle button').forEach(b => {
 /* =============================================
    RESIZE
    ============================================= */
+/* Ambient dust + sunbeam parallax */
+const dustCanvas = document.getElementById('dust-canvas');
+const dustCtx = dustCanvas ? dustCanvas.getContext('2d') : null;
+const ambientRays = document.querySelector('.ambient-rays');
+const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+let ambientDust = [];
+
+function initAmbientDust() {
+  if (!dustCanvas) return;
+  ambientDust = [];
+  if (prefersReduced) return;
+  const n = Math.min(48, Math.floor(W / 28));
+  for (let i = 0; i < n; i++) {
+    ambientDust.push({
+      x: Math.random() * W, y: Math.random() * H,
+      r: 0.6 + Math.random() * 1.8,
+      vx: 0.05 + Math.random() * 0.18,
+      vy: -0.04 - Math.random() * 0.12,
+      a: 0.06 + Math.random() * 0.13,
+      ph: Math.random() * Math.PI * 2,
+    });
+  }
+}
+
+function drawAmbientDust() {
+  if (!dustCtx) return;
+  dustCtx.clearRect(0, 0, W, H);
+  const t = Date.now() * 0.001;
+  for (const p of ambientDust) {
+    p.x += p.vx + Math.sin(t + p.ph) * 0.05;
+    p.y += p.vy;
+    if (p.y < -6) { p.y = H + 6; p.x = Math.random() * W; }
+    if (p.x > W + 6) { p.x = -6; }
+    const tw = p.a * (0.6 + 0.4 * Math.sin(t * 1.5 + p.ph));
+    dustCtx.beginPath();
+    dustCtx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+    dustCtx.fillStyle = `rgba(255, 226, 165, ${tw})`;
+    dustCtx.fill();
+  }
+}
+
 function onResize() {
-  W = window.innerWidth;
-  H = window.innerHeight;
+  W = window.innerWidth  || document.documentElement.clientWidth  || 1280;
+  H = window.innerHeight || document.documentElement.clientHeight || 800;
   trailCanvas.width  = W;
   trailCanvas.height = H;
+  if (dustCanvas) { dustCanvas.width = W; dustCanvas.height = H; initAmbientDust(); }
 }
 
 window.addEventListener('resize', onResize, { passive: true });
+window.addEventListener('load', onResize);
 onResize();
 
 /* =============================================
@@ -213,6 +256,10 @@ window.addEventListener('mousemove', e => {
   if (now - lastDustSpawn > 14) {
     spawnDust(e.clientX, e.clientY);
     lastDustSpawn = now;
+  }
+  if (ambientRays) {
+    ambientRays.style.setProperty('--rx', ((e.clientX / W - 0.5) * -26).toFixed(1) + 'px');
+    ambientRays.style.setProperty('--ry', ((e.clientY / H - 0.5) * -16).toFixed(1) + 'px');
   }
 }, { passive: true });
 
@@ -437,6 +484,7 @@ function frame() {
   drawDust();
   drawBurst();
   updateCursor();
+  drawAmbientDust();
   requestAnimationFrame(frame);
 }
 
