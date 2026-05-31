@@ -580,7 +580,20 @@ body::before {
 .skills-layout {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 44px;
+  gap: 16px;
+}
+
+.sk-group {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px 24px 26px;
+  transition: border-color .25s, transform .25s, box-shadow .25s;
+}
+.sk-group:hover {
+  border-color: var(--border-h);
+  transform: translateY(-3px);
+  box-shadow: 0 10px 28px rgba(42,30,16,.07);
 }
 
 .sk-label {
@@ -1448,9 +1461,40 @@ body.jp .stat-bubble b {
 }
 #dust-canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
 
+/* A train occasionally glides past, far behind a blurry window */
+.ambient-train {
+  position: absolute;
+  top: 13%;
+  left: 0;
+  width: 64vw;
+  height: 46px;
+  border-radius: 30px;
+  filter: blur(15px);
+  opacity: 0;
+  mix-blend-mode: screen;
+  background: repeating-linear-gradient(
+    90deg,
+    rgba(120,110,140,0)   0,
+    rgba(120,110,140,0)   16px,
+    rgba(255,226,165,.55) 16px,
+    rgba(255,226,165,.55) 40px,
+    rgba(120,110,140,0)   40px,
+    rgba(120,110,140,0)   56px
+  );
+  will-change: transform, opacity;
+  animation: train-pass 48s ease-in-out infinite;
+}
+@keyframes train-pass {
+  0%   { transform: translateX(-80vw); opacity: 0; }
+  4%   { opacity: .45; }
+  13%  { opacity: .45; }
+  17%  { transform: translateX(180vw); opacity: 0; }
+  100% { transform: translateX(180vw); opacity: 0; }
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .hs-birds, .hs-dog, .ambient-rays { animation: none !important; }
-  .hs-dog { display: none; }
+  .hs-birds, .hs-dog, .ambient-rays, .ambient-train { animation: none !important; }
+  .hs-dog, .ambient-train { display: none; }
 }
 
 /* =============================================
@@ -1474,7 +1518,7 @@ body.jp .stat-bubble b {
   .badge-rect   { width: 88px; height: 66px; font-size: 10px; }
   .badge-cross  { width: 86px; height: 86px; font-size: 10px; }
 
-  .skills-layout { grid-template-columns: 1fr; gap: 32px; }
+  .skills-layout { grid-template-columns: 1fr; gap: 16px; }
   .games-grid { grid-template-columns: 1fr; }
   .edu-row { grid-template-columns: 1fr; }
   .certs-grid { grid-template-columns: repeat(2, 1fr); }
@@ -1513,6 +1557,10 @@ body.jp .stat-bubble b {
 
   /* Section scenes a bit smaller */
   .sec-scene { height: 120px; }
+
+  /* Keep the moon out of the "Let's Connect" heading on mobile (override inline styles) */
+  #contact .ss-moon { top: 18px !important; right: 6% !important; width: 32px !important; height: 32px !important; }
+  #contact .ss-stardot { display: none; }
 
   /* Doodles smaller on mobile so they don't bump into titles */
   .doodle { transform: scale(.75); }

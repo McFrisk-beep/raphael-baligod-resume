@@ -371,7 +371,7 @@ function updateCursor() {
   cursorDot.style.top  = smooth.y + 'px';
 }
 
-const hoverEls = 'a, button, .badge, .stat-bubble, .exp-card, .edu-card, .cert-item, .tag, .c-item, .nav-hire, .btn-hero, .game-card, .lang-toggle button, .nav-burger';
+const hoverEls = 'a, button, .badge, .stat-bubble, .exp-card, .edu-card, .cert-item, .tag, .c-item, .nav-hire, .btn-hero, .game-card, .lang-toggle button, .nav-burger, .sk-group';
 
 document.querySelectorAll(hoverEls).forEach(el => {
   el.addEventListener('mouseenter', () => cursorDot.classList.add('is-hover'));
