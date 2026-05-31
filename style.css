@@ -881,6 +881,7 @@ footer {
    HERO AVATAR
    ============================================= */
 .hero-avatar {
+  position: relative;
   width: 148px;
   height: 148px;
   margin: 0 auto 28px;
@@ -891,11 +892,14 @@ footer {
   opacity: 0;
   animation: fade-up .8s .05s ease forwards;
 }
+/* CSS crop: zoom into the face region of the portrait (responsive, %-based) */
 .hero-avatar-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: 50% 26%;
+  position: absolute;
+  width: 230%;
+  height: auto;
+  left: -50.5%;
+  top: -69%;
+  max-width: none;
   display: block;
 }
 .hero-avatar-svg { display: none; width: 100%; height: 100%; }
@@ -1062,6 +1066,79 @@ footer { position: relative; z-index: 1; }
   background: var(--text);
   color: var(--white);
 }
+
+/* =============================================
+   BURGER + MOBILE MENU
+   ============================================= */
+.nav-burger {
+  display: none;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  margin-left: 6px;
+  background: transparent;
+  border: 0;
+  border-radius: 100px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  flex-shrink: 0;
+}
+.nav-burger span {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: var(--text);
+  border-radius: 2px;
+  transition: transform .28s ease, opacity .18s ease;
+}
+.nav-burger.is-open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.nav-burger.is-open span:nth-child(2) { opacity: 0; }
+.nav-burger.is-open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+.mobile-menu {
+  position: fixed;
+  inset: 0;
+  z-index: 480;
+  background: rgba(245,237,224,.96);
+  backdrop-filter: blur(20px) saturate(1.4);
+  -webkit-backdrop-filter: blur(20px) saturate(1.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .3s ease;
+}
+.mobile-menu.is-open {
+  opacity: 1;
+  pointer-events: auto;
+}
+.mobile-menu ul {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 26px;
+  list-style: none;
+}
+.mobile-menu li { opacity: 0; transform: translateY(10px); transition: opacity .35s ease, transform .35s ease; }
+.mobile-menu.is-open li { opacity: 1; transform: translateY(0); }
+.mobile-menu.is-open li:nth-child(1) { transition-delay: .05s; }
+.mobile-menu.is-open li:nth-child(2) { transition-delay: .10s; }
+.mobile-menu.is-open li:nth-child(3) { transition-delay: .15s; }
+.mobile-menu.is-open li:nth-child(4) { transition-delay: .20s; }
+.mobile-menu.is-open li:nth-child(5) { transition-delay: .25s; }
+.mobile-menu a {
+  font-family: var(--font-display);
+  font-size: 30px;
+  font-weight: 800;
+  color: var(--text);
+  letter-spacing: -.02em;
+  padding: 6px 16px;
+}
+.mobile-menu a:active,
+.mobile-menu a:hover { color: #000; }
 
 /* =============================================
    COMPANY LOGO MONOGRAMS
@@ -1322,18 +1399,49 @@ body.jp .stat-bubble b {
 
 @media (max-width: 640px) {
   .section { padding: 64px 20px; }
-  #hero { padding: 100px 16px 60px; }
+  #hero    { padding: 90px 16px 40px; }
 
-  /* Hide some badges on small screens */
-  #hero .badge:nth-of-type(n+5) { display: none; }
-  #hero .badge:nth-of-type(3)   { display: none; }
+  /* Hide all floating badges on mobile — too crowded otherwise */
+  #hero .badge { display: none; }
 
-  .nav-pill { padding: 8px 8px 8px 18px; }
+  /* Compact nav so it fits on a phone */
+  #header { padding: 14px 12px; }
+  .nav-pill { padding: 6px 6px 6px 14px; }
+  .nav-brand { font-size: 13px; letter-spacing: 0; }
   .nav-links { display: none; }
-  .hero-name { font-size: clamp(52px, 14vw, 72px); }
-  .sec-title { font-size: clamp(28px, 8vw, 36px); }
+  .lang-toggle { margin: 0 6px 0 6px; padding: 2px; }
+  .lang-toggle button { font-size: 10px; padding: 5px 9px; }
+  .nav-hire { font-size: 12px; padding: 8px 14px; }
+  .nav-burger { display: flex; }
+
+  /* Hero proportions */
+  .hero-avatar { width: 120px; height: 120px; margin-bottom: 20px; }
+  .hero-name   { font-size: clamp(44px, 13vw, 64px); }
+  .hero-desc   { font-size: 15px; }
+  .sec-title   { font-size: clamp(28px, 8vw, 36px); }
+  .hero-eye    { margin-bottom: 18px; }
+
+  /* Trim hero scene so plants/sun don't dominate */
+  .hs-sun    { width: 150px; height: 150px; bottom: 30px; }
+  .hs-plant  { width: 48px; }
+  .hs-hills  { height: 180px; }
+
+  /* Section scenes a bit smaller */
+  .sec-scene { height: 120px; }
+
+  /* Doodles smaller on mobile so they don't bump into titles */
+  .doodle { transform: scale(.75); }
+
   .about-stats { grid-template-columns: 1fr 1fr; }
   .certs-grid  { grid-template-columns: 1fr 1fr; }
   .game-head   { flex-direction: column; align-items: flex-start; }
   .footer-row  { flex-direction: column; gap: 8px; text-align: center; }
+}
+
+/* ============================================================
+   TOUCH DEVICES — no custom cursor (only the click sparkles)
+   ============================================================ */
+@media (hover: none) and (pointer: coarse) {
+  .cursor-dot { display: none !important; }
+  *           { cursor: auto !important; }
 }

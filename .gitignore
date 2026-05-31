@@ -1,0 +1,9 @@
+# Local dev / preview config (not part of the website)
+.claude/
+
+# OS / editor junk
+Thumbs.db
+Desktop.ini
+.DS_Store
+*.swp
+.vscode/

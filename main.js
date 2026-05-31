@@ -29,21 +29,22 @@ const DUST_COLORS = [
    ============================================= */
 const JP = {
   // Nav
-  'nav-about': '概要',
+  'nav-about': 'プロフィール',
   'nav-exp':   '経歴',
   'nav-skills':'スキル',
   'nav-games': 'ゲーム',
   'nav-hire':  'ご依頼',
+  'nav-contact': 'お問い合わせ',
 
   // Hero
-  'hero-eye':  '和歌山県, 日本 &nbsp;·&nbsp; お仕事募集中',
-  'hero-desc': '認定NetSuite開発者 ＆<br>インディーゲームプロデューサー ＆<br>マーケティングアナリスト',
+  'hero-eye':  '和歌山県・日本 &nbsp;·&nbsp; お仕事募集中',
+  'hero-desc': 'NetSuite認定開発者<br>インディーゲームプロデューサー<br>マーケティングアナリスト',
   'hero-btn':  '詳しく見る ↓',
 
   // Badges
   'badge-1': 'NetSuite<br>開発者',
-  'badge-2': '経験<br>6年以上',
-  'badge-3': 'フリーランス対応',
+  'badge-2': '経験6年<br>以上',
+  'badge-3': 'フリーランス<br>受付中',
   'badge-4': 'Oracle<br>認定',
   'badge-5': 'ゲーム<br>プロデューサー',
   'badge-6': '日本語<br>N2',
@@ -51,12 +52,12 @@ const JP = {
   'badge-8': 'Node.js ＆<br>TypeScript',
 
   // About
-  'about-eye':   '概要',
+  'about-eye':   'プロフィール',
   'about-title': 'これまでの歩み',
-  'about-p1': 'カスタム自動化、スクリプト、Advanced PDFテンプレート、実装移行を通じてクライアントの業務効率化を支援するフリーランスのNetSuite開発者。NetSuite API、REST連携、Node.js、MVCアーキテクチャに6年以上携わるOracle認定資格保持者。',
-  'about-p2': 'JLPT N2取得済み — 英語と日本語の両方で要件を議論できます。日本語の会話はまだビジネスレベルには達していませんが、日々上達に努めています。現在は大阪の<em>南海電気鉄道</em>でデジタルマーケティングアナリストとしても勤務しています。',
-  'about-p3': 'その傍ら、インディーゲームプロデューサーとしても活動。<em>Sugardew Island</em>を発売し、現在は新作を制作中です。',
-  'stat-career':  '通算キャリア',
+  'about-p1': 'カスタム自動化、スクリプト開発、Advanced PDFテンプレート、システムの導入・移行を通じて、クライアントの業務効率化を支援するフリーランスのNetSuite開発者。NetSuite API、REST連携、Node.js、MVCアーキテクチャに6年以上携わってきたOracle認定資格保持者です。',
+  'about-p2': 'JLPT N2を取得しており、英語でも日本語でも要件のやり取りができます。日本語の会話力はまだビジネスレベルには達していませんが、日々上達に努めています。現在は大阪の<em>南海電気鉄道</em>でデジタルマーケティングアナリストとしても勤務しています。',
+  'about-p3': 'その傍ら、インディーゲームプロデューサーとしても活動しています。<em>Sugardew Island</em>をリリースし、現在は新作を制作中です。',
+  'stat-career':  '通算経験年数',
   'stat-clients': '担当クライアント',
   'stat-years':   'NetSuite歴',
   'stat-saved':   '開発時間削減',
@@ -73,32 +74,32 @@ const JP = {
   'exp5-dur': '4年',
 
   'exp1-role': 'デジタルマーケティングアナリスト',
-  'exp1-loc':  '大阪, 日本',
+  'exp1-loc':  '大阪・日本',
   'exp1-b1': '観光データを分析し、トレンドの把握と需要予測を実施',
   'exp1-b2': 'CMSを管理・運用し、円滑なコンテンツ更新を実現',
-  'exp1-b3': '観光協会や県・自治体と連携',
+  'exp1-b3': '観光協会や地方自治体と連携',
   'exp1-b4': 'OTAと協働し、ツアーパッケージを企画・販促',
 
   'exp2-role': 'フリーランス NetSuite開発者',
   'exp2-loc':  'リモート',
   'exp2-b1': 'クライアント向けの自動化、スクリプト最適化、Advanced PDFカスタマイズ',
   'exp2-b2': 'サンドボックスから本番環境への移行と稼働後サポート',
-  'exp2-b3': '8社のクライアントで導入を成功',
+  'exp2-b3': '計8社のクライアント導入を完遂',
 
   'exp3-role': 'シニア NetSuite開発者',
-  'exp3-loc':  'マニラ首都圏, フィリピン',
+  'exp3-loc':  'マニラ首都圏・フィリピン',
   'exp3-b1': 'Shopify・WooCommerce・MagentoとのPOSシステム連携',
-  'exp3-b2': 'Zoku POSとNetSuite間のデータ同期のためのAzure DB運用',
+  'exp3-b2': 'Zoku POSとNetSuite間のデータ同期を担うAzure DBの運用',
   'exp3-b3': 'ZOKU POS環境でのTypeScript開発',
 
   'exp4-role': 'NetSuite開発者',
-  'exp4-loc':  'マニラ首都圏, フィリピン',
-  'exp4-b1': 'SuiteCommerce Advanced (SCA) のWebストア4件を設計・公開',
-  'exp4-b2': '設定可能な分割払い処理システムをゼロから設計',
+  'exp4-loc':  'マニラ首都圏・フィリピン',
+  'exp4-b1': 'SuiteCommerce Advanced (SCA) のWebストア4サイトを設計・公開',
+  'exp4-b2': '柔軟に設定可能な分割払い処理システムをゼロから設計',
   'exp4-b3': '今後のプロジェクトの開発時間を約40%削減するカスタムモジュールを構築',
 
   'exp5-role': 'プログラミングサポート → シニアTSE → サービスデリバリーコンサルタント',
-  'exp5-loc':  'マニラ, フィリピン',
+  'exp5-loc':  'マニラ・フィリピン',
   'exp5-b1': '24時間365日の技術サポートと危機管理を担当、顧客維持率90%以上',
   'exp5-b2': 'プログラミングサポートエンジニア4名を育成・指導',
   'exp5-b3': 'NetSuite SCISリテールシステム向けの技術記事を30本以上執筆',
@@ -109,7 +110,7 @@ const JP = {
   'skills-title': '技術とツール',
   'sk-label-1': 'NetSuite',
   'sk-label-2': '開発',
-  'sk-label-3': 'マーケティング＆データ',
+  'sk-label-3': 'マーケティング・データ',
   'sk-label-4': '言語',
   'sk-impl': '実装・移行',
   'sk-data': 'データ分析',
@@ -121,15 +122,15 @@ const JP = {
 
   // Education
   'edu-eye':   '学歴',
-  'edu-title': '学歴・学位',
+  'edu-title': 'これまでの学び',
   'edu1-degree': '日本語学科 専門課程',
   'edu1-loc':    '和歌山, 日本',
-  'edu2-degree': 'コンピュータサイエンス学士 — ゲーム開発',
+  'edu2-degree': 'コンピュータサイエンス学士（ゲーム開発専攻）',
   'edu2-loc':    'ラグナ, フィリピン',
 
   // Certs
   'certs-eye':   '資格',
-  'certs-title': '資格・受賞歴',
+  'certs-title': '資格・認定',
   'pub-label': '発表論文',
   'pub-desc':  'ライブカメラ映像から肌色を抽出し、隠れマルコフモデルを用いて基本的な手話ジェスチャーをリアルタイムに認識する手法を提案した共著論文。電気通信・電子・コンピュータ工学ジャーナル（JTEC）に掲載。',
   'pub-link':  'JTECで読む →',
@@ -140,24 +141,24 @@ const JP = {
 
   // Games
   'games-eye':   'ゲーム',
-  'games-title': '発売作品・開発中',
+  'games-title': '発売・開発中の作品',
   'sugardew-tag':  '2025年発売 · rokaplay',
-  'sugardew-role': '担当 · プロデューサー',
+  'sugardew-role': '担当：プロデューサー',
   'sugardew-desc': '動物の世話をし、作物を育て、森の妖精たちに商品を売りながら、眠っていた島に再び活気を取り戻す、ほのぼのとした牧場ショップ・シミュレーション。rokaplayが開発・販売した、名作農業ゲームへの愛情あふれる一作。',
   'otc-status':  '開発中',
-  'otc-tag':     '開発中 · 近日公開',
-  'otc-role':    '担当 · 開発',
-  'otc-desc':    '現在開発中の新作アクション。重厚なダークファンタジーの世界を舞台にした作品です。詳細はまだ秘密 — 続報をお楽しみに。',
+  'otc-tag':     '開発中・近日公開',
+  'otc-role':    '担当：開発',
+  'otc-desc':    '現在開発中の新作アクションゲーム。重厚なダークファンタジーの世界が舞台です。詳細はまだ秘密です。続報をお楽しみに！',
   'game-steam':  'Steamで見る →',
   'game-steam2': 'Steamで見る →',
 
   // Contact
   'contact-eye':   'お問い合わせ',
-  'contact-title': 'ご連絡ください',
-  'contact-sub':   'フリーランスのNetSuite案件、国際的なコラボレーション、そして面白いお話を歓迎します。',
+  'contact-title': 'お気軽にご連絡を',
+  'contact-sub':   'フリーランスのNetSuite案件、海外とのコラボレーション、そして面白いお話、いつでも歓迎しています。',
   'c-email': 'メール',
   'c-phone': '電話',
-  'footer-loc': '和歌山, 日本',
+  'footer-loc': '和歌山・日本',
 };
 
 function initI18N() {
@@ -323,11 +324,38 @@ function updateCursor() {
   cursorDot.style.top  = smooth.y + 'px';
 }
 
-const hoverEls = 'a, button, .badge, .stat-bubble, .exp-card, .edu-card, .cert-item, .tag, .c-item, .nav-hire, .btn-hero, .game-card, .lang-toggle button';
+const hoverEls = 'a, button, .badge, .stat-bubble, .exp-card, .edu-card, .cert-item, .tag, .c-item, .nav-hire, .btn-hero, .game-card, .lang-toggle button, .nav-burger';
 
 document.querySelectorAll(hoverEls).forEach(el => {
   el.addEventListener('mouseenter', () => cursorDot.classList.add('is-hover'));
   el.addEventListener('mouseleave', () => cursorDot.classList.remove('is-hover'));
+});
+
+/* =============================================
+   MOBILE BURGER MENU
+   ============================================= */
+const navBurger = document.getElementById('nav-burger');
+const mobileMenu = document.getElementById('mobile-menu');
+
+function setMenu(open) {
+  if (!navBurger || !mobileMenu) return;
+  navBurger.classList.toggle('is-open', open);
+  mobileMenu.classList.toggle('is-open', open);
+  navBurger.setAttribute('aria-expanded', open ? 'true' : 'false');
+  mobileMenu.setAttribute('aria-hidden', open ? 'false' : 'true');
+  document.body.style.overflow = open ? 'hidden' : '';
+}
+
+navBurger?.addEventListener('click', () => {
+  setMenu(!mobileMenu.classList.contains('is-open'));
+});
+
+mobileMenu?.querySelectorAll('a').forEach(a => {
+  a.addEventListener('click', () => setMenu(false));
+});
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') setMenu(false);
 });
 
 /* =============================================

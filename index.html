@@ -29,8 +29,22 @@
         <button type="button" data-lang="jp">日本</button>
       </div>
       <a class="nav-hire" href="#contact" data-i18n="nav-hire">Hire me</a>
+      <button class="nav-burger" id="nav-burger" type="button" aria-label="Open menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
     </nav>
   </header>
+
+  <!-- MOBILE MENU OVERLAY -->
+  <div class="mobile-menu" id="mobile-menu" aria-hidden="true">
+    <ul>
+      <li><a href="#about"      data-i18n="nav-about">About</a></li>
+      <li><a href="#experience" data-i18n="nav-exp">Experience</a></li>
+      <li><a href="#skills"     data-i18n="nav-skills">Skills</a></li>
+      <li><a href="#games"      data-i18n="nav-games">Games</a></li>
+      <li><a href="#contact"    data-i18n="nav-contact">Contact</a></li>
+    </ul>
+  </div>
 
   <!-- HERO -->
   <section id="hero">
@@ -98,7 +112,7 @@
     <!-- Center content -->
     <div class="hero-inner">
       <div class="hero-avatar" aria-hidden="true">
-        <img class="hero-avatar-img" src="avatar.jpg" alt="Raphael Baligod" />
+        <img class="hero-avatar-img" src="avatar.jpg.jpg" alt="Raphael Baligod" />
         <svg class="hero-avatar-svg" viewBox="0 0 200 200">
           <defs>
             <linearGradient id="avbg" x1="0" y1="0" x2="0" y2="1">
