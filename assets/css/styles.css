@@ -124,12 +124,14 @@ em { font-style: italic; }
   content: "";
   position: absolute;
   left: 0; bottom: 0;
-  width: 0; height: 1px;
+  width: 100%; height: 1px;
   background: currentColor;
-  transition: width 0.4s var(--ease);
+  transform: scaleX(0);
+  transform-origin: right center;
+  transition: transform 0.4s var(--ease);
 }
 .header__nav a:hover::after,
-.header__nav a.is-current::after { width: 100%; }
+.header__nav a.is-current::after { transform: scaleX(1); transform-origin: left center; }
 
 .header__menu {
   display: none;
@@ -310,6 +312,7 @@ em { font-style: italic; }
   height: 100%;
   min-height: 0;
   overflow-y: auto;
+  overflow-x: hidden;
   -webkit-overflow-scrolling: touch;
   transform: translateY(0);
   transition: transform var(--curtain) var(--ease);
@@ -413,7 +416,8 @@ em { font-style: italic; }
   letter-spacing: 0.04em;
   white-space: nowrap;
   color: var(--ink);
-  transition: background 0.4s var(--ease), color 0.4s var(--ease), border-color 0.4s var(--ease);
+  transition: background 0.4s var(--ease), color 0.4s var(--ease), border-color 0.4s var(--ease), transform 0.25s var(--ease);
+  will-change: transform;
 }
 .btn span { transition: transform 0.4s var(--ease); }
 .btn:hover { background: var(--accent); border-color: var(--accent); color: var(--bg); }
@@ -804,6 +808,145 @@ em { font-style: italic; }
 }
 .reveal.is-visible { opacity: 1; transform: none; }
 
+/* =========================================================
+   Enhancements — micro-interactions & depth
+   Progressive: JS gates pointer effects; all calmed for
+   reduced-motion in the block at the very bottom of this file.
+   ========================================================= */
+
+/* Keep panel content above the decorative glow layers. */
+.panel__inner { position: relative; z-index: 1; }
+
+/* Soft, slowly-drifting accent glow behind the hero & contact panels. */
+.panel--hero::before,
+.panel--dark::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(45% 50% at 18% 22%, rgba(180, 80, 46, 0.16), transparent 70%),
+    radial-gradient(40% 45% at 85% 28%, rgba(122, 91, 191, 0.13), transparent 72%),
+    radial-gradient(45% 45% at 65% 88%, rgba(76, 110, 68, 0.11), transparent 72%);
+  animation: glowDrift 22s ease-in-out infinite alternate;
+}
+.panel--dark::before {
+  background:
+    radial-gradient(46% 52% at 16% 24%, rgba(180, 80, 46, 0.30), transparent 70%),
+    radial-gradient(42% 46% at 86% 78%, rgba(122, 91, 191, 0.24), transparent 72%);
+}
+@keyframes glowDrift {
+  0%   { transform: translate3d(0, 0, 0) scale(1); }
+  50%  { transform: translate3d(1.5%, -1.5%, 0) scale(1.06); }
+  100% { transform: translate3d(-1.5%, 1.5%, 0) scale(1.03); }
+}
+
+/* Film-grain overlay — data-URI SVG noise (allowed by img-src 'self' data:). */
+.grain {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  pointer-events: none;
+  opacity: 0.05;
+  mix-blend-mode: soft-light;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 180px 180px;
+}
+
+/* Hero title — per-letter rise (JS splits the words into .char spans). */
+/* Keep each word on one line so inline-block letters never break mid-name. */
+.hero__title .line { white-space: nowrap; }
+.hero__title.is-split .line > span { transform: none; animation: none; }
+.hero__title .char {
+  display: inline-block;
+  transform: translateY(110%);
+  will-change: transform;
+}
+.is-ready .hero__title.is-split .char {
+  animation: charUp 0.85s var(--ease) forwards;
+  animation-delay: calc(var(--ci, 0) * 0.045s);
+}
+@keyframes charUp { to { transform: translateY(0); } }
+
+/* Skill tags — lift on hover. */
+.tag {
+  transition: transform 0.35s var(--ease), box-shadow 0.35s var(--ease);
+  will-change: transform;
+}
+.tag:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 22px -12px rgba(27, 24, 19, 0.45);
+}
+
+/* Cards — JS sets a 3D tilt transform inline on hover; this smooths the return. */
+.game-card,
+.edu-card,
+.pub-card {
+  transition: transform 0.4s var(--ease), box-shadow 0.5s var(--ease);
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+/* About — floating 3D glass cube filling the right-side space (desktop only). */
+.about__visual { display: none; }
+@media (min-width: 980px) {
+  .about__body {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) clamp(240px, 24vw, 320px);
+    gap: clamp(2rem, 5vw, 4.5rem);
+    align-items: center;
+  }
+  .about__content { min-width: 0; }
+  .about__visual { display: grid; place-items: center; }
+}
+.cube-scene {
+  position: relative;
+  --cube: clamp(112px, 12vw, 152px);
+  width: var(--cube);
+  height: var(--cube);
+  perspective: 760px;
+  display: grid;
+  place-items: center;
+  animation: cubeBob 6s ease-in-out infinite;
+}
+.cube-glow {
+  position: absolute;
+  inset: -35% -35% -15% -35%;
+  z-index: -1;
+  background: radial-gradient(50% 50% at 50% 45%, rgba(180, 80, 46, 0.30), transparent 70%);
+  filter: blur(14px);
+  pointer-events: none;
+}
+.cube {
+  position: relative;
+  width: var(--cube);
+  height: var(--cube);
+  transform-style: preserve-3d;
+  animation: cubeSpin 20s linear infinite;
+}
+.cube__face {
+  position: absolute;
+  inset: 0;
+  border: 1px solid rgba(180, 80, 46, 0.45);
+  background: linear-gradient(135deg, rgba(180, 80, 46, 0.16), rgba(122, 91, 191, 0.13));
+  box-shadow: inset 0 0 26px rgba(180, 80, 46, 0.14);
+}
+.cube__face--front  { transform: translateZ(calc(var(--cube) / 2)); }
+.cube__face--back   { transform: rotateY(180deg) translateZ(calc(var(--cube) / 2)); }
+.cube__face--right  { transform: rotateY(90deg)  translateZ(calc(var(--cube) / 2)); }
+.cube__face--left   { transform: rotateY(-90deg) translateZ(calc(var(--cube) / 2)); }
+.cube__face--top    { transform: rotateX(90deg)  translateZ(calc(var(--cube) / 2)); }
+.cube__face--bottom { transform: rotateX(-90deg) translateZ(calc(var(--cube) / 2)); }
+@keyframes cubeSpin {
+  from { transform: rotateX(-22deg) rotateY(0deg); }
+  to   { transform: rotateX(-22deg) rotateY(360deg); }
+}
+@keyframes cubeBob {
+  0%, 100% { transform: translateY(-7px); }
+  50%      { transform: translateY(7px); }
+}
+
 /* ---------- Responsive ---------- */
 @media (max-width: 860px) {
   .header__nav { display: none; }
@@ -838,5 +981,11 @@ em { font-style: italic; }
   .reveal { opacity: 1; transform: none; }
   .intro { display: none; }
   .hero__title .line > span { transform: none; }
+  .hero__title .char { transform: none; }
   .game-media--video .game-video { display: none; } /* fall back to poster image */
+  /* Drop the decorative motion layers entirely. */
+  .grain,
+  .panel--hero::before,
+  .panel--dark::before { display: none; }
+  .tag:hover { transform: none; box-shadow: none; }
 }
