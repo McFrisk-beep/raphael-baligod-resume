@@ -920,7 +920,15 @@ em { font-style: italic; }
   .pager__dot .pager__tip { display: none; }
   .counter { font-size: 0.9em; }
   .hero { grid-template-columns: 1fr; }
-  .hero__portrait { display: none; }
+  /* Show the portrait above the text on mobile, at a moderate size. */
+  .hero__portrait {
+    display: block;
+    order: -1;
+    justify-self: center;
+    width: clamp(140px, 38vw, 190px);
+    max-height: none;
+    margin-bottom: clamp(1.25rem, 4vw, 2rem);
+  }
   .about__cols { grid-template-columns: 1fr; }
   .about__stats { grid-template-columns: repeat(2, 1fr); }
   .skills__grid { grid-template-columns: 1fr; }
