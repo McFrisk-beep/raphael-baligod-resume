@@ -6,6 +6,8 @@
   "use strict";
 
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  // Pointer-driven effects (magnetic, tilt, parallax) only on real cursors.
+  const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
   const DURATION = 950; // keep in sync with --curtain in CSS
 
   const panels = Array.prototype.slice.call(document.querySelectorAll(".panel"));
@@ -155,6 +157,102 @@
     });
   }
 
+  /* ---------- Enhancements: micro-interactions & depth ---------- */
+
+  // Split the hero title into per-letter spans for a staggered rise.
+  function splitHeroTitle() {
+    if (reduceMotion) return; // line/letter reveal is disabled under reduced motion
+    const title = document.querySelector(".hero__title");
+    if (!title) return;
+    let ci = 0;
+    title.querySelectorAll(".line > span").forEach((span) => {
+      const text = span.textContent;
+      span.textContent = "";
+      Array.prototype.forEach.call(text, (ch) => {
+        const s = document.createElement("span");
+        s.className = "char";
+        if (ch === " ") s.innerHTML = "&nbsp;";
+        else s.textContent = ch;
+        s.style.setProperty("--ci", ci++);
+        span.appendChild(s);
+      });
+    });
+    title.classList.add("is-split");
+  }
+
+  // Count the About stats up from zero the first time the panel is shown.
+  function animateStats() {
+    document.querySelectorAll("#about .stat b").forEach((el) => {
+      if (el.dataset.done) return;
+      const m = el.textContent.trim().match(/^(\d+)(.*)$/);
+      el.dataset.done = "1";
+      if (!m) return; // non-numeric (e.g. "N2") — leave as-is
+      const target = parseInt(m[1], 10);
+      const suffix = m[2] || "";
+      if (reduceMotion) { el.textContent = target + suffix; return; }
+      const dur = 1100;
+      const start = performance.now();
+      (function tick(now) {
+        const t = Math.min(1, (now - start) / dur);
+        const eased = 1 - Math.pow(1 - t, 3); // ease-out cubic
+        el.textContent = Math.round(target * eased) + suffix;
+        if (t < 1) requestAnimationFrame(tick);
+      })(start);
+    });
+  }
+
+  // Hook fired whenever a panel becomes the active one (paged or static).
+  function onPanelActive(i) {
+    if (panels[i] && panels[i].id === "about") animateStats();
+  }
+
+  // Magnetic pull on buttons toward the cursor.
+  function initMagnetic() {
+    if (reduceMotion || !finePointer) return;
+    document.querySelectorAll(".btn").forEach((btn) => {
+      btn.addEventListener("pointermove", (e) => {
+        const r = btn.getBoundingClientRect();
+        const x = e.clientX - (r.left + r.width / 2);
+        const y = e.clientY - (r.top + r.height / 2);
+        btn.style.transform = "translate(" + x * 0.4 + "px," + y * 0.4 + "px)";
+      });
+      btn.addEventListener("pointerleave", () => { btn.style.transform = ""; });
+    });
+  }
+
+  // Subtle 3D tilt on cards following the cursor.
+  function initTilt() {
+    if (reduceMotion || !finePointer) return;
+    const MAX = 7; // degrees
+    document.querySelectorAll(".game-card, .edu-card, .pub-card").forEach((card) => {
+      card.addEventListener("pointermove", (e) => {
+        const r = card.getBoundingClientRect();
+        const px = (e.clientX - r.left) / r.width - 0.5;
+        const py = (e.clientY - r.top) / r.height - 0.5;
+        card.style.transform =
+          "perspective(900px) rotateX(" + (-py * MAX).toFixed(2) +
+          "deg) rotateY(" + (px * MAX).toFixed(2) + "deg)";
+      });
+      card.addEventListener("pointerleave", () => { card.style.transform = ""; });
+    });
+  }
+
+  // Gentle parallax on the hero portrait as the cursor moves across the hero.
+  function initPortraitParallax() {
+    if (reduceMotion || !finePointer) return;
+    const heroPanel = document.getElementById("home");
+    const img = document.querySelector(".hero__portrait img");
+    if (!heroPanel || !img) return;
+    img.style.transform = "scale(1.06)"; // buffer so the translate never reveals edges
+    heroPanel.addEventListener("pointermove", (e) => {
+      const r = heroPanel.getBoundingClientRect();
+      const x = ((e.clientX - r.left) / r.width - 0.5) * 2;
+      const y = ((e.clientY - r.top) / r.height - 0.5) * 2;
+      img.style.transform = "scale(1.06) translate(" + x * 10 + "px," + y * 10 + "px)";
+    });
+    heroPanel.addEventListener("pointerleave", () => { img.style.transform = "scale(1.06)"; });
+  }
+
   /* ---------- Persistent UI ---------- */
   function buildPager() {
     if (!pager) return;
@@ -217,6 +315,7 @@
     }
 
     syncUI(i);
+    onPanelActive(i);
 
     if (!instant) {
       animating = true;
@@ -321,7 +420,7 @@
             if (entry.isIntersecting) {
               entry.target.querySelectorAll(".reveal").forEach((el) => el.classList.add("is-visible"));
               const i = panels.indexOf(entry.target);
-              if (i >= 0) syncUI(i);
+              if (i >= 0) { syncUI(i); onPanelActive(i); }
             }
           });
         }, { threshold: 0.4 })
@@ -357,6 +456,10 @@
     initMenu();
     initI18N();
     initMediaFallbacks();
+    splitHeroTitle();
+    initMagnetic();
+    initTilt();
+    initPortraitParallax();
     const y = document.getElementById("year");
     if (y) y.textContent = new Date().getFullYear();
 
