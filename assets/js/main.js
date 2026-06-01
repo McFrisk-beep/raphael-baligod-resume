@@ -237,22 +237,6 @@
     });
   }
 
-  // Gentle parallax on the hero portrait as the cursor moves across the hero.
-  function initPortraitParallax() {
-    if (reduceMotion || !finePointer) return;
-    const heroPanel = document.getElementById("home");
-    const img = document.querySelector(".hero__portrait img");
-    if (!heroPanel || !img) return;
-    img.style.transform = "scale(1.06)"; // buffer so the translate never reveals edges
-    heroPanel.addEventListener("pointermove", (e) => {
-      const r = heroPanel.getBoundingClientRect();
-      const x = ((e.clientX - r.left) / r.width - 0.5) * 2;
-      const y = ((e.clientY - r.top) / r.height - 0.5) * 2;
-      img.style.transform = "scale(1.06) translate(" + x * 10 + "px," + y * 10 + "px)";
-    });
-    heroPanel.addEventListener("pointerleave", () => { img.style.transform = "scale(1.06)"; });
-  }
-
   /* ---------- Persistent UI ---------- */
   function buildPager() {
     if (!pager) return;
@@ -459,7 +443,6 @@
     splitHeroTitle();
     initMagnetic();
     initTilt();
-    initPortraitParallax();
     const y = document.getElementById("year");
     if (y) y.textContent = new Date().getFullYear();
 
