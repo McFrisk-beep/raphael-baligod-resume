@@ -218,7 +218,6 @@ em { font-style: italic; }
   display: flex;
   flex-direction: column;
   gap: 0.95rem;
-  mix-blend-mode: difference;
 }
 .pager__dot {
   position: relative;
@@ -237,12 +236,16 @@ em { font-style: italic; }
   width: 9px;
   height: 9px;
   border-radius: 100px;
-  background: #fff;
-  opacity: 0.45;
-  transition: opacity 0.4s var(--ease), width 0.5s var(--ease), height 0.5s var(--ease);
+  background: var(--ink);
+  opacity: 0.3;
+  transition: opacity 0.4s var(--ease), width 0.5s var(--ease), height 0.5s var(--ease),
+    background 0.5s var(--ease);
 }
-.pager__dot:hover::after { opacity: 0.85; }
-.pager__dot.is-current::after { opacity: 1; width: 9px; height: 26px; }
+.pager__dot:hover::after { opacity: 0.65; }
+.pager__dot.is-current::after { opacity: 1; width: 9px; height: 26px; background: var(--accent); }
+/* JS sets .on-dark on <body> while the dark contact panel is active. */
+body.on-dark .pager__dot::after { background: var(--bg); }
+body.on-dark .pager__dot.is-current::after { background: var(--accent); }
 .pager__dot .pager__tip {
   position: absolute;
   right: 22px;
@@ -252,12 +255,13 @@ em { font-style: italic; }
   font-size: 0.7rem;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: #fff;
+  color: var(--ink);
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.3s var(--ease), transform 0.4s var(--ease);
 }
 .pager__dot:hover .pager__tip { opacity: 0.9; transform: translateY(-50%) translateX(0); }
+body.on-dark .pager__dot .pager__tip { color: var(--bg); }
 
 /* ---------- Persistent counter ---------- */
 .counter {
@@ -268,10 +272,11 @@ em { font-style: italic; }
   display: flex;
   align-items: baseline;
   gap: 0.35rem;
-  mix-blend-mode: difference;
-  color: #fff;
+  color: var(--ink);
   font-variant-numeric: tabular-nums;
+  transition: color 0.5s var(--ease);
 }
+body.on-dark .counter { color: var(--bg); }
 .counter__cur { font-family: var(--serif); font-size: 1.6rem; font-weight: 400; }
 .counter__sep,
 .counter__total { font-size: 0.85rem; opacity: 0.7; }
@@ -357,12 +362,14 @@ em { font-style: italic; }
   height: 100%;
   object-fit: cover;
   object-position: 50% 12%;
+  /* Calm the busy background so the photo doesn't compete with the title. */
+  filter: saturate(0.85) contrast(1.02);
 }
 .hero__portrait::after {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(to top, rgba(140, 60, 32, 0.22), transparent 42%);
+  background: linear-gradient(to top, rgba(140, 60, 32, 0.3), transparent 52%);
   pointer-events: none;
 }
 .hero__meta {
@@ -455,14 +462,17 @@ em { font-style: italic; }
 }
 
 /* ---------- About ---------- */
+/* Sized so the whole panel fits a 900px-tall viewport without internal
+   scrolling — the lead is long, so it stays a step below the section title. */
+#about .section__head { margin-bottom: clamp(1.25rem, 3vh, 1.75rem); }
 .about__lead {
   font-family: var(--serif);
   font-weight: 300;
-  font-size: clamp(1.6rem, 4vw, 2.8rem);
-  line-height: 1.25;
-  letter-spacing: -0.015em;
-  margin-bottom: clamp(2rem, 5vw, 3.5rem);
-  max-width: 24ch;
+  font-size: clamp(1.35rem, 1rem + 1.1vw, 1.9rem);
+  line-height: 1.35;
+  letter-spacing: -0.01em;
+  margin-bottom: clamp(1.25rem, 3vh, 2rem);
+  max-width: 44ch;
 }
 .about__cols {
   display: grid;
@@ -530,19 +540,9 @@ em { font-style: italic; }
   place-items: center;
 }
 .logo--lg { width: 64px; height: 64px; border-radius: 16px; }
-.logo-img {
-  position: relative;
-  z-index: 2;
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  padding: 8px;
-  background: #fff;
-}
 .logo-mono {
   position: absolute;
   inset: 0;
-  z-index: 1;
   display: grid;
   place-items: center;
   font-family: var(--serif);
@@ -597,12 +597,11 @@ em { font-style: italic; }
   border-radius: 100px;
   font-size: 0.88rem;
   font-weight: 500;
-  border: 1px solid transparent;
+  background: rgba(255, 255, 255, 0.55);
+  border: 1px solid var(--line);
+  color: var(--ink-soft);
 }
-.tag-amber { background: #f7e3c0; color: #8a5a1e; }
-.tag-lav   { background: #e4ddf2; color: #5b4a86; }
-.tag-rose  { background: #f6dfe2; color: #9a445a; }
-.tag-sage  { background: #dcebd6; color: #4c6e44; }
+.tag:hover { border-color: var(--accent); color: var(--accent-dk); }
 
 /* ---------- Education ---------- */
 .edu-row {
@@ -748,9 +747,10 @@ em { font-style: italic; }
   text-transform: uppercase;
   padding: 0.35rem 0.8rem;
   border-radius: 100px;
+  border: 1px solid var(--line);
 }
-.game-pill--out { background: #dcebd6; color: #4c6e44; }
-.game-pill--dev { background: #f7e3c0; color: #8a5a1e; }
+.game-pill--out { color: #4c6e44; border-color: rgba(76, 110, 68, 0.45); }
+.game-pill--dev { color: var(--accent-dk); border-color: rgba(180, 80, 46, 0.45); }
 .game-role { color: var(--accent); font-size: 0.9rem; margin: 0.6rem 0 0.5rem; }
 .game-desc { color: var(--ink-soft); font-size: 0.96rem; }
 .game-link { display: inline-block; margin-top: 0.9rem; color: var(--ink); font-weight: 500; border-bottom: 1px solid var(--accent); padding-bottom: 2px; }
@@ -871,7 +871,8 @@ em { font-style: italic; }
 
 /* Skill tags — lift on hover. */
 .tag {
-  transition: transform 0.35s var(--ease), box-shadow 0.35s var(--ease);
+  transition: transform 0.35s var(--ease), box-shadow 0.35s var(--ease),
+    border-color 0.35s var(--ease), color 0.35s var(--ease);
   will-change: transform;
 }
 .tag:hover {

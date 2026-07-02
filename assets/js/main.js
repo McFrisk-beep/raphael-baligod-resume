@@ -268,6 +268,7 @@
     headerLinks.forEach((a) => {
       a.classList.toggle("is-current", indexOfId(a.getAttribute("href")) === i);
     });
+    document.body.classList.toggle("on-dark", panels[i].classList.contains("panel--dark"));
   }
 
   /* ---------- Core: move the curtain ---------- */
@@ -422,12 +423,6 @@
 
   /* ---------- Graceful media fallbacks (CSP-safe; no inline handlers) ---------- */
   function initMediaFallbacks() {
-    // Company/school logos: if the remote image fails, reveal the monogram.
-    document.querySelectorAll(".logo-img").forEach((img) => {
-      const hide = () => { img.style.display = "none"; };
-      img.addEventListener("error", hide);
-      if (img.complete && img.naturalWidth === 0) hide();
-    });
     // Trailer embed: if it can't load, drop it so the poster image shows.
     const video = document.querySelector(".game-video");
     if (video) video.addEventListener("error", () => video.remove());
