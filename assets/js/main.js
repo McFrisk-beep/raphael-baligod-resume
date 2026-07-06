@@ -313,57 +313,6 @@
     train.style.animationDelay = "-" + offset + "s";
   }
 
-  /* Roaming cat — nudge nearby headings when it walks past. */
-  function initCat() {
-    if (reduceMotion) return;
-    if (window.matchMedia("(max-width: 860px)").matches) return;
-    const cat = document.getElementById("spriteCat");
-    if (!cat) return;
-    cat.style.animationDelay = "-" + Math.floor(Math.random() * 38) + "s";
-
-    const bumpables = document.querySelectorAll(
-      ".section__title, .hero__title, .about__lead, .contact__lead, .stat b, .hero__lead p"
-    );
-
-    let frame = 0;
-    function tick() {
-      frame++;
-      if (frame % 4 === 0) {
-        const catRect = cat.getBoundingClientRect();
-        if (catRect.width) {
-          const cx = catRect.left + catRect.width * 0.5;
-          const cy = catRect.top + catRect.height * 0.5;
-          const activePanel = paged ? panels[current] : null;
-
-          bumpables.forEach((el) => {
-            if (activePanel && !activePanel.contains(el)) {
-              el.classList.remove("sprite-bump");
-              return;
-            }
-            const r = el.getBoundingClientRect();
-            if (r.bottom < 0 || r.top > window.innerHeight) {
-              el.classList.remove("sprite-bump");
-              return;
-            }
-            const near =
-              cx > r.left - 36 && cx < r.right + 36 &&
-              cy > r.top - 28 && cy < r.bottom + 28;
-            if (near) {
-              const dir = cx < r.left + r.width * 0.5 ? -1 : 1;
-              el.classList.add("sprite-bump");
-              el.style.setProperty("--bump-x", dir * 4 + "px");
-            } else {
-              el.classList.remove("sprite-bump");
-            }
-          });
-        }
-      }
-      requestAnimationFrame(tick);
-    }
-
-    requestAnimationFrame(tick);
-  }
-
   /* ---------- Graceful media fallbacks (CSP-safe; no inline handlers) ---------- */
   function initMediaFallbacks() {
     // Trailer embed: if it can't load, drop it so the poster image shows.
@@ -378,7 +327,6 @@
     initMenu();
     initMediaFallbacks();
     initTrain();
-    initCat();
     splitHeroTitle();
     initMagnetic();
     initTilt();
