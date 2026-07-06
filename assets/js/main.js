@@ -17,6 +17,8 @@
   const counterCur = document.getElementById("counterCur");
   const counterTotal = document.getElementById("counterTotal");
   const counterName = document.getElementById("counterName");
+  const crtChannel = document.getElementById("crtChannel");
+  const crtViewport = document.getElementById("crtViewport");
   const menuToggle = document.getElementById("menuToggle");
   const mobileMenu = document.getElementById("mobileMenu");
 
@@ -261,6 +263,7 @@
     const name = lang === "jp" && NAMES_JP[rawName] ? NAMES_JP[rawName] : rawName;
     if (counterCur) counterCur.textContent = pad(i + 1);
     if (counterName) counterName.textContent = name;
+    if (crtChannel) crtChannel.textContent = "CH·" + pad(i + 1);
     if (pager) {
       Array.prototype.slice.call(pager.children).forEach((dot, k) => {
         dot.classList.toggle("is-current", k === i);
@@ -373,7 +376,7 @@
         e.preventDefault();
         closeMenu();
         if (paged) goTo(i);
-        else panels[i].scrollIntoView({ behavior: "smooth" });
+        else panels[i].scrollIntoView({ behavior: "smooth", block: "start" });
       });
     });
   }
@@ -399,7 +402,8 @@
 
   /* ---------- Static (reduced-motion) fallback ---------- */
   function initStatic() {
-    // Plain document scroll + reveal-on-scroll + scroll-spy for the pager/counter.
+    const ioRoot = crtViewport || null;
+
     const io = "IntersectionObserver" in window
       ? new IntersectionObserver((entries) => {
           entries.forEach((entry) => {
@@ -409,13 +413,17 @@
               if (i >= 0) { syncUI(i); onPanelActive(i); }
             }
           });
-        }, { threshold: 0.4 })
+        }, { threshold: 0.4, root: ioRoot })
       : null;
 
     if (io) panels.forEach((p) => io.observe(p));
     else panels.forEach((p) => p.querySelectorAll(".reveal").forEach((el) => el.classList.add("is-visible")));
 
-    if (header) {
+    if (header && crtViewport) {
+      crtViewport.addEventListener("scroll", () => {
+        header.classList.toggle("is-scrolled", crtViewport.scrollTop > 24);
+      }, { passive: true });
+    } else if (header) {
       window.addEventListener("scroll", () => {
         header.classList.toggle("is-scrolled", window.scrollY > 40);
       }, { passive: true });
@@ -443,7 +451,6 @@
     if (y) y.textContent = new Date().getFullYear();
 
     if (!paged) {
-      // No intro wipe in reduced-motion mode (CSS hides it); use normal scroll.
       document.body.classList.add("is-ready");
       initStatic();
       return;
