@@ -30,38 +30,41 @@
     </div>
   </div>
 
-  <!-- Lo-fi room · CRT TV frame (lofi.cafe-inspired) -->
-  <div class="room" id="room">
-    <div class="room__scene" aria-hidden="true">
-      <div class="room__wall"></div>
-      <div class="room__floor"></div>
-      <div class="room__window">
-        <div class="room__sky"></div>
-        <div class="room__moon"></div>
-        <div class="room__city"></div>
-      </div>
-      <div class="room__lamp"></div>
-      <div class="room__shelf">
-        <span></span><span></span><span></span><span></span>
-      </div>
-      <div class="room__poster"></div>
+  <!-- Sunset skyline background -->
+  <div class="skyline" aria-hidden="true">
+    <div class="skyline__sky"></div>
+    <div class="skyline__sun"></div>
+    <div class="skyline__clouds"></div>
+    <div class="skyline__hills"></div>
+    <div class="skyline__city"></div>
+    <div class="skyline__track"></div>
+    <div class="skyline__train" id="skylineTrain">
+      <span class="train__engine"></span>
+      <span class="train__car"></span>
+      <span class="train__car"></span>
+      <span class="train__car train__car--lit"></span>
     </div>
+    <div class="skyline__rays"></div>
+    <div class="skyline__glow"></div>
+  </div>
 
-    <div class="room__stage">
-      <div class="crt" id="crt">
-        <div class="crt__unit">
-          <div class="crt__cabinet">
-            <div class="crt__top">
-              <span class="crt__brand">RB<span>TV</span></span>
-              <span class="crt__channel" id="crtChannel" aria-hidden="true">CH·01</span>
-            </div>
-            <div class="crt__bezel">
-              <div class="crt__screen">
-                <div class="crt__viewport" id="crtViewport">
-                  <div class="grain" aria-hidden="true"></div>
+  <!-- CRT screen effects only (no TV frame) -->
+  <div class="crt-fx" aria-hidden="true">
+    <div class="grain"></div>
+    <div class="crt-fx__scanlines"></div>
+    <div class="crt-fx__vignette"></div>
+    <div class="crt-fx__glare"></div>
+  </div>
 
-                  <!-- Header (persistent) -->
-                  <header class="header" id="header">
+  <!-- Decorative ambient widget -->
+  <div class="lofi-ambient" aria-hidden="true">
+    <span class="lofi-ambient__icon">♫</span>
+    <span class="lofi-ambient__text" data-i18n="lofi-label">late night study session</span>
+    <span class="lofi-ambient__bars"><span></span><span></span><span></span><span></span></span>
+  </div>
+
+  <!-- Header (persistent) -->
+  <header class="header" id="header">
     <a href="#home" class="header__brand" data-go>RB<span>.</span></a>
     <nav class="header__nav">
       <a href="#about" data-go data-i18n="nav-about">About</a>
@@ -448,38 +451,6 @@
       </div>
     </section>
   </main>
-                  <div class="crt__screen-fx" aria-hidden="true">
-                    <div class="crt__scanlines"></div>
-                    <div class="crt__glare"></div>
-                    <div class="crt__vignette"></div>
-                  </div>
-                </div><!-- /.crt__viewport -->
-              </div>
-            </div>
-            <div class="crt__controls" aria-hidden="true">
-              <div class="crt__dial"></div>
-              <div class="crt__dial crt__dial--sm"></div>
-              <div class="crt__speaker"><span></span><span></span><span></span></div>
-              <div class="crt__power"><span class="crt__power-led"></span><span>PWR</span></div>
-            </div>
-          </div>
-          <div class="crt__stand" aria-hidden="true"></div>
-        </div>
-
-        <div class="room__desk" aria-hidden="true">
-          <div class="room__desk-top"></div>
-          <div class="lofi-ambient">
-            <span class="lofi-ambient__icon">♫</span>
-            <span class="lofi-ambient__text" data-i18n="lofi-label">late night study session</span>
-            <span class="lofi-ambient__bars"><span></span><span></span><span></span><span></span></span>
-          </div>
-          <div class="room__mug"></div>
-          <div class="room__plant"></div>
-          <div class="room__books"></div>
-        </div>
-      </div>
-    </div>
-  </div>
 
   <script src="assets/js/main.js"></script>
 </body>
