@@ -56,11 +56,21 @@
     <div class="crt-fx__glare"></div>
   </div>
 
-  <!-- Decorative ambient widget -->
-  <div class="lofi-ambient" aria-hidden="true">
-    <span class="lofi-ambient__icon">♫</span>
-    <span class="lofi-ambient__text" data-i18n="lofi-label">late night study session</span>
-    <span class="lofi-ambient__bars"><span></span><span></span><span></span><span></span></span>
+  <!-- Lo-fi sprite decorations -->
+  <div class="sprite-layer" id="spriteLayer" aria-hidden="true">
+    <div class="sprite sprite--cat" id="spriteCat">
+      <div class="cat">
+        <span class="cat__ear cat__ear--l"></span>
+        <span class="cat__ear cat__ear--r"></span>
+        <span class="cat__head"></span>
+        <span class="cat__body"></span>
+        <span class="cat__tail"></span>
+        <span class="cat__paw cat__paw--fl"></span>
+        <span class="cat__paw cat__paw--fr"></span>
+        <span class="cat__paw cat__paw--bl"></span>
+        <span class="cat__paw cat__paw--br"></span>
+      </div>
+    </div>
   </div>
 
   <!-- Header (persistent) -->
@@ -130,6 +140,13 @@
 
     <!-- 02 · About -->
     <section class="panel" id="about" data-name="About">
+      <div class="panel__sprites" aria-hidden="true">
+        <div class="sprite sprite--coffee">
+          <span class="coffee__steam"><i></i><i></i><i></i></span>
+          <span class="coffee__mug"></span>
+          <span class="coffee__saucer"></span>
+        </div>
+      </div>
       <div class="panel__inner">
         <div class="section__head reveal">
           <h2 class="section__title" data-i18n="about-title">The Story So Far</h2>
@@ -266,6 +283,16 @@
 
     <!-- 04 · Skills -->
     <section class="panel" id="skills" data-name="Skills">
+      <div class="panel__sprites" aria-hidden="true">
+        <div class="sprite sprite--bed">
+          <span class="bed__pillow"></span>
+          <span class="bed__blanket"></span>
+          <span class="bed__person"></span>
+          <span class="bed__laptop"></span>
+          <span class="bed__glow"></span>
+          <span class="bed__zzz">z z z</span>
+        </div>
+      </div>
       <div class="panel__inner">
         <div class="section__head reveal">
           <h2 class="section__title" data-i18n="skills-title">Tech &amp; Tools</h2>
@@ -372,6 +399,13 @@
 
     <!-- 07 · Games -->
     <section class="panel panel--scroll" id="games" data-name="Games">
+      <div class="panel__sprites" aria-hidden="true">
+        <div class="sprite sprite--plant">
+          <span class="plant__pot"></span>
+          <span class="plant__leaf plant__leaf--l"></span>
+          <span class="plant__leaf plant__leaf--r"></span>
+        </div>
+      </div>
       <div class="panel__inner">
         <div class="section__head reveal">
           <h2 class="section__title" data-i18n="games-title">Published &amp; In Development</h2>
