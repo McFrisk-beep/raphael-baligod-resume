@@ -41,6 +41,7 @@
     "hero-loc": "和歌山県・日本", "hero-avail": "お仕事募集中",
     "hero-lead": "NetSuite認定<strong>開発者</strong>、インディー<strong>ゲームプロデューサー</strong>、<strong>マーケティングアナリスト</strong> — カスタム自動化、システム連携、そして心温まるゲームづくりに取り組んでいます。",
     "hero-btn": "お問い合わせ", "scroll": "スクロール",
+    "lofi-label": "深夜の勉強セッション",
 
     "about-title": "これまでの歩み",
     "about-p1": "カスタム自動化、スクリプト開発、Advanced PDFテンプレート、システムの導入・移行を通じて、クライアントの業務効率化を支援するフリーランスのNetSuite開発者。NetSuite API、REST連携、Node.js、MVCアーキテクチャに6年以上携わってきたOracle認定資格保持者です。",
