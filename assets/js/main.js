@@ -237,6 +237,30 @@
     });
   }
 
+  // 21st.dev-style mouse-following spotlight on interactive cards.
+  function initSpotlight() {
+    if (reduceMotion || !finePointer) return;
+    document.querySelectorAll(".fx-spotlight").forEach((el) => {
+      el.addEventListener("pointermove", (e) => {
+        const r = el.getBoundingClientRect();
+        el.style.setProperty("--mouse-x", (e.clientX - r.left) + "px");
+        el.style.setProperty("--mouse-y", (e.clientY - r.top) + "px");
+      });
+      el.addEventListener("pointerleave", () => {
+        el.style.removeProperty("--mouse-x");
+        el.style.removeProperty("--mouse-y");
+      });
+    });
+    document.querySelectorAll(".contact__link").forEach((link) => {
+      link.addEventListener("pointermove", (e) => {
+        const r = link.getBoundingClientRect();
+        const pct = ((e.clientX - r.left) / r.width) * 100;
+        link.style.setProperty("--link-x", pct + "%");
+      });
+      link.addEventListener("pointerleave", () => { link.style.removeProperty("--link-x"); });
+    });
+  }
+
   /* ---------- Persistent UI ---------- */
   function buildPager() {
     if (!pager) return;
@@ -447,6 +471,7 @@
     splitHeroTitle();
     initMagnetic();
     initTilt();
+    initSpotlight();
     const y = document.getElementById("year");
     if (y) y.textContent = new Date().getFullYear();
 

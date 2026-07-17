@@ -46,6 +46,9 @@
     </div>
     <div class="skyline__rays"></div>
     <div class="skyline__glow"></div>
+    <div class="skyline__orb skyline__orb--1" aria-hidden="true"></div>
+    <div class="skyline__orb skyline__orb--2" aria-hidden="true"></div>
+    <div class="skyline__orb skyline__orb--3" aria-hidden="true"></div>
   </div>
 
   <!-- CRT screen effects only (no TV frame) -->
@@ -116,10 +119,11 @@
           </h1>
           <div class="hero__lead reveal">
             <p data-i18n="hero-lead">Certified <strong>NetSuite Developer</strong>, indie <strong>Game Producer</strong> &amp; <strong>Marketing Analyst</strong> — building custom automation, integrations, and cozy games.</p>
-            <a href="#contact" class="btn" data-go><span data-i18n="hero-btn">Get in touch</span> <span aria-hidden="true">→</span></a>
+            <a href="#contact" class="btn fx-beam" data-go><span data-i18n="hero-btn">Get in touch</span> <span aria-hidden="true">→</span></a>
           </div>
         </div>
-        <div class="hero__portrait reveal" aria-hidden="true">
+        <div class="hero__portrait reveal fx-beam" aria-hidden="true">
+          <span class="fx-beam__ring" aria-hidden="true"></span>
           <img src="assets/img/portrait.jpg" alt="Raphael Baligod" loading="eager" />
         </div>
         <div class="hero__scroll reveal" aria-hidden="true">
@@ -144,10 +148,10 @@
             </div>
           </div>
           <div class="about__stats reveal">
-            <div class="stat"><b>10+</b><span data-i18n="stat-career">Years Overall Career</span></div>
-            <div class="stat"><b>30+</b><span data-i18n="stat-clients">Clients Served</span></div>
-            <div class="stat"><b>6+</b><span data-i18n="stat-years">Years in NetSuite</span></div>
-            <div class="stat"><b>N2</b><span data-i18n="stat-jlpt">Japanese JLPT</span></div>
+            <div class="stat fx-spotlight"><b>10+</b><span data-i18n="stat-career">Years Overall Career</span></div>
+            <div class="stat fx-spotlight"><b>30+</b><span data-i18n="stat-clients">Clients Served</span></div>
+            <div class="stat fx-spotlight"><b>6+</b><span data-i18n="stat-years">Years in NetSuite</span></div>
+            <div class="stat fx-spotlight"><b>N2</b><span data-i18n="stat-jlpt">Japanese JLPT</span></div>
           </div>
         </div>
       </div>
@@ -162,7 +166,7 @@
         <ol class="timeline">
           <li class="timeline__item reveal">
             <div class="timeline__when"><span data-i18n="exp1-date">Feb 2024 — Present</span><span class="timeline__sub" data-i18n="exp1-sub">2 yrs 3 mos · Osaka, Japan</span></div>
-            <div class="timeline__main">
+            <div class="timeline__main fx-spotlight">
               <div class="timeline__top">
                 <span class="logo" style="--lc:#d8443c">
                   <span class="logo-mono">南</span>
@@ -183,7 +187,7 @@
 
           <li class="timeline__item reveal">
             <div class="timeline__when"><span data-i18n="exp2-date">May 2022 — Oct 2024</span><span class="timeline__sub" data-i18n="exp2-sub">2 yrs 6 mos · Remote</span></div>
-            <div class="timeline__main">
+            <div class="timeline__main fx-spotlight">
               <div class="timeline__top">
                 <span class="logo" style="--lc:#3b6ea5">
                   <span class="logo-mono">BA</span>
@@ -203,7 +207,7 @@
 
           <li class="timeline__item reveal">
             <div class="timeline__when"><span data-i18n="exp3-date">Jul 2021 — Mar 2022</span><span class="timeline__sub" data-i18n="exp3-sub">9 mos · Metro Manila, PH</span></div>
-            <div class="timeline__main">
+            <div class="timeline__main fx-spotlight">
               <div class="timeline__top">
                 <span class="logo" style="--lc:#2e8b8b">
                   <span class="logo-mono">A</span>
@@ -223,7 +227,7 @@
 
           <li class="timeline__item reveal">
             <div class="timeline__when"><span data-i18n="exp4-date">Aug 2019 — Jul 2021</span><span class="timeline__sub" data-i18n="exp4-sub">2 yrs · Metro Manila, PH</span></div>
-            <div class="timeline__main">
+            <div class="timeline__main fx-spotlight">
               <div class="timeline__top">
                 <span class="logo" style="--lc:#7a5bbf">
                   <span class="logo-mono">K</span>
@@ -243,7 +247,7 @@
 
           <li class="timeline__item reveal">
             <div class="timeline__when"><span data-i18n="exp5-date">Sep 2015 — Aug 2019</span><span class="timeline__sub" data-i18n="exp5-sub">4 yrs · Manila, PH</span></div>
-            <div class="timeline__main">
+            <div class="timeline__main fx-spotlight">
               <div class="timeline__top">
                 <span class="logo" style="--lc:#c74634">
                   <span class="logo-mono">N</span>
@@ -272,7 +276,7 @@
           <h2 class="section__title" data-i18n="skills-title">Tech &amp; Tools</h2>
         </div>
         <div class="skills__grid">
-          <div class="skills__group reveal">
+          <div class="skills__group reveal fx-spotlight">
             <h3 data-i18n="sk-label-1">NetSuite</h3>
             <div class="sk-tags">
               <span class="tag">SuiteScript 2.x</span>
@@ -284,7 +288,7 @@
               <span class="tag" data-i18n="sk-impl">Implementation &amp; Migration</span>
             </div>
           </div>
-          <div class="skills__group reveal">
+          <div class="skills__group reveal fx-spotlight">
             <h3 data-i18n="sk-label-2">Development</h3>
             <div class="sk-tags">
               <span class="tag">JavaScript</span>
@@ -296,7 +300,7 @@
               <span class="tag">MVC Architecture</span>
             </div>
           </div>
-          <div class="skills__group reveal">
+          <div class="skills__group reveal fx-spotlight">
             <h3 data-i18n="sk-label-3">Marketing &amp; Data</h3>
             <div class="sk-tags">
               <span class="tag" data-i18n="sk-data">Data Analysis</span>
@@ -305,7 +309,7 @@
               <span class="tag" data-i18n="sk-tour">Tourism Strategy</span>
             </div>
           </div>
-          <div class="skills__group reveal">
+          <div class="skills__group reveal fx-spotlight">
             <h3 data-i18n="sk-label-4">Languages</h3>
             <div class="sk-tags">
               <span class="tag" data-i18n="sk-eng">English (Native)</span>
@@ -324,7 +328,7 @@
           <h2 class="section__title" data-i18n="edu-title">Academic Background</h2>
         </div>
         <div class="edu-row">
-          <div class="edu-card reveal">
+          <div class="edu-card reveal fx-spotlight">
             <span class="logo logo--lg" style="--lc:#4a8c79">
               <span class="logo-mono">和</span>
             </span>
@@ -333,7 +337,7 @@
             <p data-i18n="edu1-degree">Technical Degree in Japanese Language</p>
             <span class="edu-loc" data-i18n="edu1-loc">Wakayama, Japan</span>
           </div>
-          <div class="edu-card reveal">
+          <div class="edu-card reveal fx-spotlight">
             <span class="logo logo--lg" style="--lc:#b03a3a">
               <span class="logo-mono">M</span>
             </span>
@@ -359,7 +363,7 @@
           <div class="cert-item"><span class="ci">◈</span><span data-i18n="cert-cg">Foundations of Computer Graphics</span></div>
           <div class="cert-item"><span class="ci">◈</span><span data-i18n="cert-jq">Learn jQuery Course</span></div>
         </div>
-        <a class="pub-card reveal" href="https://jtec.utem.edu.my/jtec/article/view/2344" target="_blank" rel="noopener noreferrer">
+        <a class="pub-card reveal fx-spotlight" href="https://jtec.utem.edu.my/jtec/article/view/2344" target="_blank" rel="noopener noreferrer">
           <div class="pub-icon">✦</div>
           <div class="pub-body">
             <span class="pub-label" data-i18n="pub-label">Published Research</span>
@@ -378,7 +382,7 @@
           <h2 class="section__title" data-i18n="games-title">Published &amp; In Development</h2>
         </div>
         <div class="games-grid">
-          <article class="game-card reveal">
+          <article class="game-card reveal fx-spotlight">
             <div class="game-media game-media--video">
               <img class="game-poster" src="https://cdn.cloudflare.steamstatic.com/steam/apps/2711030/header.jpg" alt="Sugardew Island" loading="lazy" />
               <iframe class="game-video"
@@ -398,7 +402,7 @@
             </div>
           </article>
 
-          <article class="game-card reveal">
+          <article class="game-card reveal fx-spotlight">
             <div class="game-media game-media--dev" aria-hidden="true">
               <span class="dev-glyph">✦</span>
               <span class="dev-badge" data-i18n="otc-status">Currently in Development</span>
