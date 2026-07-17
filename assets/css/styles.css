@@ -590,6 +590,22 @@ body.on-dark .counter { color: var(--bg); }
   color: var(--bg);
 }
 
+/* Wave canvas backgrounds (21st.dev-inspired) */
+.wave-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+}
+.wave-canvas--smooth { opacity: 0.95; }
+.panel--dark .wave-canvas--smooth {
+  opacity: 0.8;
+  mix-blend-mode: screen;
+}
+.wave-canvas--dynamic { opacity: 1; }
+
 .panel__inner {
   min-height: 100vh;
   max-width: var(--maxw);
@@ -1493,6 +1509,7 @@ body.on-dark .counter { color: var(--bg); }
   .panel:not(.panel--dark)::after,
   .fx-beam::before,
   .fx-beam__ring,
+  .wave-canvas,
   .panel--hero::before,
   .panel--dark::before { display: none; }
   .tag:hover { transform: none; box-shadow: none; }
