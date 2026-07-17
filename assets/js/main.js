@@ -8,6 +8,7 @@
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   // Pointer-driven effects (magnetic, tilt, parallax) only on real cursors.
   const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+  const isMobile = window.matchMedia("(max-width: 860px)").matches;
   const DURATION = 950; // keep in sync with --curtain in CSS
 
   const panels = Array.prototype.slice.call(document.querySelectorAll(".panel"));
@@ -293,6 +294,7 @@
       a.classList.toggle("is-current", indexOfId(a.getAttribute("href")) === i);
     });
     document.body.classList.toggle("on-dark", panels[i].classList.contains("panel--dark"));
+    if (window.WaveCanvas) window.WaveCanvas.setActivePanel(i);
   }
 
   /* ---------- Core: move the curtain ---------- */
@@ -460,6 +462,15 @@
     if (video) video.addEventListener("error", () => video.remove());
   }
 
+  function initWaves() {
+    if (!window.WaveCanvas) return;
+    window.WaveCanvas.init({
+      reduceMotion: reduceMotion,
+      mobile: isMobile,
+      isPaged: paged,
+    });
+  }
+
   /* ---------- Boot ---------- */
   function boot() {
     buildPager();
@@ -468,6 +479,7 @@
     initI18N();
     initMediaFallbacks();
     initTrain();
+    initWaves();
     splitHeroTitle();
     initMagnetic();
     initTilt();
