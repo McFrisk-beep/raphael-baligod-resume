@@ -48,7 +48,7 @@ body.is-paged { overflow: hidden; height: 100vh; height: 100dvh; }
 body.is-locked { overflow: hidden; }
 
 /* =========================================================
-   Sunset skyline background + light reflections
+   16-bit pixel town background (canvas, see pixel-world.js)
    ========================================================= */
 
 .skyline {
@@ -58,212 +58,18 @@ body.is-locked { overflow: hidden; }
   pointer-events: none;
   overflow: hidden;
   contain: strict;
+  background: #1e1638;
 }
 
-.skyline__sky {
+/* JS sizes the canvas to an integer device-pixel scale so every art
+   pixel stays a crisp square. */
+.skyline__canvas {
   position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    180deg,
-    #2a1f4a 0%,
-    #4a3068 18%,
-    #8b4560 42%,
-    #d4724a 62%,
-    #f0a050 78%,
-    #f8c888 92%,
-    #e8b0a0 100%
-  );
-}
-
-.skyline__sun {
-  position: absolute;
-  bottom: 28%;
-  left: 38%;
-  width: clamp(80px, 14vw, 140px);
-  height: clamp(80px, 14vw, 140px);
-  border-radius: 50%;
-  background: radial-gradient(circle, #ffe8a0 0%, #f0a050 55%, rgba(240, 160, 80, 0) 72%);
-  box-shadow: 0 0 80px rgba(255, 200, 100, 0.45);
-}
-
-.skyline__clouds {
-  position: absolute;
-  inset: 0;
-  opacity: 0.35;
-  background:
-    radial-gradient(ellipse 18% 8% at 22% 32%, rgba(255, 200, 180, 0.5), transparent),
-    radial-gradient(ellipse 22% 7% at 68% 28%, rgba(255, 180, 160, 0.4), transparent),
-    radial-gradient(ellipse 15% 6% at 48% 38%, rgba(255, 220, 200, 0.35), transparent);
-}
-
-.skyline__hills {
-  position: absolute;
-  bottom: 14%;
-  left: -5%;
-  right: -5%;
-  height: 38%;
-  background: #1a1228;
-  clip-path: polygon(
-    0% 100%, 0% 72%,
-    8% 58%, 16% 68%, 24% 52%, 34% 62%, 42% 48%,
-    52% 58%, 62% 44%, 72% 55%, 82% 42%, 92% 52%,
-    100% 38%, 100% 100%
-  );
-  opacity: 0.85;
-}
-
-.skyline__city {
-  position: absolute;
-  bottom: 18%;
   left: 0;
-  right: 0;
-  height: 32%;
-  background: #120c1e;
-  clip-path: polygon(
-    0% 100%, 0% 52%, 6% 52%, 6% 38%, 11% 38%, 11% 62%, 18% 62%, 18% 44%,
-    24% 44%, 24% 72%, 32% 72%, 32% 50%, 38% 50%, 38% 80%, 48% 80%, 48% 42%,
-    55% 42%, 55% 65%, 63% 65%, 63% 48%, 70% 48%, 70% 88%, 80% 88%, 80% 55%,
-    87% 55%, 87% 70%, 94% 70%, 94% 46%, 100% 46%, 100% 100%
-  );
-}
-
-/* Lit windows — single radial, not per-building */
-.skyline__city::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(circle at 35% 40%, rgba(255, 210, 120, 0.45) 0 1px, transparent 2px);
-  opacity: 0.6;
-  pointer-events: none;
-}
-
-/* Train track line */
-.skyline__track {
-  position: absolute;
-  bottom: 21%;
-  left: 0;
-  right: 0;
-  height: 3px;
-  background: linear-gradient(90deg, transparent, rgba(20, 12, 30, 0.6) 10%, rgba(20, 12, 30, 0.6) 90%, transparent);
-}
-
-/* Train silhouette — passes occasionally via CSS animation */
-.skyline__train {
-  position: absolute;
-  bottom: calc(21% + 6px);
-  left: 0;
-  display: flex;
-  align-items: flex-end;
-  gap: 3px;
-  transform: translateX(-120%);
-  opacity: 0;
-  animation: trainPass 55s linear infinite;
-}
-.train__engine {
+  bottom: 0;
   display: block;
-  width: 36px;
-  height: 22px;
-  background: #120c1e;
-  border-radius: 4px 10px 2px 2px;
-  position: relative;
-  box-shadow: inset -4px 0 0 rgba(255, 200, 80, 0.15);
-}
-.train__engine::before {
-  content: "";
-  position: absolute;
-  top: 4px; right: 4px;
-  width: 8px; height: 8px;
-  background: rgba(255, 210, 100, 0.5);
-  border-radius: 1px;
-}
-.train__car {
-  display: block;
-  width: 28px;
-  height: 18px;
-  background: #120c1e;
-  border-radius: 2px;
-  position: relative;
-}
-.train__car--lit::after,
-.train__car:nth-child(3)::after {
-  content: "";
-  position: absolute;
-  top: 4px; left: 5px;
-  width: 18px; height: 6px;
-  background: rgba(255, 210, 100, 0.35);
-  border-radius: 1px;
-}
-@keyframes trainPass {
-  0%, 78%   { transform: translateX(-120%); opacity: 0; }
-  79%       { opacity: 1; }
-  88%       { transform: translateX(115vw); opacity: 1; }
-  89%, 100% { transform: translateX(115vw); opacity: 0; }
-}
-
-/* Warm light rays streaming in (like the reference image) */
-.skyline__rays {
-  position: absolute;
-  inset: 0;
-  background: repeating-linear-gradient(
-    108deg,
-    transparent 0px,
-    transparent 60px,
-    rgba(255, 200, 120, 0.03) 60px,
-    rgba(255, 180, 100, 0.07) 80px,
-    transparent 100px
-  );
-  mix-blend-mode: soft-light;
-}
-
-/* Interior glow — warm reflection on the "room" side */
-.skyline__glow {
-  position: absolute;
-  inset: 0;
-  background:
-    radial-gradient(ellipse 70% 55% at 82% 65%, rgba(255, 180, 100, 0.28), transparent 65%),
-    radial-gradient(ellipse 50% 45% at 15% 75%, rgba(60, 45, 90, 0.45), transparent 60%),
-    linear-gradient(90deg, rgba(30, 20, 50, 0.55) 0%, transparent 35%, transparent 65%, rgba(255, 170, 90, 0.12) 100%);
-}
-
-/* Floating ambient orbs — depth behind the skyline */
-.skyline__orb {
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(60px);
-  opacity: 0.45;
-  mix-blend-mode: screen;
-  animation: orbFloat 18s ease-in-out infinite alternate;
-}
-.skyline__orb--1 {
-  width: clamp(180px, 28vw, 320px);
-  height: clamp(180px, 28vw, 320px);
-  top: 12%;
-  left: 8%;
-  background: radial-gradient(circle, rgba(155, 142, 196, 0.7), transparent 70%);
-  animation-duration: 22s;
-}
-.skyline__orb--2 {
-  width: clamp(140px, 22vw, 260px);
-  height: clamp(140px, 22vw, 260px);
-  top: 38%;
-  right: 10%;
-  background: radial-gradient(circle, rgba(201, 123, 132, 0.65), transparent 70%);
-  animation-duration: 19s;
-  animation-delay: -6s;
-}
-.skyline__orb--3 {
-  width: clamp(120px, 18vw, 200px);
-  height: clamp(120px, 18vw, 200px);
-  bottom: 22%;
-  left: 42%;
-  background: radial-gradient(circle, rgba(232, 168, 124, 0.55), transparent 70%);
-  animation-duration: 25s;
-  animation-delay: -12s;
-}
-@keyframes orbFloat {
-  0%   { transform: translate3d(0, 0, 0) scale(1); }
-  50%  { transform: translate3d(2%, -3%, 0) scale(1.08); }
-  100% { transform: translate3d(-2%, 2%, 0) scale(0.96); }
+  image-rendering: crisp-edges;
+  image-rendering: pixelated;
 }
 
 /* =========================================================
@@ -547,11 +353,19 @@ body.on-dark .pager__dot .pager__tip { color: var(--bg); }
   display: flex;
   align-items: baseline;
   gap: 0.35rem;
+  padding: 0.2rem 0.75rem 0.25rem;
+  border: 1px dashed var(--line);
+  border-radius: 6px;
+  background: rgba(240, 232, 220, 0.86);
   color: var(--ink);
   font-variant-numeric: tabular-nums;
-  transition: color 0.5s var(--ease);
+  transition: color 0.5s var(--ease), background 0.5s var(--ease), border-color 0.5s var(--ease);
 }
-body.on-dark .counter { color: var(--bg); }
+body.on-dark .counter {
+  color: var(--bg);
+  background: rgba(30, 26, 46, 0.82);
+  border-color: rgba(244, 240, 232, 0.22);
+}
 .counter__cur { font-family: var(--serif); font-size: 1.6rem; font-weight: 400; }
 .counter__sep,
 .counter__total { font-size: 0.85rem; opacity: 0.7; }
@@ -567,27 +381,49 @@ body.on-dark .counter { color: var(--bg); }
 /* ---------- Deck & panels (curtain cover) ---------- */
 .deck { position: relative; z-index: 1; }
 
+/* Panels are a paper veil over the pixel town. The veil thins toward the
+   bottom so the street, its lamps and the townsfolk stay visible. */
 .panel {
+  --veil: 240, 232, 220;
+  --veil-top: 0.9;
+  --veil-mid: 0.72;
+  --veil-low: 0.3;
+  --veil-end: 0.12;
   position: relative;
   min-height: 100vh;
-  background: rgba(240, 232, 220, 0.94);
+  background: linear-gradient(
+    180deg,
+    rgba(var(--veil), var(--veil-top)) 0%,
+    rgba(var(--veil), var(--veil-top)) 72%,
+    rgba(var(--veil), var(--veil-mid)) 80%,
+    rgba(var(--veil), var(--veil-low)) 87%,
+    rgba(var(--veil), var(--veil-end)) 100%
+  );
 }
-.panel:nth-child(even) { background: rgba(230, 221, 208, 0.94); }
-/* Desktop only: frosted glass on panels */
-@media (min-width: 861px) {
-  .panel {
-    background: rgba(240, 232, 220, 0.88);
-    -webkit-backdrop-filter: blur(8px);
-    backdrop-filter: blur(8px);
-  }
-  .panel:nth-child(even) { background: rgba(230, 221, 208, 0.88); }
-}
+.panel:nth-child(even) { --veil: 230, 221, 208; }
 .panel.panel--dark {
-  background: rgba(30, 26, 46, 0.92);
+  --veil: 30, 26, 46;
+  --veil-top: 0.9;
+  --veil-mid: 0.66;
+  --veil-low: 0.34;
+  --veil-end: 0.2;
   background-image:
     radial-gradient(ellipse 70% 60% at 25% 30%, rgba(155, 142, 196, 0.20), transparent 65%),
-    radial-gradient(ellipse 50% 50% at 85% 75%, rgba(201, 123, 132, 0.14), transparent 60%);
+    radial-gradient(ellipse 50% 50% at 85% 75%, rgba(201, 123, 132, 0.14), transparent 60%),
+    linear-gradient(
+      180deg,
+      rgba(var(--veil), var(--veil-top)) 0%,
+      rgba(var(--veil), var(--veil-top)) 72%,
+      rgba(var(--veil), var(--veil-mid)) 80%,
+      rgba(var(--veil), var(--veil-low)) 87%,
+      rgba(var(--veil), var(--veil-end)) 100%
+    );
   color: var(--bg);
+}
+/* Mobile: content scrolls across the street, so keep the veil a bit denser. */
+@media (max-width: 860px) {
+  .panel { --veil-top: 0.94; --veil-mid: 0.78; --veil-low: 0.5; --veil-end: 0.34; }
+  .panel.panel--dark { --veil-top: 0.94; --veil-mid: 0.8; --veil-low: 0.55; --veil-end: 0.4; }
 }
 
 /* Wave canvas backgrounds (21st.dev-inspired) */
@@ -631,6 +467,26 @@ body.on-dark .counter { color: var(--bg); }
   box-shadow: 0 -30px 60px -30px rgba(0, 0, 0, 0.25);
 }
 .is-paged .panel.is-stacked { transform: translateY(100%); box-shadow: none; }
+.is-paged .panel.is-covered { visibility: hidden; }
+/* Long panels scroll internally: fade their content out as it slides down
+   into the street band, and leave room to scroll the last item clear of it. */
+.is-paged .panel--scroll {
+  -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 80%, rgba(0, 0, 0, 0.35) 88%, rgba(0, 0, 0, 0.2) 100%);
+  mask-image: linear-gradient(180deg, #000 0%, #000 80%, rgba(0, 0, 0, 0.35) 88%, rgba(0, 0, 0, 0.2) 100%);
+}
+.is-paged .panel--scroll .panel__inner {
+  padding-bottom: max(calc(clamp(2.5rem, 6vh, 4rem) + var(--status-h)), 24vh);
+}
+/* On phones every panel scrolls, so they all get the fade and the room. */
+@media (max-width: 860px) {
+  .is-paged .panel {
+    -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 80%, rgba(0, 0, 0, 0.35) 88%, rgba(0, 0, 0, 0.2) 100%);
+    mask-image: linear-gradient(180deg, #000 0%, #000 80%, rgba(0, 0, 0, 0.35) 88%, rgba(0, 0, 0, 0.2) 100%);
+  }
+  .is-paged .panel .panel__inner {
+    padding-bottom: max(calc(clamp(2.5rem, 6vh, 4rem) + var(--status-h)), 24vh);
+  }
+}
 .is-paged .panel__inner { min-height: 100%; }
 
 /* ---------- Section heads ---------- */
@@ -866,7 +722,7 @@ body.on-dark .counter { color: var(--bg); }
   text-transform: uppercase;
   white-space: nowrap;
   color: var(--ink);
-  background: rgba(255, 255, 255, 0.3);
+  background: rgba(250, 246, 240, 0.82);
   transition: background 0.4s var(--ease), color 0.4s var(--ease), border-color 0.4s var(--ease), transform 0.25s var(--ease), box-shadow 0.4s var(--ease);
 }
 .btn span { transition: transform 0.4s var(--ease); }
@@ -892,7 +748,8 @@ body.on-dark .counter { color: var(--bg); }
   font-size: 0.65rem;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: var(--ink-soft);
+  color: var(--ink);
+  text-shadow: 0 0 6px rgba(240, 232, 220, 0.95), 0 1px 0 rgba(240, 232, 220, 0.9);
 }
 .hero__scroll-line {
   width: 1px; height: 50px;
@@ -1529,9 +1386,6 @@ body.on-dark .counter { color: var(--bg); }
 
 /* ---------- Responsive ---------- */
 @media (max-width: 860px) {
-  .skyline__clouds,
-  .skyline__rays,
-  .skyline__orb { display: none; }
   .crt-fx__glare { display: none; }
   .crt-fx .grain { display: none; }
   .header__nav { display: none; }
@@ -1584,8 +1438,6 @@ body.on-dark .counter { color: var(--bg); }
   .crt-fx__scanlines,
   .crt-fx__glare,
   .crt-fx__vignette,
-  .skyline__train,
-  .skyline__orb,
   .panel:not(.panel--dark)::after,
   .fx-beam::before,
   .fx-beam__ring,

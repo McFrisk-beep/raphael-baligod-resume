@@ -30,25 +30,9 @@
     </div>
   </div>
 
-  <!-- Sunset skyline background -->
+  <!-- 16-bit pixel town at dusk (drawn by assets/js/pixel-world.js) -->
   <div class="skyline" aria-hidden="true">
-    <div class="skyline__sky"></div>
-    <div class="skyline__sun"></div>
-    <div class="skyline__clouds"></div>
-    <div class="skyline__hills"></div>
-    <div class="skyline__city"></div>
-    <div class="skyline__track"></div>
-    <div class="skyline__train" id="skylineTrain">
-      <span class="train__engine"></span>
-      <span class="train__car"></span>
-      <span class="train__car"></span>
-      <span class="train__car train__car--lit"></span>
-    </div>
-    <div class="skyline__rays"></div>
-    <div class="skyline__glow"></div>
-    <div class="skyline__orb skyline__orb--1" aria-hidden="true"></div>
-    <div class="skyline__orb skyline__orb--2" aria-hidden="true"></div>
-    <div class="skyline__orb skyline__orb--3" aria-hidden="true"></div>
+    <canvas class="skyline__canvas" id="pixelWorld"></canvas>
   </div>
 
   <!-- CRT screen effects only (no TV frame) -->
@@ -458,6 +442,7 @@
   </main>
 
   <script src="assets/js/wave-canvas.js"></script>
+  <script src="assets/js/pixel-world.js"></script>
   <script src="assets/js/main.js"></script>
 </body>
 </html>
