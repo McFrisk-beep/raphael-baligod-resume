@@ -308,8 +308,12 @@
 
     // Curtain rule: panels above the target slide down/out; target & below sit in place.
     // z-index ordering (set in init) keeps later panels covering earlier ones.
+    // Panels fully hidden under the target are made invisible so they don't
+    // ghost through its translucent veil; the one we just left stays visible
+    // until the incoming panel has finished sliding over it.
     panels.forEach((panel, k) => {
       panel.classList.toggle("is-stacked", k > i);
+      panel.classList.toggle("is-covered", k < i && (k !== prev || instant));
       if (k === i) {
         hideReveals(panel);
         showReveals(panel);
@@ -322,6 +326,7 @@
       const left = panels[prev];
       window.setTimeout(() => {
         if (current !== prev) hideReveals(left);
+        if (current > prev) left.classList.add("is-covered");
       }, DURATION);
     }
 
@@ -446,13 +451,10 @@
     }
   }
 
-  /* Stagger the train pass so it feels less predictable. */
-  function initTrain() {
-    if (reduceMotion) return;
-    const train = document.getElementById("skylineTrain");
-    if (!train) return;
-    const offset = Math.floor(Math.random() * 40);
-    train.style.animationDelay = "-" + offset + "s";
+  /* 16-bit pixel town behind the panels (static frame under reduced motion). */
+  function initWorld() {
+    if (!window.PixelWorld) return;
+    window.PixelWorld.init({ reduceMotion: reduceMotion, mobile: isMobile });
   }
 
   /* ---------- Graceful media fallbacks (CSP-safe; no inline handlers) ---------- */
@@ -478,7 +480,7 @@
     initMenu();
     initI18N();
     initMediaFallbacks();
-    initTrain();
+    initWorld();
     initWaves();
     splitHeroTitle();
     initMagnetic();

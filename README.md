@@ -24,6 +24,7 @@ and light**: no frameworks, no build step, no runtime dependencies.
 index.html              # markup + content
 assets/css/styles.css   # warm editorial styling + animations
 assets/js/main.js        # intro, scroll reveal, progress bar, nav, menu
+assets/js/pixel-world.js # 16-bit pixel town background + townsfolk sprites
 ```
 
 ## Run it
