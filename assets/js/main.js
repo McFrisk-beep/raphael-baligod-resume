@@ -1,6 +1,7 @@
 /* =========================================================
    Raphael Baligod — CV site
-   i18n + "agents build the page live" engine · vanilla, no deps
+   i18n (EN / JP) + "which file is open" scroll-spy + agents
+   that build the page live · vanilla, no deps
    ========================================================= */
 (function () {
   "use strict";
@@ -13,19 +14,15 @@
   /* ---------- i18n (EN / JP) ---------- */
   const i18nCache = new Map();
   const JP = {
-    "nav-about": "プロフィール", "nav-exp": "経歴", "nav-skills": "スキル",
-    "nav-games": "ゲーム", "nav-contact": "お問い合わせ", "nav-edu": "学歴", "nav-creds": "資格",
-
-    "hero-loc": "和歌山県・日本", "hero-avail": "お仕事募集中",
+    "hero-loc": "大阪府・日本", "hero-status": "プロジェクト進行中",
     "hero-lead": "NetSuite認定<strong>開発者</strong>、インディー<strong>ゲームプロデューサー</strong>、<strong>マーケティングアナリスト</strong> — カスタム自動化、システム連携、そして心温まるゲームづくりに取り組んでいます。",
-    "hero-btn": "お問い合わせ", "hero-btn2": "経歴を見る",
-    "role-1": "NetSuite開発者", "role-2": "ゲームプロデューサー", "role-3": "マーケティングアナリスト", "scroll": "スクロール",
+    "hero-btn": "お問い合わせ", "hero-btn2": "プロジェクトを見る",
+    "stat-career": "通算経験年数", "stat-clients": "担当クライアント", "stat-years": "NetSuite歴", "stat-jlpt": "日本語能力試験",
 
     "about-title": "これまでの歩み",
     "about-p1": "カスタム自動化、スクリプト開発、Advanced PDFテンプレート、システムの導入・移行を通じて、クライアントの業務効率化を支援するフリーランスのNetSuite開発者。NetSuite API、REST連携、Node.js、MVCアーキテクチャに6年以上携わってきたOracle認定資格保持者です。",
     "about-p2": "JLPT N2を取得しており、英語でも日本語でも要件のやり取りができます。日本語の会話力はまだビジネスレベルには達していませんが、日々上達に努めています。現在は大阪の<em>南海電気鉄道</em>でデジタルマーケティングアナリストとしても勤務しています。",
     "about-p3": "その傍ら、インディーゲームプロデューサーとしても活動しています。<em>Sugardew Island</em>をリリースし、現在は新作を制作中です。",
-    "stat-career": "通算経験年数", "stat-clients": "担当クライアント", "stat-years": "NetSuite歴", "stat-jlpt": "日本語能力試験",
 
     "exp-title": "職務経歴",
     "exp1-date": "2024年2月 — 現在", "exp1-sub": "大阪、日本",
@@ -61,6 +58,8 @@
     "sk-impl": "実装・移行", "sk-data": "データ分析", "sk-cms": "CMS管理",
     "sk-pub": "デジタルパブリッシング", "sk-tour": "観光戦略",
     "sk-eng": "英語（ネイティブ）", "sk-tag": "タガログ語（ネイティブ）",
+    "sk-label-ai": "AI・自動化", "sk-ai-dev": "AI支援開発", "sk-ai-prompt": "プロンプトエンジニアリング",
+    "sk-ai-stt": "音声認識 · ElevenLabs", "sk-ai-mcp": "MCP連携",
 
     "edu-title": "これまでの学び",
     "edu1-degree": "日本語学科 専門課程", "edu1-loc": "和歌山, 日本",
@@ -71,26 +70,81 @@
     "pub-desc": "ライブカメラ映像から肌色を抽出し、隠れマルコフモデルを用いて基本的な手話ジェスチャーをリアルタイムに認識する手法を提案した共著論文。電気通信・電子・コンピュータ工学ジャーナル（JTEC）に掲載。",
     "pub-link": "JTECで読む ↗",
 
+    "proj-title": "現在のプロジェクト",
+    "frisk-kind": "Chrome拡張機能",
+    "frisk-desc": "配信・動画・講義にリアルタイムで翻訳字幕を表示。タブの音声を聞き取るので、字幕のないコンテンツでも使えます — Twitch、YouTube Live、Kick、ニコニコ、Netflixなど、47言語に対応。",
+    "frisk-live": "● 公開中", "frisk-users": "アクティブユーザー", "frisk-rating": "Chrome ウェブストア評価",
+    "frisk-asof": "2026年11月時点", "frisk-cta": "friskription.comを見る",
+
     "games-title": "発売・開発中の作品",
     "sugardew-tag": "2025年発売 · rokaplay", "sugardew-role": "担当：パブリッシャー",
     "sugardew-desc": "動物の世話をし、作物を育て、森の妖精たちに商品を売りながら、眠っていた島に再び活気を取り戻す、ほのぼのとした牧場ショップ・シミュレーション。rokaplayが開発・販売した、名作農業ゲームへの愛情あふれる一作。",
-    "game-steam": "Steamで見る ↗",
+    "game-steam": "Steamで見る ↗", "game-trailer": "トレーラーを見る ↗",
     "otc-status": "開発中", "otc-title": "未公開タイトル", "otc-tag": "開発中・近日公開",
     "otc-role": "担当：エグゼクティブプロデューサー",
     "otc-desc": "現在開発中の新作アクションゲーム。重厚なダークファンタジーの世界が舞台です。詳細はまだ秘密です。続報をお楽しみに！",
 
     "contact-title": "お気軽にご連絡を",
     "contact-sub": "フリーランスのNetSuite案件、海外とのコラボレーション、そして面白いお話、いつでも歓迎しています。",
-    "c-email": "メール", "c-phone": "電話", "footer-loc": "和歌山・日本", "back-top": "トップへ戻る ↑",
+    "f-readme": "はじめに.md", "f-about": "自己紹介.md", "f-exp": "職務経歴.ts", "f-skills": "スキル.json",
+    "f-edu": "学歴.yml", "f-creds": "資格.md", "f-games": "ゲーム.md", "f-contact": "連絡先.sh",
+    "f-projects": "プロジェクト", "f-gamesdir": "ゲーム", "f-explorer": "エクスプローラー",
+
+    "c-email": "メール", "c-phone": "電話", "footer-loc": "大阪・日本", "back-top": "トップへ戻る ↑",
   };
 
-  function applyLang(l) {
-    const jp = l === "jp";
-    i18nCache.forEach((html, el) => {
-      const t = JP[el.getAttribute("data-i18n")];
-      el.innerHTML = jp && t != null ? t : html;
+  let lang = "en";
+  let build = null;    // the live-build engine, once running: { layerFor, retype }
+  let openFile = null; // the section currently in view (scroll-spy)
+  let menu = null;     // phone/tablet menu: { isOpen, close }
+
+  function textFor(el) {
+    const t = JP[el.getAttribute("data-i18n")];
+    return lang === "jp" && t != null ? t : i18nCache.get(el);
+  }
+
+  // Put the current language into every translatable element inside scope (inclusive).
+  function translate(scope) {
+    i18nCache.forEach((_, el) => { if (scope.contains(el)) el.innerHTML = textFor(el); });
+  }
+
+  // Visible text goes to the copy agents to retype; the rest just swaps. Returns the agents' share.
+  function swapOrQueue(els) {
+    const layers = new Set();
+    els.forEach((el) => {
+      const layer = build.layerFor(el);
+      if (layer) layers.add(layer); else el.innerHTML = textFor(el);
     });
+    return layers;
+  }
+
+  // On screen, the copy agents retype the text in the new language; off screen it just swaps.
+  function applyLang(l, animate) {
+    const jp = l === "jp";
+    lang = jp ? "jp" : "en";
     root.lang = jp ? "ja" : "en";
+    const els = Array.from(i18nCache.keys());
+    if (!animate || !build) {
+      els.forEach((el) => { el.innerHTML = textFor(el); });
+    } else if (menu && menu.isOpen()) {
+      // Phone menu open: agents rename the files in the menu, one of them taps ✕,
+      // then they carry on through the page underneath.
+      const inMenu = els.filter((el) => el.closest(".explorer"));
+      const rest = els.filter((el) => !el.closest(".explorer"));
+      build.retype(swapOrQueue(inMenu), () => {
+        build.press(document.getElementById("menuBtn"), () => {
+          menu.close();
+          setTimeout(() => build.retype(swapOrQueue(rest)), 350); // after the slide-out
+        });
+      });
+    } else {
+      build.retype(swapOrQueue(els));
+    }
+    document.querySelectorAll(".file").forEach((f) => {
+      if (!f.dataset.pathEn) f.dataset.pathEn = f.dataset.path;
+      f.dataset.path = jp ? f.dataset.pathJp : f.dataset.pathEn;
+    });
+    if (openFile) document.getElementById("statusPath").textContent = openFile.dataset.path;
     document.querySelectorAll(".lang-toggle button").forEach((b) => {
       b.classList.toggle("is-active", b.dataset.lang === (jp ? "jp" : "en"));
     });
@@ -115,23 +169,59 @@
   function initI18N() {
     document.querySelectorAll("[data-i18n]").forEach((el) => i18nCache.set(el, el.innerHTML));
     document.querySelectorAll(".lang-toggle button").forEach((b) => {
-      b.addEventListener("click", () => applyLang(b.dataset.lang));
+      b.addEventListener("click", () => { if (b.dataset.lang !== lang) applyLang(b.dataset.lang, true); });
     });
     let saved = "en";
     try { saved = localStorage.getItem("rb-lang") || "en"; } catch (e) {}
-    if (saved === "jp") applyLang(saved);
+    if (saved === "jp") applyLang(saved, false);
   }
 
+  /* ---------- Phone/tablet menu: the explorer slides in from the right ---------- */
   function initMenu() {
-    const btn = document.getElementById("menuToggle");
-    const links = document.getElementById("navLinks");
-    const set = (open) => {
-      links.classList.toggle("is-open", open);
+    const btn = document.getElementById("menuBtn");
+    const panel = document.getElementById("explorer");
+    const scrim = document.getElementById("scrim");
+    const isOpen = () => panel.classList.contains("is-open");
+    function set(open, refocus) {
+      panel.classList.toggle("is-open", open);
+      scrim.hidden = !open;
+      root.classList.toggle("menu-open", open);
       btn.setAttribute("aria-expanded", String(open));
-    };
-    btn.addEventListener("click", () => set(!links.classList.contains("is-open")));
-    links.addEventListener("click", () => set(false));
-    document.addEventListener("keydown", (e) => { if (e.key === "Escape") set(false); });
+      btn.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+      if (open) { panel.scrollTop = 0; panel.querySelector("a").focus({ preventScroll: true }); }
+      else if (refocus) btn.focus();
+    }
+    btn.addEventListener("click", () => set(!isOpen()));
+    scrim.addEventListener("click", () => set(false));
+    panel.addEventListener("click", (e) => { if (isOpen() && e.target.closest("a")) set(false); });
+    document.addEventListener("keydown", (e) => { if (e.key === "Escape" && isOpen()) set(false, true); });
+    window.matchMedia("(max-width: 1000px)").addEventListener("change", () => set(false));
+    menu = { isOpen, close: () => set(false) };
+  }
+
+  /* ---------- Scroll-spy: the file in the middle of the screen is the "open" one ---------- */
+  function initSpy() {
+    const tabs = document.getElementById("tabs");
+    const links = document.querySelectorAll(".tabs a, .tree a");
+    const path = document.getElementById("statusPath");
+    function open(file) {
+      links.forEach((a) => {
+        const on = a.getAttribute("href") === "#" + file.id;
+        a.classList.toggle("is-active", on);
+        if (on) a.setAttribute("aria-current", "location"); else a.removeAttribute("aria-current");
+        // Keep the active tab visible when the tab strip overflows (phones).
+        if (on && a.parentElement === tabs &&
+            (a.offsetLeft < tabs.scrollLeft || a.offsetLeft + a.offsetWidth > tabs.scrollLeft + tabs.clientWidth)) {
+          tabs.scrollTo({ left: a.offsetLeft - 16 });
+        }
+      });
+      openFile = file;
+      path.textContent = file.dataset.path;
+    }
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => { if (e.isIntersecting) open(e.target); });
+    }, { rootMargin: "-45% 0px -54% 0px" });
+    document.querySelectorAll(".file").forEach((f) => io.observe(f));
   }
 
   /* ---------- Live build ----------
@@ -140,12 +230,12 @@
      flies over and builds it:
        layout — drags out a selection box, then the container appears
        copy   — streams the text in
-       design — paints visuals in (blur → sharp)
+       design — wipes visuals in
        qa     — stamps a ✓ on each [data-qa] block once everything in it is built
   */
   const ROLES = [
     { id: "layout", name: "Layout", color: "#3d7bff" },
-    { id: "copy",   name: "Copy",   color: "#ffd23f" },
+    { id: "copy",   name: "Copy",   color: "#ffd23f", count: 5 },
     { id: "design", name: "Design", color: "#b07cff" },
     { id: "qa",     name: "QA",     color: "#22c57a" },
   ];
@@ -153,13 +243,18 @@
   const ARROW = '<svg width="16" height="16" viewBox="0 0 16 16"><path d="M1.5 1.5l4.8 12.6 2-5.3 5.3-2z" fill="var(--c)" stroke="#0c0c0d" stroke-width="1.2" stroke-linejoin="round"/></svg>';
 
   function initBuild() {
-    const els = Array.prototype.slice.call(document.querySelectorAll("[data-b]"));
-    const total = els.length;
     const queue = new Set();   // layers waiting for an agent, in arrival order
+    const retyping = new Set(); // built text waiting to be retyped in the other language
+    const batches = [];         // { left: Set, done } — run done() once every layer in left is retyped
+
+    function settle(el) {
+      for (let i = batches.length - 1; i >= 0; i--) {
+        const b = batches[i];
+        if (b.left.delete(el) && !b.left.size) { batches.splice(i, 1); b.done(); }
+      }
+    }
     const qaQueue = [];
     const qaDone = new Set();
-    let built = 0;
-    let gen = 0;               // bumped on skip/replay so in-flight work aborts
 
     const layer = document.createElement("div");
     layer.className = "agents";
@@ -168,7 +263,7 @@
 
     const cursors = [];
     ROLES.forEach((role) => {
-      for (let n = 1; n <= PER_ROLE; n++) {
+      for (let n = 1; n <= (role.count || PER_ROLE); n++) {
         const el = document.createElement("div");
         el.className = "agent";
         el.style.setProperty("--c", role.color);
@@ -178,35 +273,7 @@
       }
     });
 
-    const bar = document.createElement("div");
-    bar.className = "build-bar";
-    bar.innerHTML =
-      '<span class="build-bar__dots" aria-hidden="true">' +
-      ROLES.map((r) => '<i style="--c:' + r.color + '"></i>').join("") + "</span>" +
-      "<span><b></b> <span class=\"build-bar__count\"></span></span>" +
-      '<span class="build-bar__meter" aria-hidden="true"><i></i></span>' +
-      '<button type="button"></button>';
-    document.body.appendChild(bar);
-    const barLead = bar.querySelector("b");
-    const barCount = barLead.nextElementSibling;
-    const barMeter = bar.querySelector(".build-bar__meter i");
-    const barBtn = bar.querySelector("button");
-
-    function status() {
-      const busy = cursors.filter((c) => c.busy).length;
-      const done = built >= total;
-      bar.dataset.state = done ? "done" : busy ? "busy" : "idle";
-      barLead.textContent = done ? "Built live by " + cursors.length + " agents"
-        : busy ? busy + "/" + cursors.length + " agents building"
-        : cursors.length + " agents standing by";
-      barCount.textContent = "· " + built + "/" + total + " layers";
-      barMeter.style.width = (built / total) * 100 + "%";
-      barBtn.textContent = done ? "Replay" : "Skip";
-      barBtn.setAttribute("aria-label", done ? "Replay build animation" : "Skip build animation");
-    }
-
-    // Rejects if the build was skipped/replayed meanwhile, which unwinds the task.
-    const wait = (ms, g) => new Promise((res, rej) => setTimeout(() => (g === gen ? res() : rej()), ms));
+    const wait = (ms) => new Promise((res) => setTimeout(res, ms));
     const rand = (a, b) => a + Math.random() * (b - a);
 
     function docRect(el) {
@@ -214,12 +281,12 @@
       return { x: r.left + window.scrollX, y: r.top + window.scrollY, w: r.width, h: r.height };
     }
 
-    function move(c, x, y, ms, g) {
+    function move(c, x, y, ms) {
       ms = ms || Math.max(260, Math.min(620, Math.hypot(x - c.x, y - c.y) * 0.6));
       c.x = x; c.y = y;
       c.el.style.setProperty("--ms", ms + "ms");
       c.el.style.transform = "translate(" + x + "px," + y + "px)";
-      return wait(ms, g);
+      return wait(ms);
     }
 
     // A resting agent has faded out; bring it back in from a screen edge.
@@ -236,7 +303,7 @@
     }
 
     function rest(c) {
-      move(c, c.x + rand(-40, 40), c.y + rand(24, 64), 900, gen).catch(() => {});
+      move(c, c.x + rand(-40, 40), c.y + rand(24, 64), 900);
       c.timer = setTimeout(() => { c.shown = false; c.el.classList.remove("on"); }, 1300);
     }
 
@@ -254,7 +321,6 @@
       if (el.classList.contains("is-built")) return;
       el.classList.add("is-built");
       io.unobserve(el);
-      built++;
       // Hand any enclosing block to QA once nothing inside it is left unbuilt.
       for (let q = el.closest("[data-qa]"); q; q = q.parentElement.closest("[data-qa]")) {
         if (!qaDone.has(q) && !q.matches("[data-b]:not(.is-built)") && !q.querySelector("[data-b]:not(.is-built)")) {
@@ -262,7 +328,6 @@
           qaQueue.push(q);
         }
       }
-      status();
     }
 
     function split(text, byChar) {
@@ -303,51 +368,62 @@
 
     function inView(el) {
       const r = el.getBoundingClientRect();
-      return r.bottom > 0 && r.top < window.innerHeight;
+      return r.width > 0 && r.bottom > 0 && r.top < window.innerHeight && r.right > 0 && r.left < window.innerWidth;
     }
 
-    async function work(c, el, g) {
+    async function work(c, el) {
       const kind = c.role.id;
+      const re = el.isRetype;
       if (kind === "qa" && !inView(el)) return;
       const r = docRect(el);
       wake(c);
 
       if (kind === "layout") {
-        await move(c, r.x, r.y, 0, g);
+        await move(c, r.x, r.y, 0);
         const box = addBox(r, c.role, el, true);
         void box.offsetWidth;
         box.style.width = r.w + "px";
         box.style.height = r.h + "px";
-        await move(c, r.x + r.w, r.y + r.h, 420, g);
+        await move(c, r.x + r.w, r.y + r.h, 420);
         finish(el);
-        await wait(240, g);
+        await wait(240);
         box.remove();
       } else if (kind === "copy") {
         // Display type (.rise) comes up through a mask word by word; body text streams.
         const rise = el.classList.contains("rise");
-        await move(c, r.x - 2, r.y + Math.min(r.h, 40) / 2, 0, g);
+        await move(c, r.x - 2, r.y + Math.min(r.h, 40) / 2, 0);
         const box = addBox(r, c.role, el);
+        if (re) {
+          el.isRetype = false;
+          if (el.closest(".chrome, .explorer")) { // a file name: select it, then type over it
+            box.dataset.label = "rename";
+            el.classList.add("renaming");
+            await wait(320);
+            el.classList.remove("renaming");
+          }
+          translate(el);
+        }
         const units = wrapUnits(el, rise);
-        finish(el);
-        const step = rise ? 90 : Math.max(7, Math.min(42, 620 / units.length));
-        move(c, r.x + r.w + 4, r.y + r.h - 6, Math.max(300, units.length * step), g).catch(() => {});
+        if (!re) finish(el);
+        const step = rise ? 90 : Math.max(5, Math.min(42, 620 / units.length));
+        move(c, r.x + r.w + 4, r.y + r.h - 6, Math.max(300, units.length * step));
         for (let i = 0; i < units.length; i++) {
           if (i) units[i - 1].classList.remove("cur");
           units[i].classList.add("on", "cur");
-          await wait(step, g);
+          await wait(step);
         }
-        await wait(rise ? 750 : 120, g); // let the last word land before unwrapping
+        await wait(rise ? 750 : 120); // let the last word land before unwrapping
         unwrapUnits(el);
         box.remove();
       } else if (kind === "design") {
-        await move(c, r.x + r.w * rand(0.4, 0.8), r.y + r.h * rand(0.4, 0.8), 0, g);
+        await move(c, r.x + r.w * rand(0.4, 0.8), r.y + r.h * rand(0.4, 0.8), 0);
         const box = addBox(r, c.role, el);
-        await wait(140, g);
+        await wait(140);
         finish(el);
-        await wait(460, g);
+        await wait(460);
         box.remove();
       } else {
-        await move(c, r.x + r.w - 6, r.y + 2, 0, g);
+        await move(c, r.x + r.w - 6, r.y + 2, 0);
         const s = document.createElement("div");
         s.className = "stamp";
         s.textContent = "✓ QA pass";
@@ -355,12 +431,17 @@
         s.style.top = r.y + "px";
         s.addEventListener("animationend", () => s.remove());
         layer.appendChild(s);
-        await wait(420, g);
+        await wait(420);
       }
     }
 
     function take(role) {
       if (role === "qa") return qaQueue.shift();
+      if (role === "copy" && retyping.size) {
+        const el = retyping.values().next().value;
+        retyping.delete(el);
+        return el;
+      }
       for (const el of queue) {
         // Containers first: a layer waits until whatever encloses it is built.
         if (el.dataset.b === role && !el.parentElement.closest("[data-b]:not(.is-built)")) {
@@ -378,22 +459,23 @@
         if (r.bottom < 0) { queue.delete(el); finish(el); }
         else if (r.top > window.innerHeight) { queue.delete(el); io.unobserve(el); io.observe(el); }
       });
+      retyping.forEach((el) => {
+        if (!inView(el)) { retyping.delete(el); el.isRetype = false; translate(el); settle(el); }
+      });
       cursors.forEach((c) => {
         if (c.busy) return;
         const el = take(c.role.id);
         if (!el) return;
-        const g = gen;
         c.busy = true;
-        work(c, el, g)
-          .catch(() => { if (g === gen) finish(el); })
+        work(c, el)
+          .catch(() => { if (el.isRetype) translate(el); finish(el); unwrapUnits(el); })
           .then(() => {
-            if (g !== gen) return;
             c.busy = false;
+            settle(el);
             pump();
             if (!c.busy) rest(c);
           });
       });
-      status();
     }
 
     const io = new IntersectionObserver((entries) => {
@@ -403,44 +485,43 @@
       pump();
     }, { rootMargin: "0px 0px -6% 0px" });
 
-    // Stop everything in flight and clear the stage.
-    function reset() {
-      gen++;
-      queue.clear();
-      qaQueue.length = 0;
-      layer.querySelectorAll(".sel, .stamp").forEach((n) => n.remove());
-      unwrapUnits(document.body);
-      cursors.forEach((c) => {
-        clearTimeout(c.timer);
-        c.busy = c.shown = false;
-        c.el.classList.remove("on");
-      });
-    }
-
-    function skip() {
-      reset();
-      io.disconnect();
-      els.forEach((el) => el.classList.add("is-built"));
-      built = total;
-      status();
-    }
-
-    function replay() {
-      reset();
-      io.disconnect();
-      qaDone.clear();
-      els.forEach((el) => el.classList.remove("is-built"));
-      built = 0;
-      window.scrollTo({ top: 0, behavior: "instant" });
-      els.forEach((el) => io.observe(el));
-      status();
-    }
-
-    barBtn.addEventListener("click", () => (built >= total ? replay() : skip()));
-    status();
+    build = {
+      // The block an agent should retype for this element, or null to swap it instantly
+      // (off screen, or not built yet: it will stream in later anyway).
+      layerFor(el) {
+        const layer = el.closest('[data-b="copy"]') || el;
+        if (layer.matches("[data-b]:not(.is-built)") || layer.parentElement.closest("[data-b]:not(.is-built)")) return null;
+        return inView(layer) ? layer : null;
+      },
+      retype(layers, done) {
+        if (done) {
+          if (layers.size) batches.push({ left: new Set(layers), done });
+          else setTimeout(done, 0);
+        }
+        layers.forEach((el) => { el.isRetype = true; retyping.add(el); });
+        pump();
+      },
+      // A free agent flies to a control and taps it, then fn runs.
+      press(target, fn) {
+        const c = cursors.find((x) => !x.busy && x.role.id === "copy") || cursors.find((x) => !x.busy);
+        if (!c) { fn(); return; }
+        c.busy = true;
+        wake(c);
+        const r = docRect(target);
+        move(c, r.x + r.w / 2, r.y + r.h / 2)
+          .then(() => { target.classList.add("is-pressed"); return wait(200); })
+          .then(() => {
+            target.classList.remove("is-pressed");
+            fn();
+            c.busy = false;
+            pump();
+            if (!c.busy) rest(c);
+          });
+      },
+    };
 
     // Measure after webfonts settle so selection boxes match the final layout.
-    const start = () => els.forEach((el) => io.observe(el));
+    const start = () => document.querySelectorAll("[data-b]").forEach((el) => io.observe(el));
     const fonts = document.fonts && document.fonts.ready;
     if (fonts) Promise.race([fonts, new Promise((r) => setTimeout(r, 1200))]).then(start);
     else start();
@@ -451,9 +532,7 @@
     setTenure(); // before initI18N, which snapshots the English text
     initI18N();
     initMenu();
-    // Trailer embed: if it can't load, drop it so the poster image shows.
-    const trailer = document.getElementById("trailer");
-    if (trailer) trailer.addEventListener("error", () => trailer.remove());
+    initSpy();
     if (!reduceMotion) {
       try { initBuild(); }
       catch (e) { root.classList.remove("build"); } // never leave the CV hidden
