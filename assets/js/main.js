@@ -96,6 +96,7 @@
   let lang = "en";
   let build = null;    // the live-build engine, once running: { layerFor, retype }
   let openFile = null; // the section currently in view (scroll-spy)
+  let menu = null;     // phone/tablet menu: { isOpen, close }
 
   function textFor(el) {
     const t = JP[el.getAttribute("data-i18n")];
@@ -107,22 +108,43 @@
     i18nCache.forEach((_, el) => { if (scope.contains(el)) el.innerHTML = textFor(el); });
   }
 
+  // Visible text goes to the copy agents to retype; the rest just swaps. Returns the agents' share.
+  function swapOrQueue(els) {
+    const layers = new Set();
+    els.forEach((el) => {
+      const layer = build.layerFor(el);
+      if (layer) layers.add(layer); else el.innerHTML = textFor(el);
+    });
+    return layers;
+  }
+
   // On screen, the copy agents retype the text in the new language; off screen it just swaps.
   function applyLang(l, animate) {
     const jp = l === "jp";
     lang = jp ? "jp" : "en";
-    const layers = new Set();
-    i18nCache.forEach((_, el) => {
-      const layer = animate && build && build.layerFor(el);
-      if (layer) layers.add(layer); else el.innerHTML = textFor(el);
-    });
     root.lang = jp ? "ja" : "en";
+    const els = Array.from(i18nCache.keys());
+    if (!animate || !build) {
+      els.forEach((el) => { el.innerHTML = textFor(el); });
+    } else if (menu && menu.isOpen()) {
+      // Phone menu open: agents rename the files in the menu, one of them taps ✕,
+      // then they carry on through the page underneath.
+      const inMenu = els.filter((el) => el.closest(".explorer"));
+      const rest = els.filter((el) => !el.closest(".explorer"));
+      build.retype(swapOrQueue(inMenu), () => {
+        build.press(document.getElementById("menuBtn"), () => {
+          menu.close();
+          setTimeout(() => build.retype(swapOrQueue(rest)), 350); // after the slide-out
+        });
+      });
+    } else {
+      build.retype(swapOrQueue(els));
+    }
     document.querySelectorAll(".file").forEach((f) => {
       if (!f.dataset.pathEn) f.dataset.pathEn = f.dataset.path;
       f.dataset.path = jp ? f.dataset.pathJp : f.dataset.pathEn;
     });
     if (openFile) document.getElementById("statusPath").textContent = openFile.dataset.path;
-    if (layers.size) build.retype(layers);
     document.querySelectorAll(".lang-toggle button").forEach((b) => {
       b.classList.toggle("is-active", b.dataset.lang === (jp ? "jp" : "en"));
     });
@@ -174,6 +196,7 @@
     panel.addEventListener("click", (e) => { if (isOpen() && e.target.closest("a")) set(false); });
     document.addEventListener("keydown", (e) => { if (e.key === "Escape" && isOpen()) set(false, true); });
     window.matchMedia("(max-width: 1000px)").addEventListener("change", () => set(false));
+    menu = { isOpen, close: () => set(false) };
   }
 
   /* ---------- Scroll-spy: the file in the middle of the screen is the "open" one ---------- */
@@ -222,6 +245,14 @@
   function initBuild() {
     const queue = new Set();   // layers waiting for an agent, in arrival order
     const retyping = new Set(); // built text waiting to be retyped in the other language
+    const batches = [];         // { left: Set, done } — run done() once every layer in left is retyped
+
+    function settle(el) {
+      for (let i = batches.length - 1; i >= 0; i--) {
+        const b = batches[i];
+        if (b.left.delete(el) && !b.left.size) { batches.splice(i, 1); b.done(); }
+      }
+    }
     const qaQueue = [];
     const qaDone = new Set();
 
@@ -429,7 +460,7 @@
         else if (r.top > window.innerHeight) { queue.delete(el); io.unobserve(el); io.observe(el); }
       });
       retyping.forEach((el) => {
-        if (!inView(el)) { retyping.delete(el); el.isRetype = false; translate(el); }
+        if (!inView(el)) { retyping.delete(el); el.isRetype = false; translate(el); settle(el); }
       });
       cursors.forEach((c) => {
         if (c.busy) return;
@@ -440,6 +471,7 @@
           .catch(() => { if (el.isRetype) translate(el); finish(el); unwrapUnits(el); })
           .then(() => {
             c.busy = false;
+            settle(el);
             pump();
             if (!c.busy) rest(c);
           });
@@ -461,9 +493,30 @@
         if (layer.matches("[data-b]:not(.is-built)") || layer.parentElement.closest("[data-b]:not(.is-built)")) return null;
         return inView(layer) ? layer : null;
       },
-      retype(layers) {
+      retype(layers, done) {
+        if (done) {
+          if (layers.size) batches.push({ left: new Set(layers), done });
+          else setTimeout(done, 0);
+        }
         layers.forEach((el) => { el.isRetype = true; retyping.add(el); });
         pump();
+      },
+      // A free agent flies to a control and taps it, then fn runs.
+      press(target, fn) {
+        const c = cursors.find((x) => !x.busy && x.role.id === "copy") || cursors.find((x) => !x.busy);
+        if (!c) { fn(); return; }
+        c.busy = true;
+        wake(c);
+        const r = docRect(target);
+        move(c, r.x + r.w / 2, r.y + r.h / 2)
+          .then(() => { target.classList.add("is-pressed"); return wait(200); })
+          .then(() => {
+            target.classList.remove("is-pressed");
+            fn();
+            c.busy = false;
+            pump();
+            if (!c.busy) rest(c);
+          });
       },
     };
 
