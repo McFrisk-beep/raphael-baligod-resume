@@ -7,7 +7,7 @@
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; form-action 'self'; object-src 'none'; img-src 'self' data: https://cdn.cloudflare.steamstatic.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; script-src 'self'; frame-src https://www.youtube-nocookie.com; connect-src 'self'; upgrade-insecure-requests" />
   <meta name="referrer" content="strict-origin-when-cross-origin" />
   <meta name="color-scheme" content="dark" />
-  <meta name="theme-color" content="#0c0c0d" />
+  <meta name="theme-color" content="#15161a" />
   <title>Raphael Baligod — NetSuite Developer &amp; Game Producer</title>
   <meta name="description" content="Raphael Baligod — Oracle Certified NetSuite Developer with 6+ years of experience in customization, implementation, and integrations. Game producer based in Wakayama, Japan." />
   <meta name="author" content="Raphael Baligod" />
@@ -18,293 +18,279 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,500;0,700;0,800;1,400&display=swap" rel="stylesheet" />
 
   <link rel="stylesheet" href="assets/css/styles.css" />
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23ff4a1c'/%3E%3Ctext x='50' y='67' font-family='Arial,sans-serif' font-weight='700' font-size='46' fill='%230c0c0d' text-anchor='middle'%3ERB%3C/text%3E%3C/svg%3E" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='14' fill='%2315161a'/%3E%3Ctext x='50' y='66' font-family='monospace' font-weight='700' font-size='44' fill='%23ff4a1c' text-anchor='middle'%3E%7BR%7D%3C/text%3E%3C/svg%3E" />
   <!-- In <head> on purpose: it hides the unbuilt layers before first paint. -->
   <script src="assets/js/main.js"></script>
 </head>
 <body>
-  <header class="nav" id="nav">
-    <a href="#home" class="nav__brand"><span class="nav__mark" aria-hidden="true"></span><span>Raphael Baligod</span></a>
-    <nav class="nav__links" id="navLinks" aria-label="Sections">
-      <a href="#about" data-i18n="nav-about">About</a>
-      <a href="#work" data-i18n="nav-exp">Experience</a>
-      <a href="#skills" data-i18n="nav-skills">Skills</a>
-      <a href="#education" data-i18n="nav-edu">Education</a>
-      <a href="#credentials" data-i18n="nav-creds">Credentials</a>
-      <a href="#games" data-i18n="nav-games">Games</a>
-      <a href="#contact" data-i18n="nav-contact">Contact</a>
-    </nav>
-    <div class="lang-toggle" role="group" aria-label="Language">
-      <button type="button" data-lang="en" class="is-active">EN</button>
-      <button type="button" data-lang="jp">日本語</button>
+  <!-- Window chrome: title bar + open-file tabs. The tabs are the site navigation. -->
+  <header class="chrome">
+    <div class="titlebar">
+      <span class="dots" aria-hidden="true"><i></i><i></i><i></i></span>
+      <a href="#readme" class="titlebar__name">raphael-baligod <span>— ~/cv</span></a>
+      <a href="#contact" class="btn btn--hot titlebar__cta"><span data-i18n="hero-btn">Get in touch</span></a>
     </div>
-    <a href="#contact" class="btn btn--hot nav__cta"><span data-i18n="hero-btn">Get in touch</span></a>
-    <button class="nav__menu" id="menuToggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="navLinks">
-      <span></span><span></span>
-    </button>
+    <nav class="tabs" id="tabs" aria-label="Sections">
+      <a href="#readme" class="f-md">README.md</a>
+      <a href="#about" class="f-md">about.md</a>
+      <a href="#work" class="f-ts">experience.ts</a>
+      <a href="#skills" class="f-json">skills.json</a>
+      <a href="#education" class="f-yml">education.yml</a>
+      <a href="#credentials" class="f-md">credentials.md</a>
+      <a href="#projects" class="f-tsx">friskription.tsx</a>
+      <a href="#games" class="f-md">games.md</a>
+      <a href="#contact" class="f-sh">contact.sh</a>
+    </nav>
   </header>
 
-  <main>
-    <!-- Hero -->
-    <section class="hero" id="home">
-      <div class="wrap">
-        <div class="hero__meta">
-          <p class="tagline" data-b="copy"><span class="blink" aria-hidden="true"></span>[ <span data-i18n="hero-avail">Available for Work</span> ]</p>
-          <p class="tagline" data-b="copy"><span data-i18n="hero-loc">Wakayama, Japan</span> · NetSuite · Games · Data</p>
-        </div>
-        <!-- Decorative: the lead paragraph states the same three roles -->
-        <p class="hero__roles" data-b="design" aria-hidden="true">
-          <span class="cyc" data-i18n="role-1">NetSuite Developer</span>
-          <span class="cyc" data-i18n="role-2">Game Producer</span>
-          <span class="cyc" data-i18n="role-3">Marketing Analyst</span>
+  <div class="ide">
+    <!-- Explorer: the same links as a file tree (desktop only) -->
+    <aside class="explorer" aria-label="Files">
+      <p class="explorer__head">Explorer</p>
+      <p class="explorer__root">▾ raphael-baligod</p>
+      <ul class="tree" id="tree">
+        <li><a href="#readme" class="f-md">README.md</a></li>
+        <li><a href="#about" class="f-md">about.md</a></li>
+        <li><a href="#work" class="f-ts">experience.ts</a></li>
+        <li><a href="#skills" class="f-json">skills.json</a></li>
+        <li><a href="#education" class="f-yml">education.yml</a></li>
+        <li><a href="#credentials" class="f-md">credentials.md</a></li>
+        <li><span class="dir">▾ projects</span>
+          <ul><li><a href="#projects" class="f-tsx">friskription.tsx</a></li></ul>
+        </li>
+        <li><span class="dir">▾ games</span>
+          <ul><li><a href="#games" class="f-md">games.md</a></li></ul>
+        </li>
+        <li><a href="#contact" class="f-sh">contact.sh</a></li>
+      </ul>
+    </aside>
+
+    <main class="editor">
+      <!-- README.md · Hero -->
+      <section data-qa class="file" id="readme" data-path="README.md">
+        <p class="l c" data-b="copy">&lt;!-- <span data-i18n="hero-loc">Wakayama, Japan</span> · NetSuite · Games · Data --&gt;</p>
+        <h1 class="l h1 rise" data-b="copy"><span class="md" aria-hidden="true"># </span>Raphael Baligod<span class="caret" aria-hidden="true"></span></h1>
+        <p class="l blank"></p>
+        <p class="l lead" data-b="copy" data-i18n="hero-lead">Certified <strong>NetSuite Developer</strong>, indie <strong>Game Producer</strong> &amp; <strong>Marketing Analyst</strong> — building custom automation, integrations, and cozy games.</p>
+        <p class="l blank"></p>
+        <p class="l" data-b="copy"><span class="ok-dot" aria-hidden="true"></span><span class="s-plain" data-i18n="hero-avail">Available for Work</span></p>
+        <p class="l blank"></p>
+        <dl class="l stats" data-b="copy">
+          <div><dd>10+</dd><dt data-i18n="stat-career">Years Overall Career</dt></div>
+          <div><dd>30+</dd><dt data-i18n="stat-clients">Clients Served</dt></div>
+          <div><dd>6+</dd><dt data-i18n="stat-years">Years in NetSuite</dt></div>
+          <div><dd>N2</dd><dt data-i18n="stat-jlpt">Japanese JLPT</dt></div>
+        </dl>
+        <p class="l blank"></p>
+        <p class="l cta">
+          <a href="#contact" class="btn btn--hot" data-b="design"><span data-i18n="hero-btn">Get in touch</span> <span aria-hidden="true">↗</span></a>
+          <a href="#projects" class="btn" data-b="design"><span data-i18n="hero-btn2">See projects</span></a>
         </p>
-        <div class="hero__stage">
-          <h1 class="hero__title">
-            <span class="rise" data-b="copy">Raphael</span>
-            <span class="hl" data-b="design"><span class="rise" data-b="copy">Baligod.</span></span>
-          </h1>
-          <figure class="hero__photo" data-b="layout" data-qa>
-            <img data-b="design" src="assets/img/portrait.jpg" alt="Raphael Baligod" width="900" height="1200" />
-            <figcaption class="tagline" data-b="copy">Fig. 01 / Raphael Baligod</figcaption>
-          </figure>
-        </div>
-        <div class="hero__foot">
-          <div>
-            <p class="hero__lead" data-b="copy" data-i18n="hero-lead">Certified <strong>NetSuite Developer</strong>, indie <strong>Game Producer</strong> &amp; <strong>Marketing Analyst</strong> — building custom automation, integrations, and cozy games.</p>
-            <div class="hero__cta">
-              <a href="#contact" class="btn btn--hot" data-b="design"><span data-i18n="hero-btn">Get in touch</span> <span aria-hidden="true">↗</span></a>
-              <a href="#work" class="btn" data-b="design"><span data-i18n="hero-btn2">See experience</span></a>
-            </div>
-          </div>
-          <dl class="stats">
-            <div class="stat" data-b="layout"><dd data-b="copy">10+</dd><dt data-b="copy" data-i18n="stat-career">Years Overall Career</dt></div>
-            <div class="stat" data-b="layout"><dd data-b="copy">30+</dd><dt data-b="copy" data-i18n="stat-clients">Clients Served</dt></div>
-            <div class="stat" data-b="layout"><dd data-b="copy">6+</dd><dt data-b="copy" data-i18n="stat-years">Years in NetSuite</dt></div>
-            <div class="stat" data-b="layout"><dd data-b="copy">N2</dd><dt data-b="copy" data-i18n="stat-jlpt">Japanese JLPT</dt></div>
-          </dl>
-        </div>
-      </div>
-    </section>
+        <figure class="readme__portrait" data-b="design">
+          <img src="assets/img/portrait.jpg" alt="Raphael Baligod" width="900" height="1200" />
+        </figure>
+      </section>
 
-    <!-- Crossing bands (decorative: everything in them is listed further down) -->
-    <div class="bands" data-b="design" aria-hidden="true">
-      <div class="band band1"><div class="mq"><span>SuiteScript 2.x ✦ SuiteCommerce Advanced ✦ REST &amp; SOAP ✦ TypeScript ✦ Node.js ✦ Game Production ✦ Data Analysis ✦ 日本語 N2 ✦ </span><span>SuiteScript 2.x ✦ SuiteCommerce Advanced ✦ REST &amp; SOAP ✦ TypeScript ✦ Node.js ✦ Game Production ✦ Data Analysis ✦ 日本語 N2 ✦ </span></div></div>
-      <div class="band band2"><div class="mq"><span>Oracle NetSuite ✦ Kodella ✦ Atticus Advisory Solutions ✦ BA Software Inc ✦ 南海電気鉄道 ✦ Sugardew Island ✦ Wakayama, Japan ✦ Oracle NetSuite ✦ Kodella ✦ Atticus Advisory Solutions ✦ BA Software Inc ✦ 南海電気鉄道 ✦ Sugardew Island ✦ Wakayama, Japan ✦ </span><span>Oracle NetSuite ✦ Kodella ✦ Atticus Advisory Solutions ✦ BA Software Inc ✦ 南海電気鉄道 ✦ Sugardew Island ✦ Wakayama, Japan ✦ Oracle NetSuite ✦ Kodella ✦ Atticus Advisory Solutions ✦ BA Software Inc ✦ 南海電気鉄道 ✦ Sugardew Island ✦ Wakayama, Japan ✦ </span></div></div>
-    </div>
+      <!-- about.md -->
+      <section data-qa class="file" id="about" data-path="about.md">
+        <h2 class="l h2 rise" data-b="copy"><span class="md" aria-hidden="true">## </span><span data-i18n="about-title">The Story So Far</span></h2>
+        <p class="l blank"></p>
+        <p class="l prose prose--big" data-b="copy" data-i18n="about-p1">Freelance NetSuite Developer helping clients streamline processes through custom automation, scripting, Advanced PDF templates, and implementation migrations — Oracle Certified, with 6+ years across the NetSuite API, REST integrations, Node.js, and MVC architecture.</p>
+        <p class="l blank"></p>
+        <p class="l prose" data-b="copy" data-i18n="about-p2">JLPT N2 certified — comfortable discussing requirements in both English and Japanese. My spoken Japanese isn't quite at business level yet, but I'm steadily improving it every day. Currently also working as a Digital Marketing Analyst at <em>南海電気鉄道</em> (Nankai Electric Railway) in Osaka.</p>
+        <p class="l blank"></p>
+        <p class="l prose" data-b="copy" data-i18n="about-p3">On the side, an indie game producer. I published <em>Sugardew Island</em> and am currently building something new.</p>
+      </section>
 
-    <!-- 01 · About -->
-    <section class="sec t-dark" id="about">
-      <div class="wrap">
-        <header class="sec__head">
-          <p class="tagline" data-b="copy">[ 01 ] <span data-i18n="nav-about">About</span></p>
-          <h2 class="rise" data-b="copy" data-i18n="about-title">The Story So Far</h2>
-        </header>
-        <div class="sec__body about">
-          <p class="about__lead" data-b="copy" data-i18n="about-p1">Freelance NetSuite Developer helping clients streamline processes through custom automation, scripting, Advanced PDF templates, and implementation migrations — Oracle Certified, with 6+ years across the NetSuite API, REST integrations, Node.js, and MVC architecture.</p>
-          <div class="about__cols">
-            <p data-b="copy" data-i18n="about-p2">JLPT N2 certified — comfortable discussing requirements in both English and Japanese. My spoken Japanese isn't quite at business level yet, but I'm steadily improving it every day. Currently also working as a Digital Marketing Analyst at <em>南海電気鉄道</em> (Nankai Electric Railway) in Osaka.</p>
-            <p data-b="copy" data-i18n="about-p3">On the side, an indie game producer. I published <em>Sugardew Island</em> and am currently building something new.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- 02 · Experience -->
-    <section class="sec t-paper" id="work">
-      <div class="wrap">
-        <header class="sec__head">
-          <p class="tagline" data-b="copy">[ 02 ] <span data-i18n="nav-exp">Experience</span></p>
-          <h2 class="rise" data-b="copy" data-i18n="exp-title">Work History</h2>
-        </header>
-        <ol class="sec__body jobs">
-          <li class="job" data-b="layout" data-qa>
-            <p class="job__when" data-b="copy"><span data-i18n="exp1-date">Feb 2024 — Present</span><span data-i18n="exp1-sub">Osaka, Japan</span></p>
-            <div class="job__id" data-b="copy">
-              <h3>南海電気鉄道株式会社</h3>
-              <p data-i18n="exp1-role">Digital Marketing Analyst · Nankai Electric Railway</p>
-            </div>
-            <ul class="job__points" data-b="copy">
-              <li data-i18n="exp1-b1">Analyze tourist data to identify trends and forecast demand.</li>
-              <li data-i18n="exp1-b2">Manage and maintain the CMS, ensuring seamless content updates.</li>
-              <li data-i18n="exp1-b3">Partner with tourism associations and prefectural governments.</li>
-              <li data-i18n="exp1-b4">Collaborate with OTAs to design and promote tour packages.</li>
+      <!-- experience.ts -->
+      <section data-qa class="file" id="work" data-path="experience.ts">
+        <h2 class="l c" data-b="copy">// <span data-i18n="exp-title">Work History</span></h2>
+        <p class="l blank"></p>
+        <ol class="jobs">
+          <li class="job" data-b="copy">
+            <p class="l c">// <span data-i18n="exp1-date">Feb 2024 — Present</span> · <span data-i18n="exp1-sub">Osaka, Japan</span></p>
+            <p class="l"><span class="k">export const</span> <span class="v">nankai</span> = {</p>
+            <h3 class="l i1"><span class="p">company</span>: <span class="s">南海電気鉄道株式会社</span>,</h3>
+            <p class="l i1"><span class="p">role</span>: <span class="s" data-i18n="exp1-role">Digital Marketing Analyst · Nankai Electric Railway</span>,</p>
+            <p class="l i1"><span class="p">did</span>: [</p>
+            <ul>
+              <li class="l i2"><span class="s" data-i18n="exp1-b1">Analyze tourist data to identify trends and forecast demand.</span>,</li>
+              <li class="l i2"><span class="s" data-i18n="exp1-b2">Manage and maintain the CMS, ensuring seamless content updates.</span>,</li>
+              <li class="l i2"><span class="s" data-i18n="exp1-b3">Partner with tourism associations and prefectural governments.</span>,</li>
+              <li class="l i2"><span class="s" data-i18n="exp1-b4">Collaborate with OTAs to design and promote tour packages.</span>,</li>
             </ul>
+            <p class="l i1">],</p>
+            <p class="l">};</p>
+            <p class="l blank"></p>
           </li>
 
-          <li class="job" data-b="layout" data-qa>
-            <p class="job__when" data-b="copy"><span data-i18n="exp2-date">May 2022 — Oct 2024</span><span data-i18n="exp2-sub">2 yrs 6 mos · Remote</span></p>
-            <div class="job__id" data-b="copy">
-              <h3>BA Software Inc</h3>
-              <p data-i18n="exp2-role">Freelance NetSuite Developer</p>
-            </div>
-            <ul class="job__points" data-b="copy">
-              <li data-i18n="exp2-b1">Client automation, script optimization, and Advanced PDF customizations.</li>
-              <li data-i18n="exp2-b2">Sandbox-to-Production migrations with post-deployment support.</li>
-              <li data-i18n="exp2-b3">8 clients with successful implementations.</li>
+          <li class="job" data-b="copy">
+            <p class="l c">// <span data-i18n="exp2-date">May 2022 — Oct 2024</span> · <span data-i18n="exp2-sub">2 yrs 6 mos · Remote</span></p>
+            <p class="l"><span class="k">export const</span> <span class="v">baSoftware</span> = {</p>
+            <h3 class="l i1"><span class="p">company</span>: <span class="s">BA Software Inc</span>,</h3>
+            <p class="l i1"><span class="p">role</span>: <span class="s" data-i18n="exp2-role">Freelance NetSuite Developer</span>,</p>
+            <p class="l i1"><span class="p">did</span>: [</p>
+            <ul>
+              <li class="l i2"><span class="s" data-i18n="exp2-b1">Client automation, script optimization, and Advanced PDF customizations.</span>,</li>
+              <li class="l i2"><span class="s" data-i18n="exp2-b2">Sandbox-to-Production migrations with post-deployment support.</span>,</li>
+              <li class="l i2"><span class="s" data-i18n="exp2-b3">8 clients with successful implementations.</span>,</li>
             </ul>
+            <p class="l i1">],</p>
+            <p class="l">};</p>
+            <p class="l blank"></p>
           </li>
 
-          <li class="job" data-b="layout" data-qa>
-            <p class="job__when" data-b="copy"><span data-i18n="exp3-date">Jul 2021 — Mar 2022</span><span data-i18n="exp3-sub">9 mos · Metro Manila, PH</span></p>
-            <div class="job__id" data-b="copy">
-              <h3>Atticus Advisory Solutions</h3>
-              <p data-i18n="exp3-role">Senior NetSuite Developer</p>
-            </div>
-            <ul class="job__points" data-b="copy">
-              <li data-i18n="exp3-b1">POS system integrations with Shopify, WooCommerce, and Magento.</li>
-              <li data-i18n="exp3-b2">Azure Database maintenance for Zoku POS ↔ NetSuite sync.</li>
-              <li data-i18n="exp3-b3">TypeScript development on the ZOKU POS environment.</li>
+          <li class="job" data-b="copy">
+            <p class="l c">// <span data-i18n="exp3-date">Jul 2021 — Mar 2022</span> · <span data-i18n="exp3-sub">9 mos · Metro Manila, PH</span></p>
+            <p class="l"><span class="k">export const</span> <span class="v">atticus</span> = {</p>
+            <h3 class="l i1"><span class="p">company</span>: <span class="s">Atticus Advisory Solutions</span>,</h3>
+            <p class="l i1"><span class="p">role</span>: <span class="s" data-i18n="exp3-role">Senior NetSuite Developer</span>,</p>
+            <p class="l i1"><span class="p">did</span>: [</p>
+            <ul>
+              <li class="l i2"><span class="s" data-i18n="exp3-b1">POS system integrations with Shopify, WooCommerce, and Magento.</span>,</li>
+              <li class="l i2"><span class="s" data-i18n="exp3-b2">Azure Database maintenance for Zoku POS ↔ NetSuite sync.</span>,</li>
+              <li class="l i2"><span class="s" data-i18n="exp3-b3">TypeScript development on the ZOKU POS environment.</span>,</li>
             </ul>
+            <p class="l i1">],</p>
+            <p class="l">};</p>
+            <p class="l blank"></p>
           </li>
 
-          <li class="job" data-b="layout" data-qa>
-            <p class="job__when" data-b="copy"><span data-i18n="exp4-date">Aug 2019 — Jul 2021</span><span data-i18n="exp4-sub">2 yrs · Metro Manila, PH</span></p>
-            <div class="job__id" data-b="copy">
-              <h3>Kodella</h3>
-              <p data-i18n="exp4-role">NetSuite Developer</p>
-            </div>
-            <ul class="job__points" data-b="copy">
-              <li data-i18n="exp4-b1">Designed and deployed 4 SuiteCommerce Advanced (SCA) webstores.</li>
-              <li data-i18n="exp4-b2">Architected a configurable installment payment processing system from scratch.</li>
-              <li data-i18n="exp4-b3">Custom modules reducing dev time ~40% on future projects.</li>
+          <li class="job" data-b="copy">
+            <p class="l c">// <span data-i18n="exp4-date">Aug 2019 — Jul 2021</span> · <span data-i18n="exp4-sub">2 yrs · Metro Manila, PH</span></p>
+            <p class="l"><span class="k">export const</span> <span class="v">kodella</span> = {</p>
+            <h3 class="l i1"><span class="p">company</span>: <span class="s">Kodella</span>,</h3>
+            <p class="l i1"><span class="p">role</span>: <span class="s" data-i18n="exp4-role">NetSuite Developer</span>,</p>
+            <p class="l i1"><span class="p">did</span>: [</p>
+            <ul>
+              <li class="l i2"><span class="s" data-i18n="exp4-b1">Designed and deployed 4 SuiteCommerce Advanced (SCA) webstores.</span>,</li>
+              <li class="l i2"><span class="s" data-i18n="exp4-b2">Architected a configurable installment payment processing system from scratch.</span>,</li>
+              <li class="l i2"><span class="s" data-i18n="exp4-b3">Custom modules reducing dev time ~40% on future projects.</span>,</li>
             </ul>
+            <p class="l i1">],</p>
+            <p class="l">};</p>
+            <p class="l blank"></p>
           </li>
 
-          <li class="job" data-b="layout" data-qa>
-            <p class="job__when" data-b="copy"><span data-i18n="exp5-date">Sep 2015 — Aug 2019</span><span data-i18n="exp5-sub">4 yrs · Manila, PH</span></p>
-            <div class="job__id" data-b="copy">
-              <h3>Oracle NetSuite</h3>
-              <p data-i18n="exp5-role">Programming Support → Sr. TSE → Service Delivery Consultant</p>
-            </div>
-            <ul class="job__points" data-b="copy">
-              <li data-i18n="exp5-b1">24/7 technical support with crisis management; 90%+ client retention rate.</li>
-              <li data-i18n="exp5-b2">Trained and mentored 4 programming support engineers.</li>
-              <li data-i18n="exp5-b3">30+ technical help articles for the NetSuite SCIS Retail System.</li>
-              <li data-i18n="exp5-b4">Reduced lead time 30%+ through continuous delivery initiatives.</li>
+          <li class="job" data-b="copy">
+            <p class="l c">// <span data-i18n="exp5-date">Sep 2015 — Aug 2019</span> · <span data-i18n="exp5-sub">4 yrs · Manila, PH</span></p>
+            <p class="l"><span class="k">export const</span> <span class="v">oracleNetSuite</span> = {</p>
+            <h3 class="l i1"><span class="p">company</span>: <span class="s">Oracle NetSuite</span>,</h3>
+            <p class="l i1"><span class="p">role</span>: <span class="s" data-i18n="exp5-role">Programming Support → Sr. TSE → Service Delivery Consultant</span>,</p>
+            <p class="l i1"><span class="p">did</span>: [</p>
+            <ul>
+              <li class="l i2"><span class="s" data-i18n="exp5-b1">24/7 technical support with crisis management; 90%+ client retention rate.</span>,</li>
+              <li class="l i2"><span class="s" data-i18n="exp5-b2">Trained and mentored 4 programming support engineers.</span>,</li>
+              <li class="l i2"><span class="s" data-i18n="exp5-b3">30+ technical help articles for the NetSuite SCIS Retail System.</span>,</li>
+              <li class="l i2"><span class="s" data-i18n="exp5-b4">Reduced lead time 30%+ through continuous delivery initiatives.</span>,</li>
             </ul>
+            <p class="l i1">],</p>
+            <p class="l">};</p>
           </li>
         </ol>
-      </div>
-    </section>
+      </section>
 
-    <!-- 03 · Skills -->
-    <section class="sec t-dark" id="skills">
-      <div class="wrap">
-        <header class="sec__head">
-          <p class="tagline" data-b="copy">[ 03 ] <span data-i18n="nav-skills">Skills</span></p>
-          <h2 class="rise" data-b="copy" data-i18n="skills-title">Tech &amp; Tools</h2>
-        </header>
-        <div class="sec__body grid-4">
-          <div class="panel skill" data-b="layout" data-qa>
-            <h3 data-b="copy" data-i18n="sk-label-1">NetSuite</h3>
-            <div class="tags" data-b="design">
-              <span class="tag">SuiteScript 2.x</span>
-              <span class="tag">SuiteFlow</span>
-              <span class="tag">SuiteCommerce Advanced</span>
-              <span class="tag">Advanced PDF Templates</span>
-              <span class="tag">REST &amp; SOAP APIs</span>
-              <span class="tag">SuiteAnalytics</span>
-              <span class="tag" data-i18n="sk-impl">Implementation &amp; Migration</span>
-            </div>
-          </div>
-          <div class="panel skill" data-b="layout" data-qa>
-            <h3 data-b="copy" data-i18n="sk-label-2">Development</h3>
-            <div class="tags" data-b="design">
-              <span class="tag">JavaScript</span>
-              <span class="tag">TypeScript</span>
-              <span class="tag">Node.js</span>
-              <span class="tag">HTML / CSS</span>
-              <span class="tag">SQL</span>
-              <span class="tag">Azure Database</span>
-              <span class="tag">MVC Architecture</span>
-            </div>
-          </div>
-          <div class="panel skill" data-b="layout" data-qa>
-            <h3 data-b="copy" data-i18n="sk-label-3">Marketing &amp; Data</h3>
-            <div class="tags" data-b="design">
-              <span class="tag" data-i18n="sk-data">Data Analysis</span>
-              <span class="tag" data-i18n="sk-cms">CMS Management</span>
-              <span class="tag" data-i18n="sk-pub">Digital Publishing</span>
-              <span class="tag" data-i18n="sk-tour">Tourism Strategy</span>
-            </div>
-          </div>
-          <div class="panel skill" data-b="layout" data-qa>
-            <h3 data-b="copy" data-i18n="sk-label-4">Languages</h3>
-            <div class="tags" data-b="design">
-              <span class="tag" data-i18n="sk-eng">English (Native)</span>
-              <span class="tag" data-i18n="sk-tag">Tagalog (Native)</span>
-              <span class="tag">日本語 JLPT N2</span>
-            </div>
-          </div>
+      <!-- skills.json -->
+      <section data-qa class="file" id="skills" data-path="skills.json">
+        <h2 class="l c" data-b="copy">// <span data-i18n="skills-title">Tech &amp; Tools</span></h2>
+        <p class="l" data-b="copy">{</p>
+        <div class="l i1 skill" data-b="copy">
+          <h3 class="p">"<span data-i18n="sk-label-1">NetSuite</span>"</h3>: [<span class="tags"><span class="s">SuiteScript 2.x</span>, <span class="s">SuiteFlow</span>, <span class="s">SuiteCommerce Advanced</span>, <span class="s">Advanced PDF Templates</span>, <span class="s">REST &amp; SOAP APIs</span>, <span class="s">SuiteAnalytics</span>, <span class="s" data-i18n="sk-impl">Implementation &amp; Migration</span></span>],
         </div>
-      </div>
-    </section>
-
-    <!-- 04 · Education -->
-    <section class="sec t-paper" id="education">
-      <div class="wrap">
-        <header class="sec__head">
-          <p class="tagline" data-b="copy">[ 04 ] <span data-i18n="nav-edu">Education</span></p>
-          <h2 class="rise" data-b="copy" data-i18n="edu-title">Academic Background</h2>
-        </header>
-        <div class="sec__body grid-2">
-          <div class="panel edu" data-b="layout" data-qa>
-            <span class="tagline" data-b="copy">2022 – 2024</span>
-            <div data-b="copy">
-              <h3>和歌山グローバルビジネスカレッジ</h3>
-              <p data-i18n="edu1-degree">Technical Degree in Japanese Language</p>
-              <p class="edu__loc" data-i18n="edu1-loc">Wakayama, Japan</p>
-            </div>
-          </div>
-          <div class="panel edu" data-b="layout" data-qa>
-            <span class="tagline" data-b="copy">2011 – 2015</span>
-            <div data-b="copy">
-              <h3>Mapúa Malayan Colleges Laguna</h3>
-              <p data-i18n="edu2-degree">BS Computer Science — Game Development</p>
-              <p class="edu__loc" data-i18n="edu2-loc">Laguna, Philippines</p>
-            </div>
-          </div>
+        <div class="l i1 skill" data-b="copy">
+          <h3 class="p">"<span data-i18n="sk-label-2">Development</span>"</h3>: [<span class="tags"><span class="s">JavaScript</span>, <span class="s">TypeScript</span>, <span class="s">Node.js</span>, <span class="s">HTML / CSS</span>, <span class="s">SQL</span>, <span class="s">Azure Database</span>, <span class="s">MVC Architecture</span></span>],
         </div>
-      </div>
-    </section>
+        <div class="l i1 skill" data-b="copy">
+          <h3 class="p">"<span data-i18n="sk-label-3">Marketing &amp; Data</span>"</h3>: [<span class="tags"><span class="s" data-i18n="sk-data">Data Analysis</span>, <span class="s" data-i18n="sk-cms">CMS Management</span>, <span class="s" data-i18n="sk-pub">Digital Publishing</span>, <span class="s" data-i18n="sk-tour">Tourism Strategy</span></span>],
+        </div>
+        <div class="l i1 skill" data-b="copy">
+          <h3 class="p">"<span data-i18n="sk-label-4">Languages</span>"</h3>: [<span class="tags"><span class="s" data-i18n="sk-eng">English (Native)</span>, <span class="s" data-i18n="sk-tag">Tagalog (Native)</span>, <span class="s">日本語 JLPT N2</span></span>]
+        </div>
+        <p class="l" data-b="copy">}</p>
+      </section>
 
-    <!-- 05 · Credentials -->
-    <section class="sec t-dark" id="credentials">
-      <div class="wrap">
-        <header class="sec__head">
-          <p class="tagline" data-b="copy">[ 05 ] <span data-i18n="nav-creds">Credentials</span></p>
-          <h2 class="rise" data-b="copy" data-i18n="certs-title">Certs, Awards &amp; More</h2>
-        </header>
-        <div class="sec__body creds">
-          <ol class="panel certs" data-b="layout" data-qa>
-            <li data-b="copy">Oracle NetSuite Certified SuiteCloud Developer II</li>
-            <li data-b="copy">Oracle NetSuite SuiteFoundation</li>
-            <li data-b="copy">JLPT N2 — 日本語能力試験</li>
-            <li data-b="copy" data-i18n="cert-cg">Foundations of Computer Graphics</li>
-            <li data-b="copy" data-i18n="cert-jq">Learn jQuery Course</li>
-          </ol>
-          <a class="panel pub" data-b="layout" data-qa href="https://jtec.utem.edu.my/jtec/article/view/2344" target="_blank" rel="noopener noreferrer">
-            <p class="tagline" data-b="copy" data-i18n="pub-label">Published Research</p>
+      <!-- education.yml -->
+      <section data-qa class="file" id="education" data-path="education.yml">
+        <h2 class="l c" data-b="copy"># <span data-i18n="edu-title">Academic Background</span></h2>
+        <div class="edu" data-b="copy">
+          <h3 class="l"><span class="pn">- </span><span class="p">school</span>: <span class="y">和歌山グローバルビジネスカレッジ</span></h3>
+          <p class="l i1"><span class="p">degree</span>: <span class="y" data-i18n="edu1-degree">Technical Degree in Japanese Language</span></p>
+          <p class="l i1"><span class="p">where</span>: <span class="y" data-i18n="edu1-loc">Wakayama, Japan</span></p>
+          <p class="l i1"><span class="p">years</span>: <span class="n">2022 – 2024</span></p>
+        </div>
+        <div class="edu" data-b="copy">
+          <h3 class="l"><span class="pn">- </span><span class="p">school</span>: <span class="y">Mapúa Malayan Colleges Laguna</span></h3>
+          <p class="l i1"><span class="p">degree</span>: <span class="y" data-i18n="edu2-degree">BS Computer Science — Game Development</span></p>
+          <p class="l i1"><span class="p">where</span>: <span class="y" data-i18n="edu2-loc">Laguna, Philippines</span></p>
+          <p class="l i1"><span class="p">years</span>: <span class="n">2011 – 2015</span></p>
+        </div>
+      </section>
+
+      <!-- credentials.md -->
+      <section data-qa class="file" id="credentials" data-path="credentials.md">
+        <h2 class="l h2 rise" data-b="copy"><span class="md" aria-hidden="true">## </span><span data-i18n="certs-title">Certs, Awards &amp; More</span></h2>
+        <p class="l blank"></p>
+        <ol class="certs" data-b="copy">
+          <li class="l">Oracle NetSuite Certified SuiteCloud Developer II</li>
+          <li class="l">Oracle NetSuite SuiteFoundation</li>
+          <li class="l">JLPT N2 — 日本語能力試験</li>
+          <li class="l" data-i18n="cert-cg">Foundations of Computer Graphics</li>
+          <li class="l" data-i18n="cert-jq">Learn jQuery Course</li>
+        </ol>
+        <p class="l blank"></p>
+        <p class="l md-h3" data-b="copy"><span class="md" aria-hidden="true">### </span><span data-i18n="pub-label">Published Research</span></p>
+        <div class="l">
+          <a class="card pub" data-b="layout" href="https://jtec.utem.edu.my/jtec/article/view/2344" target="_blank" rel="noopener noreferrer">
             <h3 data-b="copy">Skin-Tone Segmentation in Real-Time Vision of Basic Hand Signs Using a Hidden Markov Model</h3>
-            <p class="pub__desc" data-b="copy" data-i18n="pub-desc">A co-authored paper on recognising basic hand signs in real time by isolating skin tones from a live camera feed and classifying gestures with a Hidden Markov Model. Published in the Journal of Telecommunication, Electronic and Computer Engineering (JTEC).</p>
+            <p data-b="copy" data-i18n="pub-desc">A co-authored paper on recognising basic hand signs in real time by isolating skin tones from a live camera feed and classifying gestures with a Hidden Markov Model. Published in the Journal of Telecommunication, Electronic and Computer Engineering (JTEC).</p>
             <span class="link" data-b="design" data-i18n="pub-link">Read on JTEC ↗</span>
           </a>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <!-- 06 · Games -->
-    <section class="sec t-paper" id="games">
-      <div class="wrap">
-        <header class="sec__head">
-          <p class="tagline" data-b="copy">[ 06 ] <span data-i18n="nav-games">Games</span></p>
-          <h2 class="rise" data-b="copy" data-i18n="games-title">Published &amp; In Development</h2>
-        </header>
-        <div class="sec__body grid-2">
-          <article class="panel game" data-b="layout" data-qa>
+      <!-- projects/friskription.tsx: source on the left, live preview on the right -->
+      <section data-qa class="file" id="projects" data-path="projects/friskription.tsx">
+        <h2 class="l c" data-b="copy">// <span data-i18n="proj-title">Current Projects</span></h2>
+        <div class="split">
+          <div class="split__src" data-b="copy">
+            <p class="l"><span class="k">export default function</span> <span class="v">Friskription</span>() {</p>
+            <p class="l i1"><span class="k">return</span> {</p>
+            <h3 class="l i2"><span class="p">name</span>: <span class="s">Friskription</span>,</h3>
+            <p class="l i2"><span class="p">kind</span>: <span class="s" data-i18n="frisk-kind">Chrome extension</span>,</p>
+            <p class="l i2"><span class="p">does</span>: <span class="s" data-i18n="frisk-desc">Live translated subtitles for streams, videos and lectures — it listens to the tab's audio, so it works even where there are no captions.</span>,</p>
+            <p class="l i2"><span class="p">worksOn</span>: [<span class="s">Twitch</span>, <span class="s">YouTube Live</span>, <span class="s">Kick</span>, <span class="s">niconico</span>, <span class="s">Netflix</span>],</p>
+            <p class="l i2"><span class="p">languages</span>: <span class="n">47</span>,</p>
+            <p class="l i2"><span class="p">exports</span>: [<span class="s">TXT</span>, <span class="s">SRT</span>, <span class="s">VTT</span>],</p>
+            <p class="l i1">};</p>
+            <p class="l">}</p>
+          </div>
+
+          <article class="preview" data-b="layout" data-qa>
+            <p class="preview__bar"><span class="dots" aria-hidden="true"><i></i><i></i><i></i></span><span>friskription.com</span><span class="live" data-i18n="frisk-live">● Live</span></p>
+            <video class="preview__media" data-b="design" src="assets/media/friskription.mp4" poster="assets/media/friskription.jpg"
+              autoplay muted loop playsinline preload="metadata" width="960" height="600"
+              aria-label="Screen recording of friskription.com"></video>
+            <div class="preview__body">
+              <dl class="kpis" data-b="copy">
+                <div><dd>500+</dd><dt data-i18n="frisk-users">Active users</dt></div>
+                <div><dd><span class="stars" style="--r:4.2" aria-hidden="true">★★★★★</span> 4.2</dd><dt data-i18n="frisk-rating">Chrome Web Store rating</dt></div>
+              </dl>
+              <p class="asof" data-b="copy" data-i18n="frisk-asof">as of November 2026</p>
+              <a class="btn btn--hot" data-b="design" href="https://friskription.com/" target="_blank" rel="noopener noreferrer"><span data-i18n="frisk-cta">Visit friskription.com</span> <span aria-hidden="true">↗</span></a>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- games.md -->
+      <section data-qa class="file" id="games" data-path="games/games.md">
+        <h2 class="l h2 rise" data-b="copy"><span class="md" aria-hidden="true">## </span><span data-i18n="games-title">Published &amp; In Development</span></h2>
+        <p class="l blank"></p>
+        <div class="l games">
+          <article class="card game" data-b="layout" data-qa>
             <div class="game__media" data-b="design">
               <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/2711030/header.jpg" alt="Sugardew Island" loading="lazy" />
               <iframe id="trailer"
@@ -313,60 +299,61 @@
                 allow="autoplay; encrypted-media" referrerpolicy="strict-origin-when-cross-origin"
                 allowfullscreen></iframe>
             </div>
-            <div class="game__body">
-              <div data-b="copy">
-                <h3>Sugardew Island</h3>
-                <p class="tagline" data-i18n="sugardew-role">Role · Publisher</p>
-              </div>
-              <span class="pill pill--out" data-b="design" data-i18n="sugardew-tag">Released 2025 · rokaplay</span>
-              <p class="game__desc" data-b="copy" data-i18n="sugardew-desc">A cozy farm-shop simulation where you tend animals, grow crops, and sell goods to the forest folk while bringing a sleepy island back to life. A heartfelt love letter to classic farming games.</p>
-              <a class="link" data-b="design" href="https://store.steampowered.com/app/2711030/" target="_blank" rel="noopener noreferrer" data-i18n="game-steam">View on Steam ↗</a>
+            <div class="game__body" data-b="copy">
+              <h3>Sugardew Island</h3>
+              <p class="meta" data-i18n="sugardew-role">Role · Publisher</p>
+              <span class="pill pill--on" data-i18n="sugardew-tag">Released 2025 · rokaplay</span>
+              <p data-i18n="sugardew-desc">A cozy farm-shop simulation where you tend animals, grow crops, and sell goods to the forest folk while bringing a sleepy island back to life. A heartfelt love letter to classic farming games.</p>
+              <a class="link" href="https://store.steampowered.com/app/2711030/" target="_blank" rel="noopener noreferrer" data-i18n="game-steam">View on Steam ↗</a>
             </div>
           </article>
 
-          <article class="panel game" data-b="layout" data-qa>
+          <article class="card game" data-b="layout" data-qa>
             <div class="game__media game__media--dev" data-b="design" aria-hidden="true">
-              <span class="tagline" data-i18n="otc-status">Currently in Development</span>
+              <span data-i18n="otc-status">Currently in Development</span>
             </div>
-            <div class="game__body">
-              <div data-b="copy">
-                <h3 data-i18n="otc-title">Undisclosed Title</h3>
-                <p class="tagline" data-i18n="otc-role">Role · Executive Producer</p>
-              </div>
-              <span class="pill" data-b="design" data-i18n="otc-tag">In Development · Coming Soon</span>
-              <p class="game__desc" data-b="copy" data-i18n="otc-desc">A new action title currently in development, set in a moody, dark-fantasy world. Details are still under wraps — more to share soon.</p>
+            <div class="game__body" data-b="copy">
+              <h3 data-i18n="otc-title">Undisclosed Title</h3>
+              <p class="meta" data-i18n="otc-role">Role · Executive Producer</p>
+              <span class="pill" data-i18n="otc-tag">In Development · Coming Soon</span>
+              <p data-i18n="otc-desc">A new action title currently in development, set in a moody, dark-fantasy world. Details are still under wraps — more to share soon.</p>
             </div>
           </article>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <!-- 07 · Contact -->
-    <section class="sec sec--contact t-hot" id="contact">
-      <div class="wrap">
-        <p class="tagline" data-b="copy">[ 07 ] <span data-i18n="nav-contact">Contact</span></p>
-        <h2 class="contact__title rise" data-b="copy" data-i18n="contact-title">Let's Connect</h2>
-        <p class="contact__lead" data-b="copy" data-i18n="contact-sub">Open to freelance NetSuite projects, international collaborations, and interesting conversations.</p>
-        <div class="contact__links" data-qa>
-          <a class="contact__link" data-b="layout" href="mailto:raphael.baligod@yahoo.com">
-            <span class="tagline" data-b="copy" data-i18n="c-email">Email</span>
-            <span class="contact__value" data-b="copy">raphael.baligod@yahoo.com</span>
-          </a>
-          <a class="contact__link" data-b="layout" href="https://linkedin.com/in/raphaelbaligod" target="_blank" rel="noopener noreferrer">
-            <span class="tagline" data-b="copy">LinkedIn</span>
-            <span class="contact__value" data-b="copy">in/raphaelbaligod</span>
-          </a>
-          <a class="contact__link" data-b="layout" href="tel:+818023690349">
-            <span class="tagline" data-b="copy" data-i18n="c-phone">Phone</span>
-            <span class="contact__value" data-b="copy">080-2369-0349</span>
-          </a>
-        </div>
+      <!-- contact.sh: a terminal -->
+      <section data-qa class="file file--term" id="contact" data-path="contact.sh">
+        <p class="l" data-b="copy"><span class="prompt">raphael@wakayama</span>:<span class="v">~/cv</span>$ ./contact.sh</p>
+        <h2 class="l term__title rise" data-b="copy" data-i18n="contact-title">Let's Connect</h2>
+        <p class="l prose" data-b="copy" data-i18n="contact-sub">Open to freelance NetSuite projects, international collaborations, and interesting conversations.</p>
+        <p class="l blank"></p>
+        <ul class="term__links" data-b="copy">
+          <li class="l"><a href="mailto:raphael.baligod@yahoo.com"><span class="p" data-i18n="c-email">Email</span><span class="term__val">raphael.baligod@yahoo.com</span></a></li>
+          <li class="l"><a href="https://linkedin.com/in/raphaelbaligod" target="_blank" rel="noopener noreferrer"><span class="p">LinkedIn</span><span class="term__val">in/raphaelbaligod</span></a></li>
+          <li class="l"><a href="tel:+818023690349"><span class="p" data-i18n="c-phone">Phone</span><span class="term__val">080-2369-0349</span></a></li>
+        </ul>
+        <p class="l blank"></p>
+        <p class="l"><span class="prompt">raphael@wakayama</span>:<span class="v">~/cv</span>$ <span class="caret" aria-hidden="true"></span></p>
         <footer class="foot">
           <span>Raphael Baligod · <span id="year"></span> · <span data-i18n="footer-loc">Wakayama, Japan</span></span>
-          <a href="#home" data-i18n="back-top">Back to top ↑</a>
+          <a href="#readme" data-i18n="back-top">Back to top ↑</a>
         </footer>
-      </div>
-    </section>
-  </main>
+      </section>
+    </main>
+  </div>
+
+  <footer class="status">
+    <span class="status__item status__branch">⎇ main</span>
+    <span class="status__item"><span class="ok-dot" aria-hidden="true"></span><span data-i18n="hero-avail">Available for Work</span></span>
+    <span class="status__item status__path" id="statusPath">README.md</span>
+    <span class="status__spacer"></span>
+    <span class="status__item status__hide-sm" data-i18n="footer-loc">Wakayama, Japan</span>
+    <span class="status__item status__hide-sm">UTF-8</span>
+    <div class="lang-toggle" role="group" aria-label="Language">
+      <button type="button" data-lang="en" class="is-active">EN</button>
+      <button type="button" data-lang="jp">日本語</button>
+    </div>
+  </footer>
 </body>
 </html>
