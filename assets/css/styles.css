@@ -331,6 +331,7 @@ html.build [data-b="design"]:not(.is-built) { clip-path: inset(0 100% 0 0); }
   .explorer {
     position: fixed; top: var(--chrome-h); right: 0; bottom: calc(var(--status-h) + env(safe-area-inset-bottom)); z-index: 45;
     width: min(20rem, 85vw); height: auto;
+    align-self: stretch; /* fill between title bar and status bar (desktop uses start) */
     border-left: 1px solid var(--line); border-right: 0;
     font-size: 0.9375rem;
     transform: translateX(100%); visibility: hidden;
@@ -339,6 +340,7 @@ html.build [data-b="design"]:not(.is-built) { clip-path: inset(0 100% 0 0); }
   .explorer.is-open { transform: none; visibility: visible; transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
   .tree a { min-height: 2.75rem; padding-block: 0; } /* thumb-sized targets */
   .tree .dir { min-height: 2rem; padding-block: 0; }
+  .explorer__head, .explorer__root { display: none; }
   .explorer__foot { display: grid; gap: 0.75rem; margin-top: auto; padding: 1rem; }
   .explorer__foot .lang-toggle { height: 2.75rem; border: 1px solid var(--line); }
   .explorer__foot .lang-toggle button { flex: 1; }
