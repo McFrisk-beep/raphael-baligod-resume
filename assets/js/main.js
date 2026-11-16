@@ -86,11 +86,16 @@
 
     "contact-title": "お気軽にご連絡を",
     "contact-sub": "フリーランスのNetSuite案件、海外とのコラボレーション、そして面白いお話、いつでも歓迎しています。",
+    "f-readme": "はじめに.md", "f-about": "自己紹介.md", "f-exp": "職務経歴.ts", "f-skills": "スキル.json",
+    "f-edu": "学歴.yml", "f-creds": "資格.md", "f-games": "ゲーム.md", "f-contact": "連絡先.sh",
+    "f-projects": "プロジェクト", "f-gamesdir": "ゲーム", "f-explorer": "エクスプローラー",
+
     "c-email": "メール", "c-phone": "電話", "footer-loc": "大阪・日本", "back-top": "トップへ戻る ↑",
   };
 
   let lang = "en";
-  let build = null; // the live-build engine, once running: { layerFor, retype }
+  let build = null;    // the live-build engine, once running: { layerFor, retype }
+  let openFile = null; // the section currently in view (scroll-spy)
 
   function textFor(el) {
     const t = JP[el.getAttribute("data-i18n")];
@@ -112,6 +117,11 @@
       if (layer) layers.add(layer); else el.innerHTML = textFor(el);
     });
     root.lang = jp ? "ja" : "en";
+    document.querySelectorAll(".file").forEach((f) => {
+      if (!f.dataset.pathEn) f.dataset.pathEn = f.dataset.path;
+      f.dataset.path = jp ? f.dataset.pathJp : f.dataset.pathEn;
+    });
+    if (openFile) document.getElementById("statusPath").textContent = openFile.dataset.path;
     if (layers.size) build.retype(layers);
     document.querySelectorAll(".lang-toggle button").forEach((b) => {
       b.classList.toggle("is-active", b.dataset.lang === (jp ? "jp" : "en"));
@@ -182,6 +192,7 @@
           tabs.scrollTo({ left: a.offsetLeft - 16 });
         }
       });
+      openFile = file;
       path.textContent = file.dataset.path;
     }
     const io = new IntersectionObserver((entries) => {
@@ -201,7 +212,7 @@
   */
   const ROLES = [
     { id: "layout", name: "Layout", color: "#3d7bff" },
-    { id: "copy",   name: "Copy",   color: "#ffd23f" },
+    { id: "copy",   name: "Copy",   color: "#ffd23f", count: 5 },
     { id: "design", name: "Design", color: "#b07cff" },
     { id: "qa",     name: "QA",     color: "#22c57a" },
   ];
@@ -221,7 +232,7 @@
 
     const cursors = [];
     ROLES.forEach((role) => {
-      for (let n = 1; n <= PER_ROLE; n++) {
+      for (let n = 1; n <= (role.count || PER_ROLE); n++) {
         const el = document.createElement("div");
         el.className = "agent";
         el.style.setProperty("--c", role.color);
@@ -351,7 +362,16 @@
         const rise = el.classList.contains("rise");
         await move(c, r.x - 2, r.y + Math.min(r.h, 40) / 2, 0);
         const box = addBox(r, c.role, el);
-        if (re) { el.isRetype = false; translate(el); }
+        if (re) {
+          el.isRetype = false;
+          if (el.closest(".chrome, .explorer")) { // a file name: select it, then type over it
+            box.dataset.label = "rename";
+            el.classList.add("renaming");
+            await wait(320);
+            el.classList.remove("renaming");
+          }
+          translate(el);
+        }
         const units = wrapUnits(el, rise);
         if (!re) finish(el);
         const step = rise ? 90 : Math.max(5, Math.min(42, 620 / units.length));

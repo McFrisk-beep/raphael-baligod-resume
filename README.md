@@ -15,11 +15,14 @@ Plain HTML, CSS and vanilla JS: no framework, no build step, no dependencies.
 - **Current projects.** `projects/friskription.tsx` shows the source next to a
   live preview: a looping screen recording of
   [friskription.com](https://friskription.com/), user count, rating and a link.
-- **Builds itself in front of you.** Twelve "agent" cursors (three each of
-  Layout, Copy, Design and QA) fill in each file as it scrolls into view.
+- **Builds itself in front of you.** Fourteen "agent" cursors (Layout, Copy,
+  Design and QA; five of them Copy) fill in each file as it scrolls into view.
 - **Hover only where it does something.** Links, buttons and the clickable
   cards react to the mouse; static content doesn't.
-- **English / 日本語** toggle in the status bar, remembered between visits.
+- **English / 日本語** toggle in the status bar (or the ☰ menu on phones), remembered
+  between visits. On screen, the agents retype the text and rename the files in
+  the tabs and explorer; everything else switches instantly.
+- **No hotlinked images.** Logos, badges, flags and game art all live in `assets/img/`.
 - **Degrades safely.** With `prefers-reduced-motion`, or if the script fails to
   load, the whole CV is simply visible. Prints as a plain page.
 
@@ -30,6 +33,10 @@ index.html                     markup + content (English)
 assets/css/styles.css          theme, layout, build animation
 assets/js/main.js              Japanese strings, language toggle, scroll-spy, build engine
 assets/media/friskription.*    Friskription screen recording (MP4) + poster
+assets/img/logos/              employer marks (from each company's own site)
+assets/img/icons/              skill badges: Simple Icons (CC0), Lucide (ISC), Devicon/Lobe (MIT)
+assets/img/flags/              flag-icons (MIT)
+assets/img/games/              Sugardew Island key art
 _headers                       security headers for Cloudflare Pages
 ```
 

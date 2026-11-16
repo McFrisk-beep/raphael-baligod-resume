@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <!-- Security: restrict where resources may load/execute from -->
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; form-action 'self'; object-src 'none'; img-src 'self' data: https://cdn.cloudflare.steamstatic.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; script-src 'self'; frame-src https://www.youtube-nocookie.com; connect-src 'self'; upgrade-insecure-requests" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; form-action 'self'; object-src 'none'; img-src 'self' data:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; script-src 'self'; frame-src https://www.youtube-nocookie.com; connect-src 'self'; upgrade-insecure-requests" />
   <meta name="referrer" content="strict-origin-when-cross-origin" />
   <meta name="color-scheme" content="dark" />
   <meta name="theme-color" content="#15161a" />
@@ -39,37 +39,37 @@
       </button>
     </div>
     <nav class="tabs" id="tabs" aria-label="Sections">
-      <a href="#readme" class="f-md">README.md</a>
-      <a href="#about" class="f-md">about.md</a>
-      <a href="#work" class="f-ts">experience.ts</a>
-      <a href="#skills" class="f-json">skills.json</a>
-      <a href="#education" class="f-yml">education.yml</a>
-      <a href="#credentials" class="f-md">credentials.md</a>
+      <a href="#readme" class="f-md"><span data-i18n="f-readme">README.md</span></a>
+      <a href="#about" class="f-md"><span data-i18n="f-about">about.md</span></a>
+      <a href="#work" class="f-ts"><span data-i18n="f-exp">experience.ts</span></a>
+      <a href="#skills" class="f-json"><span data-i18n="f-skills">skills.json</span></a>
+      <a href="#education" class="f-yml"><span data-i18n="f-edu">education.yml</span></a>
+      <a href="#credentials" class="f-md"><span data-i18n="f-creds">credentials.md</span></a>
       <a href="#projects" class="f-tsx">friskription.tsx</a>
-      <a href="#games" class="f-md">games.md</a>
-      <a href="#contact" class="f-sh">contact.sh</a>
+      <a href="#games" class="f-md"><span data-i18n="f-games">games.md</span></a>
+      <a href="#contact" class="f-sh"><span data-i18n="f-contact">contact.sh</span></a>
     </nav>
   </header>
 
   <div class="ide">
     <!-- Explorer: the same links as a file tree. Sidebar on desktop, slide-in menu on phones. -->
     <aside class="explorer" id="explorer" aria-label="Files">
-      <p class="explorer__head">Explorer</p>
+      <p class="explorer__head" data-i18n="f-explorer">Explorer</p>
       <p class="explorer__root">▾ raphael-baligod</p>
       <ul class="tree">
-        <li><a href="#readme" class="f-md">README.md</a></li>
-        <li><a href="#about" class="f-md">about.md</a></li>
-        <li><a href="#work" class="f-ts">experience.ts</a></li>
-        <li><a href="#skills" class="f-json">skills.json</a></li>
-        <li><a href="#education" class="f-yml">education.yml</a></li>
-        <li><a href="#credentials" class="f-md">credentials.md</a></li>
-        <li><span class="dir">▾ projects</span>
+        <li><a href="#readme" class="f-md"><span data-i18n="f-readme">README.md</span></a></li>
+        <li><a href="#about" class="f-md"><span data-i18n="f-about">about.md</span></a></li>
+        <li><a href="#work" class="f-ts"><span data-i18n="f-exp">experience.ts</span></a></li>
+        <li><a href="#skills" class="f-json"><span data-i18n="f-skills">skills.json</span></a></li>
+        <li><a href="#education" class="f-yml"><span data-i18n="f-edu">education.yml</span></a></li>
+        <li><a href="#credentials" class="f-md"><span data-i18n="f-creds">credentials.md</span></a></li>
+        <li><span class="dir">▾ <span data-i18n="f-projects">projects</span></span>
           <ul><li><a href="#projects" class="f-tsx">friskription.tsx</a></li></ul>
         </li>
-        <li><span class="dir">▾ games</span>
-          <ul><li><a href="#games" class="f-md">games.md</a></li></ul>
+        <li><span class="dir">▾ <span data-i18n="f-gamesdir">games</span></span>
+          <ul><li><a href="#games" class="f-md"><span data-i18n="f-games">games.md</span></a></li></ul>
         </li>
-        <li><a href="#contact" class="f-sh">contact.sh</a></li>
+        <li><a href="#contact" class="f-sh"><span data-i18n="f-contact">contact.sh</span></a></li>
       </ul>
       <div class="explorer__foot">
         <div class="lang-toggle" role="group" aria-label="Language">
@@ -83,7 +83,7 @@
 
     <main class="editor">
       <!-- README.md · Hero -->
-      <section data-qa class="file hero" id="readme" data-path="README.md">
+      <section data-qa class="file hero" id="readme" data-path="README.md" data-path-jp="はじめに.md">
         <div class="hero__text">
           <p class="kicker" data-b="copy"><span data-i18n="hero-loc">Osaka, Japan</span> · NetSuite · Games · Data</p>
           <h1 class="hero__name rise" data-b="copy">Raphael <span class="nowrap">Baligod<span class="caret" aria-hidden="true"></span></span></h1>
@@ -106,7 +106,7 @@
       </section>
 
       <!-- about.md -->
-      <section data-qa class="file" id="about" data-path="about.md">
+      <section data-qa class="file" id="about" data-path="about.md" data-path-jp="自己紹介.md">
         <h2 class="rise" data-b="copy" data-i18n="about-title">The Story So Far</h2>
         <div class="about">
           <p class="about__lead" data-b="copy" data-i18n="about-p1">Freelance NetSuite Developer helping clients streamline processes through custom automation, scripting, Advanced PDF templates, and implementation migrations — Oracle Certified, with 6+ years across the NetSuite API, REST integrations, Node.js, and MVC architecture.</p>
@@ -118,14 +118,19 @@
       </section>
 
       <!-- experience.ts -->
-      <section data-qa class="file" id="work" data-path="experience.ts">
+      <section data-qa class="file" id="work" data-path="experience.ts" data-path-jp="職務経歴.ts">
         <h2 class="rise" data-b="copy" data-i18n="exp-title">Work History</h2>
         <ol class="jobs">
           <li class="job" data-b="copy">
             <p class="job__when"><span data-i18n="exp1-date">Feb 2024 — Present</span><span data-i18n="exp1-sub">Osaka, Japan</span></p>
             <div>
-              <h3>南海電気鉄道株式会社</h3>
-              <p class="job__role" data-i18n="exp1-role">Digital Marketing Analyst · Nankai Electric Railway</p>
+              <div class="job__co">
+                <img class="logo" src="assets/img/logos/nankai.svg" alt="" width="40" height="40" />
+                <div>
+                  <h3>南海電気鉄道株式会社</h3>
+                  <p class="job__role" data-i18n="exp1-role">Digital Marketing Analyst · Nankai Electric Railway</p>
+                </div>
+              </div>
               <ul class="job__points">
                 <li data-i18n="exp1-b1">Analyze tourist data to identify trends and forecast demand.</li>
                 <li data-i18n="exp1-b2">Manage and maintain the CMS, ensuring seamless content updates.</li>
@@ -137,8 +142,13 @@
           <li class="job" data-b="copy">
             <p class="job__when"><span data-i18n="exp2-date">May 2022 — Oct 2024</span><span data-i18n="exp2-sub">2 yrs 6 mos · Remote</span></p>
             <div>
-              <h3>BA Software Inc</h3>
-              <p class="job__role" data-i18n="exp2-role">Freelance NetSuite Developer</p>
+              <div class="job__co">
+                <span class="logo logo--mono" aria-hidden="true">BA</span>
+                <div>
+                  <h3>BA Software Inc</h3>
+                  <p class="job__role" data-i18n="exp2-role">Freelance NetSuite Developer</p>
+                </div>
+              </div>
               <ul class="job__points">
                 <li data-i18n="exp2-b1">Client automation, script optimization, and Advanced PDF customizations.</li>
                 <li data-i18n="exp2-b2">Sandbox-to-Production migrations with post-deployment support.</li>
@@ -149,8 +159,13 @@
           <li class="job" data-b="copy">
             <p class="job__when"><span data-i18n="exp3-date">Jul 2021 — Mar 2022</span><span data-i18n="exp3-sub">9 mos · Metro Manila, PH</span></p>
             <div>
-              <h3>Atticus Advisory Solutions</h3>
-              <p class="job__role" data-i18n="exp3-role">Senior NetSuite Developer</p>
+              <div class="job__co">
+                <img class="logo" src="assets/img/logos/atticus.png" alt="" width="40" height="40" />
+                <div>
+                  <h3>Atticus Advisory Solutions</h3>
+                  <p class="job__role" data-i18n="exp3-role">Senior NetSuite Developer</p>
+                </div>
+              </div>
               <ul class="job__points">
                 <li data-i18n="exp3-b1">POS system integrations with Shopify, WooCommerce, and Magento.</li>
                 <li data-i18n="exp3-b2">Azure Database maintenance for Zoku POS ↔ NetSuite sync.</li>
@@ -161,8 +176,13 @@
           <li class="job" data-b="copy">
             <p class="job__when"><span data-i18n="exp4-date">Aug 2019 — Jul 2021</span><span data-i18n="exp4-sub">2 yrs · Metro Manila, PH</span></p>
             <div>
-              <h3>Kodella</h3>
-              <p class="job__role" data-i18n="exp4-role">NetSuite Developer</p>
+              <div class="job__co">
+                <img class="logo" src="assets/img/logos/kodella.png" alt="" width="40" height="40" />
+                <div>
+                  <h3>Kodella</h3>
+                  <p class="job__role" data-i18n="exp4-role">NetSuite Developer</p>
+                </div>
+              </div>
               <ul class="job__points">
                 <li data-i18n="exp4-b1">Designed and deployed 4 SuiteCommerce Advanced (SCA) webstores.</li>
                 <li data-i18n="exp4-b2">Architected a configurable installment payment processing system from scratch.</li>
@@ -173,8 +193,13 @@
           <li class="job" data-b="copy">
             <p class="job__when"><span data-i18n="exp5-date">Sep 2015 — Aug 2019</span><span data-i18n="exp5-sub">4 yrs · Manila, PH</span></p>
             <div>
-              <h3>Oracle NetSuite</h3>
-              <p class="job__role" data-i18n="exp5-role">Programming Support → Sr. TSE → Service Delivery Consultant</p>
+              <div class="job__co">
+                <img class="logo" src="assets/img/logos/netsuite.png" alt="" width="40" height="40" />
+                <div>
+                  <h3>Oracle NetSuite</h3>
+                  <p class="job__role" data-i18n="exp5-role">Programming Support → Sr. TSE → Service Delivery Consultant</p>
+                </div>
+              </div>
               <ul class="job__points">
                 <li data-i18n="exp5-b1">24/7 technical support with crisis management; 90%+ client retention rate.</li>
                 <li data-i18n="exp5-b2">Trained and mentored 4 programming support engineers.</li>
@@ -187,34 +212,34 @@
       </section>
 
       <!-- skills.json -->
-      <section data-qa class="file" id="skills" data-path="skills.json">
+      <section data-qa class="file" id="skills" data-path="skills.json" data-path-jp="スキル.json">
         <h2 class="rise" data-b="copy" data-i18n="skills-title">Tech &amp; Tools</h2>
         <div class="skills">
           <div class="skill" data-b="copy">
             <h3 data-i18n="sk-label-1">NetSuite</h3>
-            <p class="chips"><span>SuiteScript 2.x</span> <span>SuiteFlow</span> <span>SuiteCommerce Advanced</span> <span>Advanced PDF Templates</span> <span>REST &amp; SOAP APIs</span> <span>SuiteAnalytics</span> <span data-i18n="sk-impl">Implementation &amp; Migration</span></p>
+            <p class="chips"><span><img src="assets/img/logos/netsuite.png" alt="" width="16" height="16" />SuiteScript 2.x</span> <span><img src="assets/img/logos/netsuite.png" alt="" width="16" height="16" />SuiteFlow</span> <span><img src="assets/img/logos/netsuite.png" alt="" width="16" height="16" />SuiteCommerce Advanced</span> <span><img src="assets/img/logos/netsuite.png" alt="" width="16" height="16" />SuiteAnalytics</span> <span><img src="assets/img/icons/file-text.svg" alt="" width="16" height="16" />Advanced PDF Templates</span> <span><img src="assets/img/icons/plug.svg" alt="" width="16" height="16" />REST &amp; SOAP APIs</span> <span><img src="assets/img/icons/git-merge.svg" alt="" width="16" height="16" /><span data-i18n="sk-impl">Implementation &amp; Migration</span></span></p>
           </div>
           <div class="skill" data-b="copy">
             <h3 data-i18n="sk-label-ai">AI &amp; Automation</h3>
-            <p class="chips"><span>Claude Code</span> <span data-i18n="sk-ai-dev">AI-Assisted Development</span> <span>LLM APIs · OpenAI &amp; Anthropic</span> <span data-i18n="sk-ai-prompt">Prompt Engineering</span> <span data-i18n="sk-ai-stt">Speech-to-Text · ElevenLabs</span> <span data-i18n="sk-ai-mcp">MCP Integrations</span></p>
+            <p class="chips"><span><img src="assets/img/icons/claude.svg" alt="" width="16" height="16" />Claude Code</span> <span><img src="assets/img/icons/sparkles.svg" alt="" width="16" height="16" /><span data-i18n="sk-ai-dev">AI-Assisted Development</span></span> <span><img src="assets/img/icons/openai.svg" alt="" width="16" height="16" />OpenAI API</span> <span><img src="assets/img/icons/anthropic.svg" alt="" width="16" height="16" />Anthropic API</span> <span><img src="assets/img/icons/message-square-text.svg" alt="" width="16" height="16" /><span data-i18n="sk-ai-prompt">Prompt Engineering</span></span> <span><img src="assets/img/icons/elevenlabs.svg" alt="" width="16" height="16" /><span data-i18n="sk-ai-stt">Speech-to-Text · ElevenLabs</span></span> <span><img src="assets/img/icons/modelcontextprotocol.svg" alt="" width="16" height="16" /><span data-i18n="sk-ai-mcp">MCP Integrations</span></span></p>
           </div>
           <div class="skill" data-b="copy">
             <h3 data-i18n="sk-label-2">Development</h3>
-            <p class="chips"><span>JavaScript</span> <span>TypeScript</span> <span>Node.js</span> <span>HTML / CSS</span> <span>SQL</span> <span>Azure Database</span> <span>MVC Architecture</span></p>
+            <p class="chips"><span><img src="assets/img/icons/javascript.svg" alt="" width="16" height="16" />JavaScript</span> <span><img src="assets/img/icons/typescript.svg" alt="" width="16" height="16" />TypeScript</span> <span><img src="assets/img/icons/nodedotjs.svg" alt="" width="16" height="16" />Node.js</span> <span><img src="assets/img/icons/html5.svg" alt="" width="16" height="16" />HTML / CSS</span> <span><img src="assets/img/icons/database.svg" alt="" width="16" height="16" />SQL</span> <span><img src="assets/img/icons/azuresqldatabase.svg" alt="" width="16" height="16" />Azure Database</span> <span><img src="assets/img/icons/layers.svg" alt="" width="16" height="16" />MVC Architecture</span></p>
           </div>
           <div class="skill" data-b="copy">
             <h3 data-i18n="sk-label-3">Marketing &amp; Data</h3>
-            <p class="chips"><span data-i18n="sk-data">Data Analysis</span> <span data-i18n="sk-cms">CMS Management</span> <span data-i18n="sk-pub">Digital Publishing</span> <span data-i18n="sk-tour">Tourism Strategy</span></p>
+            <p class="chips"><span><img src="assets/img/icons/chart-line.svg" alt="" width="16" height="16" /><span data-i18n="sk-data">Data Analysis</span></span> <span><img src="assets/img/icons/layout-template.svg" alt="" width="16" height="16" /><span data-i18n="sk-cms">CMS Management</span></span> <span><img src="assets/img/icons/newspaper.svg" alt="" width="16" height="16" /><span data-i18n="sk-pub">Digital Publishing</span></span> <span><img src="assets/img/icons/map.svg" alt="" width="16" height="16" /><span data-i18n="sk-tour">Tourism Strategy</span></span></p>
           </div>
           <div class="skill" data-b="copy">
             <h3 data-i18n="sk-label-4">Languages</h3>
-            <p class="chips"><span data-i18n="sk-eng">English (Native)</span> <span data-i18n="sk-tag">Tagalog (Native)</span> <span>日本語 JLPT N2</span></p>
+            <p class="chips"><span><img src="assets/img/flags/us.svg" alt="" width="16" height="16" /><span data-i18n="sk-eng">English (Native)</span></span> <span><img src="assets/img/flags/ph.svg" alt="" width="16" height="16" /><span data-i18n="sk-tag">Tagalog (Native)</span></span> <span><img src="assets/img/flags/jp.svg" alt="" width="16" height="16" />日本語 JLPT N2</span></p>
           </div>
         </div>
       </section>
 
       <!-- education.yml -->
-      <section data-qa class="file" id="education" data-path="education.yml">
+      <section data-qa class="file" id="education" data-path="education.yml" data-path-jp="学歴.yml">
         <h2 class="rise" data-b="copy" data-i18n="edu-title">Academic Background</h2>
         <div class="rows">
           <div class="row" data-b="copy">
@@ -237,7 +262,7 @@
       </section>
 
       <!-- credentials.md -->
-      <section data-qa class="file" id="credentials" data-path="credentials.md">
+      <section data-qa class="file" id="credentials" data-path="credentials.md" data-path-jp="資格.md">
         <h2 class="rise" data-b="copy" data-i18n="certs-title">Certs, Awards &amp; More</h2>
         <div class="creds">
           <ol class="certs" data-b="copy">
@@ -257,7 +282,7 @@
       </section>
 
       <!-- projects/friskription.tsx -->
-      <section data-qa class="file" id="projects" data-path="projects/friskription.tsx">
+      <section data-qa class="file" id="projects" data-path="projects/friskription.tsx" data-path-jp="プロジェクト/friskription.tsx">
         <h2 class="rise" data-b="copy" data-i18n="proj-title">Current Projects</h2>
         <article class="card project" data-b="layout" data-qa>
           <div class="preview" data-b="design">
@@ -283,12 +308,12 @@
       </section>
 
       <!-- games.md -->
-      <section data-qa class="file" id="games" data-path="games/games.md">
+      <section data-qa class="file" id="games" data-path="games/games.md" data-path-jp="ゲーム/ゲーム.md">
         <h2 class="rise" data-b="copy" data-i18n="games-title">Published &amp; In Development</h2>
         <div class="games">
           <article class="card game" data-b="layout" data-qa>
             <div class="game__media" data-b="design">
-              <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/2711030/header.jpg" alt="Sugardew Island" loading="lazy" />
+              <img src="assets/img/games/sugardew-island.jpg" width="616" height="353" alt="Sugardew Island" loading="lazy" />
               <iframe id="trailer"
                 src="https://www.youtube-nocookie.com/embed/Zmk9lL4xTyM?autoplay=1&mute=1&loop=1&playlist=Zmk9lL4xTyM&controls=0&modestbranding=1&playsinline=1&rel=0&showinfo=0"
                 title="Sugardew Island trailer" loading="lazy"
@@ -300,7 +325,7 @@
               <p class="label" data-i18n="sugardew-role">Role · Publisher</p>
               <span class="pill pill--on" data-i18n="sugardew-tag">Released 2025 · rokaplay</span>
               <p data-i18n="sugardew-desc">A cozy farm-shop simulation where you tend animals, grow crops, and sell goods to the forest folk while bringing a sleepy island back to life. A heartfelt love letter to classic farming games.</p>
-              <a class="link" href="https://store.steampowered.com/app/2711030/" target="_blank" rel="noopener noreferrer" data-i18n="game-steam">View on Steam ↗</a>
+              <a class="link link--icon" href="https://store.steampowered.com/app/2711030/" target="_blank" rel="noopener noreferrer"><img src="assets/img/icons/steam.svg" alt="" width="16" height="16" /><span data-i18n="game-steam">View on Steam ↗</span></a>
             </div>
           </article>
 
@@ -319,7 +344,7 @@
       </section>
 
       <!-- contact.sh: a terminal -->
-      <section data-qa class="file file--term" id="contact" data-path="contact.sh">
+      <section data-qa class="file file--term" id="contact" data-path="contact.sh" data-path-jp="連絡先.sh">
         <p class="prompt" data-b="copy">$ ./contact.sh</p>
         <h2 class="term__title rise" data-b="copy"><span data-i18n="contact-title">Let's Connect</span>&#8288;<span class="caret" aria-hidden="true"></span></h2>
         <p class="term__lead" data-b="copy" data-i18n="contact-sub">Open to freelance NetSuite projects, international collaborations, and interesting conversations.</p>

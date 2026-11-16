@@ -52,7 +52,7 @@ h1, h2, h3 { font-family: var(--mono); line-height: 1.2; }
 .skip:focus { top: 1rem; }
 
 /* Small mono labels: the IDE voice */
-.kicker, .label, .job__when, .row__when, .chips span, .pill, .btn, .link, .asof, .stats dt, .kpis dt, .foot, .prompt, .term__key {
+.kicker, .label, .job__when, .row__when, .chips > span, .pill, .btn, .link, .asof, .stats dt, .kpis dt, .foot, .prompt, .term__key {
   font-family: var(--mono);
 }
 .label { color: var(--dim); font-size: 0.75rem; letter-spacing: 0.04em; text-transform: uppercase; }
@@ -153,6 +153,8 @@ h1, h2, h3 { font-family: var(--mono); line-height: 1.2; }
 .btn:hover { background: var(--fg); color: var(--bg); }
 .btn--hot { background: var(--hot); border-color: var(--hot); color: var(--bg); }
 .btn--hot:hover { background: var(--fg); border-color: var(--fg); }
+.link.link--icon { display: inline-flex; align-items: center; gap: 0.45rem; }
+.link--icon img { width: 1rem; height: 1rem; }
 .link { display: inline-block; border-bottom: 1px solid var(--hot); color: var(--hot); font-size: 0.875rem; font-weight: 700; transition: color 0.15s; }
 .link:hover, a:hover > .link { color: var(--fg); }
 
@@ -166,6 +168,9 @@ h1, h2, h3 { font-family: var(--mono); line-height: 1.2; }
 .job { display: grid; grid-template-columns: 12rem minmax(0, 1fr); gap: 0.5rem clamp(1.5rem, 4vw, 3.5rem); padding: 1.75rem 0; border-top: 1px solid var(--line); }
 .job__when { display: grid; align-content: start; gap: 0.15rem; font-size: 0.8125rem; }
 .job__when span + span { color: var(--dim); }
+.job__co { display: flex; align-items: center; gap: 0.9rem; }
+.logo { flex: none; width: 2.75rem; height: 2.75rem; padding: 0.35rem; border-radius: 10px; background: #fff; object-fit: contain; }
+.logo--mono { display: grid; place-items: center; padding: 0; background: var(--fg); color: var(--bg); font: 800 0.9375rem var(--mono); letter-spacing: -0.02em; }
 .job h3 { font-size: clamp(1.125rem, 1.8vw, 1.375rem); font-weight: 700; }
 .job__role { margin-top: 0.25rem; color: var(--gold); font-weight: 600; }
 .job__points { display: grid; gap: 0.4rem; margin-top: 0.85rem; color: #cfcfca; }
@@ -177,7 +182,9 @@ h1, h2, h3 { font-family: var(--mono); line-height: 1.2; }
 .skill { padding: 1.25rem; border: 1px solid var(--line); background: var(--panel); }
 .skill h3 { font-size: 1rem; font-weight: 700; }
 .chips { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.9rem; }
-.chips span { padding: 0.25rem 0.6rem; border: 1px solid var(--line); background: var(--bg); color: #d4d6dc; font-size: 0.75rem; }
+.chips > span { display: inline-flex; align-items: center; gap: 0.45rem; padding: 0.3rem 0.65rem 0.3rem 0.5rem; border: 1px solid var(--line); background: var(--bg); color: #d4d6dc; font-size: 0.75rem; }
+.chips img { width: 1rem; height: 1rem; flex: none; object-fit: contain; }
+.chips img[src*="/flags/"] { width: 1.2rem; height: 0.9rem; object-fit: cover; border-radius: 2px; }
 
 /* ---------- education.yml ---------- */
 .rows { border-bottom: 1px solid var(--line); }
@@ -276,8 +283,10 @@ html.build [data-b="design"]:not(.is-built) { clip-path: inset(0 100% 0 0); }
 .rise .u { display: inline-block; transform: translateY(105%) skewY(6deg); transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s; }
 .rise .u.on { transform: none; }
 .rise .u.cur { box-shadow: none; }
+/* A file name being renamed: selected, then retyped */
+.renaming { background: rgba(61, 123, 255, 0.35); box-shadow: 0 0 0 1px #3d7bff; }
 
-.agents { position: absolute; inset: 0; z-index: 40; overflow: hidden; pointer-events: none; }
+.agents { position: absolute; inset: 0; z-index: 60; /* above the title bar, tabs and menu so agents can rename files */ overflow: hidden; pointer-events: none; }
 .agent {
   position: absolute; top: 0; left: 0;
   display: flex; align-items: flex-start;
