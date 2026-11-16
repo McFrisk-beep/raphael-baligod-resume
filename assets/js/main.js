@@ -1,47 +1,25 @@
 /* =========================================================
    Raphael Baligod — CV site
-   Full-screen "curtain cover" deck · vanilla, no deps
+   i18n + "agents build the page live" engine · vanilla, no deps
    ========================================================= */
 (function () {
   "use strict";
 
+  const root = document.documentElement;
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  // Pointer-driven effects (magnetic, tilt, parallax) only on real cursors.
-  const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
-  const isMobile = window.matchMedia("(max-width: 860px)").matches;
-  const DURATION = 950; // keep in sync with --curtain in CSS
-
-  const panels = Array.prototype.slice.call(document.querySelectorAll(".panel"));
-  const header = document.getElementById("header");
-  const headerLinks = Array.prototype.slice.call(document.querySelectorAll(".header__nav a"));
-  const pager = document.getElementById("pager");
-  const counterCur = document.getElementById("counterCur");
-  const counterTotal = document.getElementById("counterTotal");
-  const counterName = document.getElementById("counterName");
-  const menuToggle = document.getElementById("menuToggle");
-  const mobileMenu = document.getElementById("mobileMenu");
-
-  let current = 0;
-  let animating = false;
-  const paged = !reduceMotion; // reduced-motion users get plain document scroll
-
-  const pad = (n) => String(n).padStart(2, "0");
-  const indexOfId = (id) => panels.findIndex((p) => "#" + p.id === id || p.id === id);
+  // Set before first paint (this script is in <head>) so unbuilt layers never flash.
+  if (!reduceMotion) root.classList.add("build");
 
   /* ---------- i18n (EN / JP) ---------- */
-  let lang = "en";
   const i18nCache = new Map();
-  const NAMES_JP = {
-    Home: "ホーム", About: "プロフィール", Experience: "経歴", Skills: "スキル",
-    Education: "学歴", Credentials: "資格", Games: "ゲーム", Contact: "お問い合わせ",
-  };
   const JP = {
     "nav-about": "プロフィール", "nav-exp": "経歴", "nav-skills": "スキル",
     "nav-games": "ゲーム", "nav-contact": "お問い合わせ", "nav-edu": "学歴", "nav-creds": "資格",
 
     "hero-loc": "和歌山県・日本", "hero-avail": "お仕事募集中",
     "hero-lead": "NetSuite認定<strong>開発者</strong>、インディー<strong>ゲームプロデューサー</strong>、<strong>マーケティングアナリスト</strong> — カスタム自動化、システム連携、そして心温まるゲームづくりに取り組んでいます。",
-    "hero-btn": "お問い合わせ", "scroll": "スクロール",
+    "hero-btn": "お問い合わせ", "hero-btn2": "経歴を見る",
+    "role-1": "NetSuite開発者", "role-2": "ゲームプロデューサー", "role-3": "マーケティングアナリスト", "scroll": "スクロール",
 
     "about-title": "これまでの歩み",
     "about-p1": "カスタム自動化、スクリプト開発、Advanced PDFテンプレート、システムの導入・移行を通じて、クライアントの業務効率化を支援するフリーランスのNetSuite開発者。NetSuite API、REST連携、Node.js、MVCアーキテクチャに6年以上携わってきたOracle認定資格保持者です。",
@@ -91,12 +69,12 @@
     "certs-title": "資格・認定", "cert-cg": "コンピュータグラフィックス基礎", "cert-jq": "jQuery入門コース",
     "pub-label": "発表論文",
     "pub-desc": "ライブカメラ映像から肌色を抽出し、隠れマルコフモデルを用いて基本的な手話ジェスチャーをリアルタイムに認識する手法を提案した共著論文。電気通信・電子・コンピュータ工学ジャーナル（JTEC）に掲載。",
-    "pub-link": "JTECで読む →",
+    "pub-link": "JTECで読む ↗",
 
     "games-title": "発売・開発中の作品",
     "sugardew-tag": "2025年発売 · rokaplay", "sugardew-role": "担当：パブリッシャー",
     "sugardew-desc": "動物の世話をし、作物を育て、森の妖精たちに商品を売りながら、眠っていた島に再び活気を取り戻す、ほのぼのとした牧場ショップ・シミュレーション。rokaplayが開発・販売した、名作農業ゲームへの愛情あふれる一作。",
-    "game-steam": "Steamで見る →",
+    "game-steam": "Steamで見る ↗",
     "otc-status": "開発中", "otc-title": "未公開タイトル", "otc-tag": "開発中・近日公開",
     "otc-role": "担当：エグゼクティブプロデューサー",
     "otc-desc": "現在開発中の新作アクションゲーム。重厚なダークファンタジーの世界が舞台です。詳細はまだ秘密です。続報をお楽しみに！",
@@ -107,32 +85,18 @@
   };
 
   function applyLang(l) {
-    lang = l === "jp" ? "jp" : "en";
-    document.querySelectorAll("[data-i18n]").forEach((el) => {
-      const key = el.getAttribute("data-i18n");
-      if (!i18nCache.has(el)) i18nCache.set(el, el.innerHTML);
-      if (lang === "jp" && JP[key] != null) el.innerHTML = JP[key];
-      else el.innerHTML = i18nCache.get(el);
+    const jp = l === "jp";
+    i18nCache.forEach((html, el) => {
+      const t = JP[el.getAttribute("data-i18n")];
+      el.innerHTML = jp && t != null ? t : html;
     });
-    document.documentElement.lang = lang === "jp" ? "ja" : "en";
-    document.body.classList.toggle("is-jp", lang === "jp");
+    root.lang = jp ? "ja" : "en";
     document.querySelectorAll(".lang-toggle button").forEach((b) => {
-      b.classList.toggle("is-active", b.dataset.lang === lang);
+      b.classList.toggle("is-active", b.dataset.lang === (jp ? "jp" : "en"));
     });
-    try { localStorage.setItem("rb-lang", lang); } catch (e) {}
-    updatePagerLabels();
-    syncUI(current);
+    try { localStorage.setItem("rb-lang", jp ? "jp" : "en"); } catch (e) {}
   }
-  function updatePagerLabels() {
-    if (!pager) return;
-    Array.prototype.forEach.call(pager.children, (dot, i) => {
-      const tip = dot.querySelector(".pager__tip");
-      if (tip) {
-        const n = panels[i].dataset.name || "";
-        tip.textContent = lang === "jp" && NAMES_JP[n] ? NAMES_JP[n] : n;
-      }
-    });
-  }
+
   function initI18N() {
     document.querySelectorAll("[data-i18n]").forEach((el) => i18nCache.set(el, el.innerHTML));
     document.querySelectorAll(".lang-toggle button").forEach((b) => {
@@ -140,387 +104,343 @@
     });
     let saved = "en";
     try { saved = localStorage.getItem("rb-lang") || "en"; } catch (e) {}
-    applyLang(saved);
+    if (saved === "jp") applyLang(saved);
   }
 
-  /* ---------- Reveal handling ---------- */
-  function showReveals(panel) {
-    const els = panel.querySelectorAll(".reveal");
-    els.forEach((el, k) => {
-      el.style.transitionDelay = 250 + k * 90 + "ms";
-      el.classList.add("is-visible");
-    });
-  }
-  function hideReveals(panel) {
-    panel.querySelectorAll(".reveal").forEach((el) => {
-      el.style.transitionDelay = "0ms";
-      el.classList.remove("is-visible");
-    });
+  function initMenu() {
+    const btn = document.getElementById("menuToggle");
+    const links = document.getElementById("navLinks");
+    const set = (open) => {
+      links.classList.toggle("is-open", open);
+      btn.setAttribute("aria-expanded", String(open));
+    };
+    btn.addEventListener("click", () => set(!links.classList.contains("is-open")));
+    links.addEventListener("click", () => set(false));
+    document.addEventListener("keydown", (e) => { if (e.key === "Escape") set(false); });
   }
 
-  /* ---------- Enhancements: micro-interactions & depth ---------- */
+  /* ---------- Live build ----------
+     Every [data-b] element is a "layer" that starts hidden. When it scrolls
+     into view it is queued, and a free agent cursor of the matching role
+     flies over and builds it:
+       layout — drags out a selection box, then the container appears
+       copy   — streams the text in
+       design — paints visuals in (blur → sharp)
+       qa     — stamps a ✓ on each [data-qa] block once everything in it is built
+  */
+  const ROLES = [
+    { id: "layout", name: "Layout", color: "#3d7bff" },
+    { id: "copy",   name: "Copy",   color: "#ffd23f" },
+    { id: "design", name: "Design", color: "#b07cff" },
+    { id: "qa",     name: "QA",     color: "#22c57a" },
+  ];
+  const PER_ROLE = 3;
+  const ARROW = '<svg width="16" height="16" viewBox="0 0 16 16"><path d="M1.5 1.5l4.8 12.6 2-5.3 5.3-2z" fill="var(--c)" stroke="#0c0c0d" stroke-width="1.2" stroke-linejoin="round"/></svg>';
 
-  // Split the hero title into per-letter spans for a staggered rise.
-  function splitHeroTitle() {
-    if (reduceMotion) return; // line/letter reveal is disabled under reduced motion
-    const title = document.querySelector(".hero__title");
-    if (!title) return;
-    let ci = 0;
-    title.querySelectorAll(".line > span").forEach((span) => {
-      const text = span.textContent;
-      span.textContent = "";
-      Array.prototype.forEach.call(text, (ch) => {
-        const s = document.createElement("span");
-        s.className = "char";
-        if (ch === " ") s.innerHTML = "&nbsp;";
-        else s.textContent = ch;
-        s.style.setProperty("--ci", ci++);
-        span.appendChild(s);
-      });
-    });
-    title.classList.add("is-split");
-  }
+  function initBuild() {
+    const els = Array.prototype.slice.call(document.querySelectorAll("[data-b]"));
+    const total = els.length;
+    const queue = new Set();   // layers waiting for an agent, in arrival order
+    const qaQueue = [];
+    const qaDone = new Set();
+    let built = 0;
+    let gen = 0;               // bumped on skip/replay so in-flight work aborts
 
-  // Count the About stats up from zero the first time the panel is shown.
-  function animateStats() {
-    document.querySelectorAll("#about .stat b").forEach((el) => {
-      if (el.dataset.done) return;
-      const m = el.textContent.trim().match(/^(\d+)(.*)$/);
-      el.dataset.done = "1";
-      if (!m) return; // non-numeric (e.g. "N2") — leave as-is
-      const target = parseInt(m[1], 10);
-      const suffix = m[2] || "";
-      if (reduceMotion) { el.textContent = target + suffix; return; }
-      const dur = 1100;
-      const start = performance.now();
-      (function tick(now) {
-        const t = Math.min(1, (now - start) / dur);
-        const eased = 1 - Math.pow(1 - t, 3); // ease-out cubic
-        el.textContent = Math.round(target * eased) + suffix;
-        if (t < 1) requestAnimationFrame(tick);
-      })(start);
-    });
-  }
+    const layer = document.createElement("div");
+    layer.className = "agents";
+    layer.setAttribute("aria-hidden", "true");
+    document.body.appendChild(layer);
 
-  // Hook fired whenever a panel becomes the active one (paged or static).
-  function onPanelActive(i) {
-    if (panels[i] && panels[i].id === "about") animateStats();
-  }
-
-  // Magnetic pull on buttons toward the cursor.
-  function initMagnetic() {
-    if (reduceMotion || !finePointer) return;
-    document.querySelectorAll(".btn").forEach((btn) => {
-      btn.addEventListener("pointermove", (e) => {
-        const r = btn.getBoundingClientRect();
-        const x = e.clientX - (r.left + r.width / 2);
-        const y = e.clientY - (r.top + r.height / 2);
-        btn.style.transform = "translate(" + x * 0.4 + "px," + y * 0.4 + "px)";
-      });
-      btn.addEventListener("pointerleave", () => { btn.style.transform = ""; });
-    });
-  }
-
-  // Subtle 3D tilt on cards following the cursor.
-  function initTilt() {
-    if (reduceMotion || !finePointer) return;
-    const MAX = 7; // degrees
-    document.querySelectorAll(".game-card, .edu-card, .pub-card").forEach((card) => {
-      card.addEventListener("pointermove", (e) => {
-        const r = card.getBoundingClientRect();
-        const px = (e.clientX - r.left) / r.width - 0.5;
-        const py = (e.clientY - r.top) / r.height - 0.5;
-        card.style.transform =
-          "perspective(900px) rotateX(" + (-py * MAX).toFixed(2) +
-          "deg) rotateY(" + (px * MAX).toFixed(2) + "deg)";
-      });
-      card.addEventListener("pointerleave", () => { card.style.transform = ""; });
-    });
-  }
-
-  // 21st.dev-style mouse-following spotlight on interactive cards.
-  function initSpotlight() {
-    if (reduceMotion || !finePointer) return;
-    document.querySelectorAll(".fx-spotlight").forEach((el) => {
-      el.addEventListener("pointermove", (e) => {
-        const r = el.getBoundingClientRect();
-        el.style.setProperty("--mouse-x", (e.clientX - r.left) + "px");
-        el.style.setProperty("--mouse-y", (e.clientY - r.top) + "px");
-      });
-      el.addEventListener("pointerleave", () => {
-        el.style.removeProperty("--mouse-x");
-        el.style.removeProperty("--mouse-y");
-      });
-    });
-    document.querySelectorAll(".contact__link").forEach((link) => {
-      link.addEventListener("pointermove", (e) => {
-        const r = link.getBoundingClientRect();
-        const pct = ((e.clientX - r.left) / r.width) * 100;
-        link.style.setProperty("--link-x", pct + "%");
-      });
-      link.addEventListener("pointerleave", () => { link.style.removeProperty("--link-x"); });
-    });
-  }
-
-  /* ---------- Persistent UI ---------- */
-  function buildPager() {
-    if (!pager) return;
-    panels.forEach((panel, i) => {
-      const btn = document.createElement("button");
-      btn.className = "pager__dot";
-      btn.type = "button";
-      btn.setAttribute("aria-label", "Go to " + (panel.dataset.name || "section " + (i + 1)));
-      const tip = document.createElement("span");
-      tip.className = "pager__tip";
-      tip.textContent = panel.dataset.name || "";
-      btn.appendChild(tip);
-      btn.addEventListener("click", () => goTo(i));
-      pager.appendChild(btn);
-    });
-    if (counterTotal) counterTotal.textContent = pad(panels.length);
-  }
-
-  function syncUI(i) {
-    const rawName = panels[i].dataset.name || "";
-    const name = lang === "jp" && NAMES_JP[rawName] ? NAMES_JP[rawName] : rawName;
-    if (counterCur) counterCur.textContent = pad(i + 1);
-    if (counterName) counterName.textContent = name;
-    if (pager) {
-      Array.prototype.slice.call(pager.children).forEach((dot, k) => {
-        dot.classList.toggle("is-current", k === i);
-      });
-    }
-    headerLinks.forEach((a) => {
-      a.classList.toggle("is-current", indexOfId(a.getAttribute("href")) === i);
-    });
-    document.body.classList.toggle("on-dark", panels[i].classList.contains("panel--dark"));
-    if (window.WaveCanvas) window.WaveCanvas.setActivePanel(i);
-  }
-
-  /* ---------- Core: move the curtain ---------- */
-  function goTo(i, instant) {
-    i = Math.max(0, Math.min(panels.length - 1, i));
-    if (i === current && !instant) return;
-    if (animating) return;
-
-    const prev = current;
-    current = i;
-
-    // Curtain rule: panels above the target slide down/out; target & below sit in place.
-    // z-index ordering (set in init) keeps later panels covering earlier ones.
-    // Panels fully hidden under the target are made invisible so they don't
-    // ghost through its translucent veil; the one we just left stays visible
-    // until the incoming panel has finished sliding over it.
-    panels.forEach((panel, k) => {
-      panel.classList.toggle("is-stacked", k > i);
-      panel.classList.toggle("is-covered", k < i && (k !== prev || instant));
-      if (k === i) {
-        hideReveals(panel);
-        showReveals(panel);
-      } else if (k !== prev) {
-        hideReveals(panel);
+    const cursors = [];
+    ROLES.forEach((role) => {
+      for (let n = 1; n <= PER_ROLE; n++) {
+        const el = document.createElement("div");
+        el.className = "agent";
+        el.style.setProperty("--c", role.color);
+        el.innerHTML = ARROW + "<span>" + role.name + " " + n + "</span>";
+        layer.appendChild(el);
+        cursors.push({ role: role, el: el, x: 0, y: 0, busy: false, shown: false, timer: 0 });
       }
     });
-    // The panel we just left keeps its reveals until it has slid away.
-    if (prev !== i) {
-      const left = panels[prev];
-      window.setTimeout(() => {
-        if (current !== prev) hideReveals(left);
-        if (current > prev) left.classList.add("is-covered");
-      }, DURATION);
+
+    const bar = document.createElement("div");
+    bar.className = "build-bar";
+    bar.innerHTML =
+      '<span class="build-bar__dots" aria-hidden="true">' +
+      ROLES.map((r) => '<i style="--c:' + r.color + '"></i>').join("") + "</span>" +
+      "<span><b></b> <span class=\"build-bar__count\"></span></span>" +
+      '<span class="build-bar__meter" aria-hidden="true"><i></i></span>' +
+      '<button type="button"></button>';
+    document.body.appendChild(bar);
+    const barLead = bar.querySelector("b");
+    const barCount = barLead.nextElementSibling;
+    const barMeter = bar.querySelector(".build-bar__meter i");
+    const barBtn = bar.querySelector("button");
+
+    function status() {
+      const busy = cursors.filter((c) => c.busy).length;
+      const done = built >= total;
+      bar.dataset.state = done ? "done" : busy ? "busy" : "idle";
+      barLead.textContent = done ? "Built live by " + cursors.length + " agents"
+        : busy ? busy + "/" + cursors.length + " agents building"
+        : cursors.length + " agents standing by";
+      barCount.textContent = "· " + built + "/" + total + " layers";
+      barMeter.style.width = (built / total) * 100 + "%";
+      barBtn.textContent = done ? "Replay" : "Skip";
+      barBtn.setAttribute("aria-label", done ? "Replay build animation" : "Skip build animation");
     }
 
-    syncUI(i);
-    onPanelActive(i);
+    // Rejects if the build was skipped/replayed meanwhile, which unwinds the task.
+    const wait = (ms, g) => new Promise((res, rej) => setTimeout(() => (g === gen ? res() : rej()), ms));
+    const rand = (a, b) => a + Math.random() * (b - a);
 
-    if (!instant) {
-      animating = true;
-      window.setTimeout(() => { animating = false; }, DURATION);
+    function docRect(el) {
+      const r = el.getBoundingClientRect();
+      return { x: r.left + window.scrollX, y: r.top + window.scrollY, w: r.width, h: r.height };
     }
-  }
 
-  const next = () => goTo(current + 1);
-  const back = () => goTo(current - 1);
-
-  /* ---------- Input: wheel / keys / touch ---------- */
-  function atBoundary(panel, goingDown) {
-    const canScroll = panel.scrollHeight > panel.clientHeight + 1;
-    if (!canScroll) return true;
-    const atTop = panel.scrollTop <= 1;
-    const atBottom = panel.scrollTop + panel.clientHeight >= panel.scrollHeight - 1;
-    return goingDown ? atBottom : atTop;
-  }
-
-  function onWheel(e) {
-    if (animating) { e.preventDefault(); return; }
-    const goingDown = e.deltaY > 0;
-    const panel = panels[current];
-    // Let tall panels scroll internally until they hit an edge.
-    if (!atBoundary(panel, goingDown)) return;
-    e.preventDefault();
-    if (Math.abs(e.deltaY) < 8) return;
-    goingDown ? next() : back();
-  }
-
-  let touchY = 0;
-  let touchPanel = null;
-  function onTouchStart(e) {
-    touchY = e.touches[0].clientY;
-    touchPanel = panels[current];
-  }
-  function onTouchEnd(e) {
-    if (animating || !touchPanel) return;
-    const delta = touchY - e.changedTouches[0].clientY; // +down / -up
-    if (Math.abs(delta) < 45) return;
-    const goingDown = delta > 0;
-    if (!atBoundary(touchPanel, goingDown)) return;
-    goingDown ? next() : back();
-  }
-
-  function onKey(e) {
-    if (animating) return;
-    switch (e.key) {
-      case "ArrowDown":
-      case "PageDown":
-      case " ":
-        e.preventDefault(); next(); break;
-      case "ArrowUp":
-      case "PageUp":
-        e.preventDefault(); back(); break;
-      case "Home": e.preventDefault(); goTo(0); break;
-      case "End": e.preventDefault(); goTo(panels.length - 1); break;
+    function move(c, x, y, ms, g) {
+      ms = ms || Math.max(260, Math.min(620, Math.hypot(x - c.x, y - c.y) * 0.6));
+      c.x = x; c.y = y;
+      c.el.style.setProperty("--ms", ms + "ms");
+      c.el.style.transform = "translate(" + x + "px," + y + "px)";
+      return wait(ms, g);
     }
-  }
 
-  /* ---------- Navigation links ---------- */
-  function initLinks() {
-    document.querySelectorAll("[data-go]").forEach((link) => {
-      link.addEventListener("click", (e) => {
-        const href = link.getAttribute("href");
-        if (!href || !href.startsWith("#")) return;
-        const i = indexOfId(href);
-        if (i < 0) return;
-        e.preventDefault();
-        closeMenu();
-        if (paged) goTo(i);
-        else panels[i].scrollIntoView({ behavior: "smooth", block: "start" });
+    // A resting agent has faded out; bring it back in from a screen edge.
+    function wake(c) {
+      clearTimeout(c.timer);
+      if (c.shown) return;
+      c.shown = true;
+      c.x = Math.random() < 0.5 ? -60 : window.innerWidth + 20;
+      c.y = window.scrollY + rand(0.1, 0.9) * window.innerHeight;
+      c.el.style.setProperty("--ms", "0ms");
+      c.el.style.transform = "translate(" + c.x + "px," + c.y + "px)";
+      void c.el.offsetWidth; // flush so the next move animates from here
+      c.el.classList.add("on");
+    }
+
+    function rest(c) {
+      move(c, c.x + rand(-40, 40), c.y + rand(24, 64), 900, gen).catch(() => {});
+      c.timer = setTimeout(() => { c.shown = false; c.el.classList.remove("on"); }, 1300);
+    }
+
+    function addBox(r, role, el, grow) {
+      const b = document.createElement("div");
+      b.className = "sel";
+      b.dataset.label = el.tagName.toLowerCase() + " " + Math.round(r.w) + "×" + Math.round(r.h);
+      b.style.cssText = "--c:" + role.color + ";left:" + r.x + "px;top:" + r.y + "px;width:" +
+        (grow ? 0 : r.w) + "px;height:" + (grow ? 0 : r.h) + "px";
+      layer.appendChild(b);
+      return b;
+    }
+
+    function finish(el) {
+      if (el.classList.contains("is-built")) return;
+      el.classList.add("is-built");
+      io.unobserve(el);
+      built++;
+      // Hand any enclosing block to QA once nothing inside it is left unbuilt.
+      for (let q = el.closest("[data-qa]"); q; q = q.parentElement.closest("[data-qa]")) {
+        if (!qaDone.has(q) && !q.matches("[data-b]:not(.is-built)") && !q.querySelector("[data-b]:not(.is-built)")) {
+          qaDone.add(q);
+          qaQueue.push(q);
+        }
+      }
+      status();
+    }
+
+    function split(text, byChar) {
+      if (window.Intl && Intl.Segmenter) {
+        const seg = new Intl.Segmenter(root.lang, { granularity: byChar ? "grapheme" : "word" });
+        return Array.from(seg.segment(text), (s) => s.segment);
+      }
+      return byChar ? Array.from(text) : text.split(/(\s+)/);
+    }
+
+    // Wrap the text in hidden units (layout stays put), then reveal them in order.
+    function wrapUnits(el, words) {
+      const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
+      const nodes = [];
+      while (walker.nextNode()) nodes.push(walker.currentNode);
+      const byChar = !words && el.textContent.trim().length < 48;
+      const units = [];
+      nodes.forEach((node) => {
+        if (!node.nodeValue.trim()) return;
+        const frag = document.createDocumentFragment();
+        split(node.nodeValue, byChar).forEach((s) => {
+          if (!s.trim()) { frag.appendChild(document.createTextNode(s)); return; }
+          const u = document.createElement("span");
+          u.className = "u";
+          u.textContent = s;
+          frag.appendChild(u);
+          units.push(u);
+        });
+        node.parentNode.replaceChild(frag, node);
       });
-    });
-  }
+      return units;
+    }
 
-  /* ---------- Mobile menu ---------- */
-  function closeMenu() {
-    if (!menuToggle || !mobileMenu) return;
-    menuToggle.classList.remove("is-open");
-    menuToggle.setAttribute("aria-expanded", "false");
-    mobileMenu.classList.remove("is-open");
-    document.body.classList.remove("is-locked");
-  }
-  function initMenu() {
-    if (!menuToggle || !mobileMenu) return;
-    menuToggle.addEventListener("click", () => {
-      const open = menuToggle.classList.toggle("is-open");
-      menuToggle.setAttribute("aria-expanded", String(open));
-      mobileMenu.classList.toggle("is-open", open);
-      document.body.classList.toggle("is-locked", open);
-    });
-    document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeMenu(); });
-  }
+    function unwrapUnits(scope) {
+      scope.querySelectorAll(".u").forEach((u) => u.replaceWith(u.textContent));
+      scope.normalize();
+    }
 
-  /* ---------- Static (reduced-motion) fallback ---------- */
-  function initStatic() {
-    const io = "IntersectionObserver" in window
-      ? new IntersectionObserver((entries) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              entry.target.querySelectorAll(".reveal").forEach((el) => el.classList.add("is-visible"));
-              const i = panels.indexOf(entry.target);
-              if (i >= 0) { syncUI(i); onPanelActive(i); }
-            }
+    function inView(el) {
+      const r = el.getBoundingClientRect();
+      return r.bottom > 0 && r.top < window.innerHeight;
+    }
+
+    async function work(c, el, g) {
+      const kind = c.role.id;
+      if (kind === "qa" && !inView(el)) return;
+      const r = docRect(el);
+      wake(c);
+
+      if (kind === "layout") {
+        await move(c, r.x, r.y, 0, g);
+        const box = addBox(r, c.role, el, true);
+        void box.offsetWidth;
+        box.style.width = r.w + "px";
+        box.style.height = r.h + "px";
+        await move(c, r.x + r.w, r.y + r.h, 420, g);
+        finish(el);
+        await wait(240, g);
+        box.remove();
+      } else if (kind === "copy") {
+        // Display type (.rise) comes up through a mask word by word; body text streams.
+        const rise = el.classList.contains("rise");
+        await move(c, r.x - 2, r.y + Math.min(r.h, 40) / 2, 0, g);
+        const box = addBox(r, c.role, el);
+        const units = wrapUnits(el, rise);
+        finish(el);
+        const step = rise ? 90 : Math.max(7, Math.min(42, 620 / units.length));
+        move(c, r.x + r.w + 4, r.y + r.h - 6, Math.max(300, units.length * step), g).catch(() => {});
+        for (let i = 0; i < units.length; i++) {
+          if (i) units[i - 1].classList.remove("cur");
+          units[i].classList.add("on", "cur");
+          await wait(step, g);
+        }
+        await wait(rise ? 750 : 120, g); // let the last word land before unwrapping
+        unwrapUnits(el);
+        box.remove();
+      } else if (kind === "design") {
+        await move(c, r.x + r.w * rand(0.4, 0.8), r.y + r.h * rand(0.4, 0.8), 0, g);
+        const box = addBox(r, c.role, el);
+        await wait(140, g);
+        finish(el);
+        await wait(460, g);
+        box.remove();
+      } else {
+        await move(c, r.x + r.w - 6, r.y + 2, 0, g);
+        const s = document.createElement("div");
+        s.className = "stamp";
+        s.textContent = "✓ QA pass";
+        s.style.left = r.x + r.w - 10 + "px";
+        s.style.top = r.y + "px";
+        s.addEventListener("animationend", () => s.remove());
+        layer.appendChild(s);
+        await wait(420, g);
+      }
+    }
+
+    function take(role) {
+      if (role === "qa") return qaQueue.shift();
+      for (const el of queue) {
+        // Containers first: a layer waits until whatever encloses it is built.
+        if (el.dataset.b === role && !el.parentElement.closest("[data-b]:not(.is-built)")) {
+          queue.delete(el);
+          return el;
+        }
+      }
+    }
+
+    function pump() {
+      // Layers that left the viewport before an agent got to them:
+      // scrolled past → just show them; back below the fold → wait for next time.
+      queue.forEach((el) => {
+        const r = el.getBoundingClientRect();
+        if (r.bottom < 0) { queue.delete(el); finish(el); }
+        else if (r.top > window.innerHeight) { queue.delete(el); io.unobserve(el); io.observe(el); }
+      });
+      cursors.forEach((c) => {
+        if (c.busy) return;
+        const el = take(c.role.id);
+        if (!el) return;
+        const g = gen;
+        c.busy = true;
+        work(c, el, g)
+          .catch(() => { if (g === gen) finish(el); })
+          .then(() => {
+            if (g !== gen) return;
+            c.busy = false;
+            pump();
+            if (!c.busy) rest(c);
           });
-        }, { threshold: 0.4 })
-      : null;
-
-    if (io) panels.forEach((p) => io.observe(p));
-    else panels.forEach((p) => p.querySelectorAll(".reveal").forEach((el) => el.classList.add("is-visible")));
-
-    if (header) {
-      window.addEventListener("scroll", () => {
-        header.classList.toggle("is-scrolled", window.scrollY > 40);
-      }, { passive: true });
+      });
+      status();
     }
+
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (e.isIntersecting && !e.target.classList.contains("is-built")) queue.add(e.target);
+      });
+      pump();
+    }, { rootMargin: "0px 0px -6% 0px" });
+
+    // Stop everything in flight and clear the stage.
+    function reset() {
+      gen++;
+      queue.clear();
+      qaQueue.length = 0;
+      layer.querySelectorAll(".sel, .stamp").forEach((n) => n.remove());
+      unwrapUnits(document.body);
+      cursors.forEach((c) => {
+        clearTimeout(c.timer);
+        c.busy = c.shown = false;
+        c.el.classList.remove("on");
+      });
+    }
+
+    function skip() {
+      reset();
+      io.disconnect();
+      els.forEach((el) => el.classList.add("is-built"));
+      built = total;
+      status();
+    }
+
+    function replay() {
+      reset();
+      io.disconnect();
+      qaDone.clear();
+      els.forEach((el) => el.classList.remove("is-built"));
+      built = 0;
+      window.scrollTo({ top: 0, behavior: "instant" });
+      els.forEach((el) => io.observe(el));
+      status();
+    }
+
+    barBtn.addEventListener("click", () => (built >= total ? replay() : skip()));
+    status();
+
+    // Measure after webfonts settle so selection boxes match the final layout.
+    const start = () => els.forEach((el) => io.observe(el));
+    const fonts = document.fonts && document.fonts.ready;
+    if (fonts) Promise.race([fonts, new Promise((r) => setTimeout(r, 1200))]).then(start);
+    else start();
   }
 
-  /* 16-bit pixel town behind the panels (static frame under reduced motion). */
-  function initWorld() {
-    if (!window.PixelWorld) return;
-    window.PixelWorld.init({ reduceMotion: reduceMotion, mobile: isMobile });
-  }
-
-  /* ---------- Graceful media fallbacks (CSP-safe; no inline handlers) ---------- */
-  function initMediaFallbacks() {
-    // Trailer embed: if it can't load, drop it so the poster image shows.
-    const video = document.querySelector(".game-video");
-    if (video) video.addEventListener("error", () => video.remove());
-  }
-
-  function initWaves() {
-    if (!window.WaveCanvas) return;
-    window.WaveCanvas.init({
-      reduceMotion: reduceMotion,
-      mobile: isMobile,
-      isPaged: paged,
-    });
-  }
-
-  /* ---------- Boot ---------- */
-  function boot() {
-    buildPager();
-    initLinks();
-    initMenu();
+  document.addEventListener("DOMContentLoaded", () => {
+    document.getElementById("year").textContent = new Date().getFullYear();
     initI18N();
-    initMediaFallbacks();
-    initWorld();
-    initWaves();
-    splitHeroTitle();
-    initMagnetic();
-    initTilt();
-    initSpotlight();
-    const y = document.getElementById("year");
-    if (y) y.textContent = new Date().getFullYear();
-
-    if (!paged) {
-      document.body.classList.add("is-ready");
-      initStatic();
-      return;
+    initMenu();
+    // Trailer embed: if it can't load, drop it so the poster image shows.
+    const trailer = document.getElementById("trailer");
+    if (trailer) trailer.addEventListener("error", () => trailer.remove());
+    if (!reduceMotion) {
+      try { initBuild(); }
+      catch (e) { root.classList.remove("build"); } // never leave the CV hidden
     }
-
-    document.body.classList.add("is-paged");
-    // z-index so later panels always cover earlier ones during the slide.
-    panels.forEach((panel, i) => { panel.style.zIndex = String(i + 1); });
-
-    // Start with everything below the hero stacked off-screen.
-    goTo(0, true);
-    hideReveals(panels[0]);
-    animating = true; // lock input until the intro finishes
-
-    // Input listeners (wheel needs passive:false so we can preventDefault at edges).
-    window.addEventListener("wheel", onWheel, { passive: false });
-    window.addEventListener("keydown", onKey);
-    window.addEventListener("touchstart", onTouchStart, { passive: true });
-    window.addEventListener("touchend", onTouchEnd, { passive: true });
-
-    // Play the intro, then reveal the hero.
-    const intro = document.getElementById("intro");
-    document.body.classList.add("is-locked");
-    window.setTimeout(() => {
-      document.body.classList.remove("is-locked");
-      document.body.classList.add("is-ready");
-      if (intro) intro.classList.add("is-done");
-      showReveals(panels[0]);
-      animating = false;
-    }, 1500);
-  }
-
-  document.addEventListener("DOMContentLoaded", boot);
+  });
 })();
