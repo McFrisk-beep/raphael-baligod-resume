@@ -28,7 +28,7 @@
     "stat-career": "通算経験年数", "stat-clients": "担当クライアント", "stat-years": "NetSuite歴", "stat-jlpt": "日本語能力試験",
 
     "exp-title": "職務経歴",
-    "exp1-date": "2024年2月 — 現在", "exp1-sub": "2年3ヶ月 · 大阪、日本",
+    "exp1-date": "2024年2月 — 現在", "exp1-sub": "大阪、日本",
     "exp1-role": "デジタルマーケティングアナリスト · 南海電気鉄道",
     "exp1-b1": "観光データを分析し、トレンドの把握と需要予測を実施",
     "exp1-b2": "CMSを管理・運用し、円滑なコンテンツ更新を実現",
@@ -95,6 +95,21 @@
       b.classList.toggle("is-active", b.dataset.lang === (jp ? "jp" : "en"));
     });
     try { localStorage.setItem("rb-lang", jp ? "jp" : "en"); } catch (e) {}
+  }
+
+  // Time in the current role (started Feb 2024), counted from today's date so it
+  // never goes stale. Both end months count, matching the other entries.
+  function setTenure() {
+    const now = new Date();
+    const months = (now.getFullYear() - 2024) * 12 + (now.getMonth() - 1) + 1;
+    if (months < 1) return; // clock set before the start date: show the place only
+    const y = Math.floor(months / 12);
+    const m = months % 12;
+    const en = [y && y + (y === 1 ? " yr" : " yrs"), m && m + (m === 1 ? " mo" : " mos")].filter(Boolean).join(" ");
+    const jp = (y ? y + "年" : "") + (m ? m + "ヶ月" : "");
+    const el = document.querySelector('[data-i18n="exp1-sub"]');
+    el.textContent = en + " · " + el.textContent;
+    JP["exp1-sub"] = jp + " · " + JP["exp1-sub"];
   }
 
   function initI18N() {
@@ -433,6 +448,7 @@
 
   document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("year").textContent = new Date().getFullYear();
+    setTenure(); // before initI18N, which snapshots the English text
     initI18N();
     initMenu();
     // Trailer embed: if it can't load, drop it so the poster image shows.
