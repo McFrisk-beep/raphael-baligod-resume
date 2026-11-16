@@ -14,7 +14,7 @@
   /* ---------- i18n (EN / JP) ---------- */
   const i18nCache = new Map();
   const JP = {
-    "hero-loc": "和歌山県・日本", "hero-avail": "お仕事募集中",
+    "hero-loc": "大阪府・日本", "hero-status": "プロジェクト進行中",
     "hero-lead": "NetSuite認定<strong>開発者</strong>、インディー<strong>ゲームプロデューサー</strong>、<strong>マーケティングアナリスト</strong> — カスタム自動化、システム連携、そして心温まるゲームづくりに取り組んでいます。",
     "hero-btn": "お問い合わせ", "hero-btn2": "プロジェクトを見る",
     "stat-career": "通算経験年数", "stat-clients": "担当クライアント", "stat-years": "NetSuite歴", "stat-jlpt": "日本語能力試験",
@@ -58,6 +58,8 @@
     "sk-impl": "実装・移行", "sk-data": "データ分析", "sk-cms": "CMS管理",
     "sk-pub": "デジタルパブリッシング", "sk-tour": "観光戦略",
     "sk-eng": "英語（ネイティブ）", "sk-tag": "タガログ語（ネイティブ）",
+    "sk-label-ai": "AI・自動化", "sk-ai-dev": "AI支援開発", "sk-ai-prompt": "プロンプトエンジニアリング",
+    "sk-ai-stt": "音声認識 · ElevenLabs", "sk-ai-mcp": "MCP連携",
 
     "edu-title": "これまでの学び",
     "edu1-degree": "日本語学科 専門課程", "edu1-loc": "和歌山, 日本",
@@ -70,7 +72,7 @@
 
     "proj-title": "現在のプロジェクト",
     "frisk-kind": "Chrome拡張機能",
-    "frisk-desc": "配信・動画・講義にリアルタイムで翻訳字幕を表示。タブの音声を聞き取るので、字幕のないコンテンツでも使えます。",
+    "frisk-desc": "配信・動画・講義にリアルタイムで翻訳字幕を表示。タブの音声を聞き取るので、字幕のないコンテンツでも使えます — Twitch、YouTube Live、Kick、ニコニコ、Netflixなど、47言語に対応。",
     "frisk-live": "● 公開中", "frisk-users": "アクティブユーザー", "frisk-rating": "Chrome ウェブストア評価",
     "frisk-asof": "2026年11月時点", "frisk-cta": "friskription.comを見る",
 
@@ -84,16 +86,33 @@
 
     "contact-title": "お気軽にご連絡を",
     "contact-sub": "フリーランスのNetSuite案件、海外とのコラボレーション、そして面白いお話、いつでも歓迎しています。",
-    "c-email": "メール", "c-phone": "電話", "footer-loc": "和歌山・日本", "back-top": "トップへ戻る ↑",
+    "c-email": "メール", "c-phone": "電話", "footer-loc": "大阪・日本", "back-top": "トップへ戻る ↑",
   };
 
-  function applyLang(l) {
+  let lang = "en";
+  let build = null; // the live-build engine, once running: { layerFor, retype }
+
+  function textFor(el) {
+    const t = JP[el.getAttribute("data-i18n")];
+    return lang === "jp" && t != null ? t : i18nCache.get(el);
+  }
+
+  // Put the current language into every translatable element inside scope (inclusive).
+  function translate(scope) {
+    i18nCache.forEach((_, el) => { if (scope.contains(el)) el.innerHTML = textFor(el); });
+  }
+
+  // On screen, the copy agents retype the text in the new language; off screen it just swaps.
+  function applyLang(l, animate) {
     const jp = l === "jp";
-    i18nCache.forEach((html, el) => {
-      const t = JP[el.getAttribute("data-i18n")];
-      el.innerHTML = jp && t != null ? t : html;
+    lang = jp ? "jp" : "en";
+    const layers = new Set();
+    i18nCache.forEach((_, el) => {
+      const layer = animate && build && build.layerFor(el);
+      if (layer) layers.add(layer); else el.innerHTML = textFor(el);
     });
     root.lang = jp ? "ja" : "en";
+    if (layers.size) build.retype(layers);
     document.querySelectorAll(".lang-toggle button").forEach((b) => {
       b.classList.toggle("is-active", b.dataset.lang === (jp ? "jp" : "en"));
     });
@@ -118,11 +137,33 @@
   function initI18N() {
     document.querySelectorAll("[data-i18n]").forEach((el) => i18nCache.set(el, el.innerHTML));
     document.querySelectorAll(".lang-toggle button").forEach((b) => {
-      b.addEventListener("click", () => applyLang(b.dataset.lang));
+      b.addEventListener("click", () => { if (b.dataset.lang !== lang) applyLang(b.dataset.lang, true); });
     });
     let saved = "en";
     try { saved = localStorage.getItem("rb-lang") || "en"; } catch (e) {}
-    if (saved === "jp") applyLang(saved);
+    if (saved === "jp") applyLang(saved, false);
+  }
+
+  /* ---------- Phone/tablet menu: the explorer slides in from the right ---------- */
+  function initMenu() {
+    const btn = document.getElementById("menuBtn");
+    const panel = document.getElementById("explorer");
+    const scrim = document.getElementById("scrim");
+    const isOpen = () => panel.classList.contains("is-open");
+    function set(open, refocus) {
+      panel.classList.toggle("is-open", open);
+      scrim.hidden = !open;
+      root.classList.toggle("menu-open", open);
+      btn.setAttribute("aria-expanded", String(open));
+      btn.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+      if (open) { panel.scrollTop = 0; panel.querySelector("a").focus({ preventScroll: true }); }
+      else if (refocus) btn.focus();
+    }
+    btn.addEventListener("click", () => set(!isOpen()));
+    scrim.addEventListener("click", () => set(false));
+    panel.addEventListener("click", (e) => { if (isOpen() && e.target.closest("a")) set(false); });
+    document.addEventListener("keydown", (e) => { if (e.key === "Escape" && isOpen()) set(false, true); });
+    window.matchMedia("(max-width: 1000px)").addEventListener("change", () => set(false));
   }
 
   /* ---------- Scroll-spy: the file in the middle of the screen is the "open" one ---------- */
@@ -169,6 +210,7 @@
 
   function initBuild() {
     const queue = new Set();   // layers waiting for an agent, in arrival order
+    const retyping = new Set(); // built text waiting to be retyped in the other language
     const qaQueue = [];
     const qaDone = new Set();
 
@@ -284,11 +326,12 @@
 
     function inView(el) {
       const r = el.getBoundingClientRect();
-      return r.bottom > 0 && r.top < window.innerHeight;
+      return r.width > 0 && r.bottom > 0 && r.top < window.innerHeight && r.right > 0 && r.left < window.innerWidth;
     }
 
     async function work(c, el) {
       const kind = c.role.id;
+      const re = el.isRetype;
       if (kind === "qa" && !inView(el)) return;
       const r = docRect(el);
       wake(c);
@@ -308,8 +351,9 @@
         const rise = el.classList.contains("rise");
         await move(c, r.x - 2, r.y + Math.min(r.h, 40) / 2, 0);
         const box = addBox(r, c.role, el);
+        if (re) { el.isRetype = false; translate(el); }
         const units = wrapUnits(el, rise);
-        finish(el);
+        if (!re) finish(el);
         const step = rise ? 90 : Math.max(5, Math.min(42, 620 / units.length));
         move(c, r.x + r.w + 4, r.y + r.h - 6, Math.max(300, units.length * step));
         for (let i = 0; i < units.length; i++) {
@@ -342,6 +386,11 @@
 
     function take(role) {
       if (role === "qa") return qaQueue.shift();
+      if (role === "copy" && retyping.size) {
+        const el = retyping.values().next().value;
+        retyping.delete(el);
+        return el;
+      }
       for (const el of queue) {
         // Containers first: a layer waits until whatever encloses it is built.
         if (el.dataset.b === role && !el.parentElement.closest("[data-b]:not(.is-built)")) {
@@ -359,13 +408,16 @@
         if (r.bottom < 0) { queue.delete(el); finish(el); }
         else if (r.top > window.innerHeight) { queue.delete(el); io.unobserve(el); io.observe(el); }
       });
+      retyping.forEach((el) => {
+        if (!inView(el)) { retyping.delete(el); el.isRetype = false; translate(el); }
+      });
       cursors.forEach((c) => {
         if (c.busy) return;
         const el = take(c.role.id);
         if (!el) return;
         c.busy = true;
         work(c, el)
-          .catch(() => { finish(el); unwrapUnits(el); })
+          .catch(() => { if (el.isRetype) translate(el); finish(el); unwrapUnits(el); })
           .then(() => {
             c.busy = false;
             pump();
@@ -381,6 +433,20 @@
       pump();
     }, { rootMargin: "0px 0px -6% 0px" });
 
+    build = {
+      // The block an agent should retype for this element, or null to swap it instantly
+      // (off screen, or not built yet: it will stream in later anyway).
+      layerFor(el) {
+        const layer = el.closest('[data-b="copy"]') || el;
+        if (layer.matches("[data-b]:not(.is-built)") || layer.parentElement.closest("[data-b]:not(.is-built)")) return null;
+        return inView(layer) ? layer : null;
+      },
+      retype(layers) {
+        layers.forEach((el) => { el.isRetype = true; retyping.add(el); });
+        pump();
+      },
+    };
+
     // Measure after webfonts settle so selection boxes match the final layout.
     const start = () => document.querySelectorAll("[data-b]").forEach((el) => io.observe(el));
     const fonts = document.fonts && document.fonts.ready;
@@ -392,6 +458,7 @@
     document.getElementById("year").textContent = new Date().getFullYear();
     setTenure(); // before initI18N, which snapshots the English text
     initI18N();
+    initMenu();
     initSpy();
     // Trailer embed: if it can't load, drop it so the poster image shows.
     const trailer = document.getElementById("trailer");
