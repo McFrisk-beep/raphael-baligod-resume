@@ -226,8 +226,17 @@ h1, h2, h3 { font-family: var(--mono); line-height: 1.2; }
 /* ---------- games.md ---------- */
 .games { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.5rem; }
 .game__media { position: relative; aspect-ratio: 16 / 9; background: var(--term); overflow: hidden; border-bottom: 1px solid var(--line); }
-.game__media img, .game__media iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; object-fit: cover; }
-.game__media iframe { pointer-events: none; }
+.game__media img { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; object-fit: cover; }
+/* Play button over the art: opens the trailer on YouTube */
+.play {
+  position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
+  display: inline-flex; align-items: center; gap: 0.6rem; min-height: 2.875rem; padding: 0 1.1rem 0 0.9rem;
+  background: rgba(10, 11, 13, 0.82); border: 1px solid rgba(255, 255, 255, 0.25); color: var(--fg);
+  font: 700 0.8125rem var(--mono); white-space: nowrap;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+.play:hover { background: var(--hot); border-color: var(--hot); color: var(--bg); }
+.play__icon { font-size: 0.875rem; }
 .game__media--dev { display: grid; place-items: center; color: var(--dim); font: 0.75rem var(--mono); }
 .game__media--dev span { padding: 0.4rem 0.8rem; border: 1px dashed var(--mute); }
 .game__body { display: grid; justify-items: start; gap: 0.75rem; padding: 1.25rem; }
@@ -390,7 +399,7 @@ html.build [data-b="design"]:not(.is-built) { clip-path: inset(0 100% 0 0); }
 @media print {
   body { padding: 0; background: #fff; color: #000; }
   html.build [data-b] { opacity: 1 !important; clip-path: none !important; }
-  .chrome, .explorer, .scrim, .status, .agents, .caret, .preview, .game__media, .skip { display: none !important; }
+  .chrome, .explorer, .scrim, .status, .agents, .caret, .preview, .game__media, .play, .skip { display: none !important; }
   .ide { display: block; }
   .file { break-inside: avoid-page; }
   .file--term { background: none; }

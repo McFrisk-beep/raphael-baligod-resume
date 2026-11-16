@@ -79,7 +79,7 @@
     "games-title": "発売・開発中の作品",
     "sugardew-tag": "2025年発売 · rokaplay", "sugardew-role": "担当：パブリッシャー",
     "sugardew-desc": "動物の世話をし、作物を育て、森の妖精たちに商品を売りながら、眠っていた島に再び活気を取り戻す、ほのぼのとした牧場ショップ・シミュレーション。rokaplayが開発・販売した、名作農業ゲームへの愛情あふれる一作。",
-    "game-steam": "Steamで見る ↗",
+    "game-steam": "Steamで見る ↗", "game-trailer": "トレーラーを見る ↗",
     "otc-status": "開発中", "otc-title": "未公開タイトル", "otc-tag": "開発中・近日公開",
     "otc-role": "担当：エグゼクティブプロデューサー",
     "otc-desc": "現在開発中の新作アクションゲーム。重厚なダークファンタジーの世界が舞台です。詳細はまだ秘密です。続報をお楽しみに！",
@@ -480,9 +480,6 @@
     initI18N();
     initMenu();
     initSpy();
-    // Trailer embed: if it can't load, drop it so the poster image shows.
-    const trailer = document.getElementById("trailer");
-    if (trailer) trailer.addEventListener("error", () => trailer.remove());
     if (!reduceMotion) {
       try { initBuild(); }
       catch (e) { root.classList.remove("build"); } // never leave the CV hidden

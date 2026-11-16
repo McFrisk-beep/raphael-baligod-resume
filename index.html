@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <!-- Security: restrict where resources may load/execute from -->
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; form-action 'self'; object-src 'none'; img-src 'self' data:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; script-src 'self'; frame-src https://www.youtube-nocookie.com; connect-src 'self'; upgrade-insecure-requests" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; form-action 'self'; object-src 'none'; img-src 'self' data:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; script-src 'self'; frame-src 'none'; connect-src 'self'; upgrade-insecure-requests" />
   <meta name="referrer" content="strict-origin-when-cross-origin" />
   <meta name="color-scheme" content="dark" />
   <meta name="theme-color" content="#15161a" />
@@ -314,11 +314,10 @@
           <article class="card game" data-b="layout" data-qa>
             <div class="game__media" data-b="design">
               <img src="assets/img/games/sugardew-island.jpg" width="616" height="353" alt="Sugardew Island" loading="lazy" />
-              <iframe id="trailer"
-                src="https://www.youtube-nocookie.com/embed/Zmk9lL4xTyM?autoplay=1&mute=1&loop=1&playlist=Zmk9lL4xTyM&controls=0&modestbranding=1&playsinline=1&rel=0&showinfo=0"
-                title="Sugardew Island trailer" loading="lazy"
-                allow="autoplay; encrypted-media" referrerpolicy="strict-origin-when-cross-origin"
-                allowfullscreen></iframe>
+              <!-- Opens on YouTube: an embedded player is blocked by many ad/privacy blockers. -->
+              <a class="play" href="https://www.youtube.com/watch?v=Zmk9lL4xTyM" target="_blank" rel="noopener noreferrer">
+                <span class="play__icon" aria-hidden="true">▶</span><span data-i18n="game-trailer">Watch trailer ↗</span>
+              </a>
             </div>
             <div class="game__body" data-b="copy">
               <h3>Sugardew Island</h3>
