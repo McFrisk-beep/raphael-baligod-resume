@@ -1,53 +1,48 @@
-# Raphael Baligod — Interactive CV
+# Raphael Baligod — CV
 
-A lightweight, single-page interactive CV/portfolio site for **Raphael Baligod**,
-Oracle Certified NetSuite Developer & Game Producer based in Wakayama, Japan.
+Single-page CV for **Raphael Baligod**, Oracle Certified NetSuite Developer &
+Game Producer based in Wakayama, Japan. Live at
+<https://raphael-baligod-resume.pages.dev/>.
 
-Inspired by the sleek, editorial feel of studio sites like
-[matarellis.gr](https://www.matarellis.gr/en/) — smooth intro wipe,
-reveal-on-scroll transitions, and refined typography — but built to stay **fast
-and light**: no frameworks, no build step, no runtime dependencies.
+Plain HTML, CSS and vanilla JS: no framework, no build step, no dependencies.
 
-## Highlights
+## What it does
 
-- **Pure static** — plain HTML, CSS, and vanilla JS. Just open it.
-- **Sleek transitions** — full-screen intro wipe, staggered hero reveal,
-  scroll-triggered fades, animated marquee, and hover micro-interactions.
-- **Light footprint** — only two Google fonts; everything else is hand-rolled.
-- **Responsive** — adapts from mobile (with a full-screen menu) to large screens.
-- **Accessible** — semantic markup, keyboard-friendly, and full
-  `prefers-reduced-motion` support (animations disabled for users who ask).
+- **Builds itself in front of you.** Twelve "agent" cursors (three each of
+  Layout, Copy, Design and QA) assemble the page: the hero on load, every later
+  section as it scrolls into view. A status bar shows progress and offers
+  **Skip** / **Replay**.
+- **Poster type** on ink, paper and vermilion, with the motion language of
+  [friskription.com](https://friskription.com/): headline lines rising through
+  a mask, crossing marquee bands that swing as you scroll, cycling roles, and a
+  scroll-progress rule under the header.
+- **English / 日本語** toggle, remembered between visits.
+- **Degrades safely.** With `prefers-reduced-motion`, or if the script fails to
+  load, the whole CV is simply visible. Prints as a plain black-on-white page.
 
 ## Structure
 
 ```
-index.html              # markup + content
-assets/css/styles.css   # warm editorial styling + animations
-assets/js/main.js        # intro, scroll reveal, progress bar, nav, menu
+index.html              markup + content (English)
+assets/css/styles.css   theme, layout, animations
+assets/js/main.js       Japanese strings, language toggle, build engine
+_headers                security headers for Cloudflare Pages
 ```
 
 ## Run it
 
-It's fully static — open `index.html` in a browser, or serve the folder:
-
 ```bash
-# Python
 python3 -m http.server 8000
-
-# Node
-npx serve .
 ```
 
-Then visit <http://localhost:8000>.
-
-## Deploy
-
-Drop the folder onto any static host — GitHub Pages, Netlify, Vercel, Cloudflare
-Pages, etc. No configuration required.
+Then open <http://localhost:8000>.
 
 ## Customize
 
-- **Content** lives directly in `index.html`.
-- **Colors / fonts** are CSS custom properties at the top of `styles.css`
-  (`--bg`, `--ink`, `--accent`, `--serif`, `--sans`, …).
-- **Timing** of the intro is the `setTimeout` in `runIntro()` (`main.js`).
+- **Content** lives in `index.html`; Japanese translations are the `JP` object
+  in `main.js`, keyed by each element's `data-i18n`.
+- **Accent colour** is `--hot` at the top of `styles.css`.
+- **What the agents build**: any element with `data-b="layout|copy|design"` is
+  a layer. Add `class="rise"` to display headings, and `data-qa` to a block
+  that should get a QA stamp once everything inside it is built.
+- **How many agents**: `PER_ROLE` in `main.js`.
